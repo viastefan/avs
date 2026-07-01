@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AVS — Hub München</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #ffffff;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  }
+  #canvas { display: block; }
+
+  #hub-label {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-9999px, -9999px);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 8px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(102, 211, 169, 0.35);
+    border-radius: 100px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    font-size: 13px;
+    font-weight: 600;
+    color: #0a0a0a;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  #hub-label .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #66D3A9;
+    box-shadow: 0 0 8px #66D3A9;
+    flex-shrink: 0;
+  }
+  #hub-label .sub {
+    color: #8a8a86;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  #intro-caption {
+    position: fixed;
+    left: 50%;
+    bottom: 8%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: #8a8a86;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+<div id="hub-label"><span class="dot"></span>München · MUC <span class="sub">Modul E · AVS Hub</span></div>
+<div id="intro-caption">Weltweit vernetzt. Zuhause am Flughafen München.</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  const GREEN = 0x66d3a9;
+  const RADIUS = 5;
+
+  // Munich / MUC Modul E
+  const MUC_LAT = 48.1351;
+  const MUC_LON = 11.5820;
+
+  const canvas = document.getElementById('canvas');
+  const hubLabel = document.getElementById('hub-label');
+  const introCaption = document.getElementById('intro-caption');
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // ---------- helpers ----------
+  function latLonToVector3(lat, lon, radius) {
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (lon + 180) * (Math.PI / 180);
+    return new THREE.Vector3(
+      -radius * Math.sin(phi) * Math.cos(theta),
+      radius * Math.cos(phi),
+      radius * Math.sin(phi) * Math.sin(theta)
+    );
+  }
+
+  function makeGlowTexture() {
+    const size = 128;
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    g.addColorStop(0, 'rgba(102,211,169,0.9)');
+    g.addColorStop(0.4, 'rgba(102,211,169,0.35)');
+    g.addColorStop(1, 'rgba(102,211,169,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    return new THREE.CanvasTexture(c);
+  }
+
+  // ---------- globe (fibonacci point sphere) ----------
+  const globeGroup = new THREE.Group();
+  scene.add(globeGroup);
+
+  const DOT_COUNT = 2600;
+  const positions = new Float32Array(DOT_COUNT * 3);
+  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < DOT_COUNT; i++) {
+    const y = 1 - (i / (DOT_COUNT - 1)) * 2;
+    const r = Math.sqrt(1 - y * y);
+    const theta = goldenAngle * i;
+    const x = Math.cos(theta) * r;
+    const z = Math.sin(theta) * r;
+    positions[i * 3] = x * RADIUS;
+    positions[i * 3 + 1] = y * RADIUS;
+    positions[i * 3 + 2] = z * RADIUS;
+  }
+  const dotGeometry = new THREE.BufferGeometry();
+  dotGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const dotMaterial = new THREE.PointsMaterial({
+    color: GREEN,
+    size: 0.045,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.55,
+  });
+  const dots = new THREE.Points(dotGeometry, dotMaterial);
+  globeGroup.add(dots);
+
+  // faint core sphere so the globe reads as a solid volume, not just dust
+  const core = new THREE.Mesh(
+    new THREE.SphereGeometry(RADIUS * 0.985, 48, 48),
+    new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.55 })
+  );
+  globeGroup.add(core);
+
+  // ---------- Munich hub marker ----------
+  const mucDir = latLonToVector3(MUC_LAT, MUC_LON, 1).normalize();
+  const mucPos = mucDir.clone().multiplyScalar(RADIUS + 0.01);
+
+  const markerPivot = new THREE.Object3D();
+  markerPivot.position.copy(mucPos);
+  markerPivot.lookAt(0, 0, 0); // local +Z now points outward, away from globe center
+  globeGroup.add(markerPivot);
+
+  const markerCore = new THREE.Mesh(
+    new THREE.SphereGeometry(0.09, 16, 16),
+    new THREE.MeshBasicMaterial({ color: GREEN })
+  );
+  markerPivot.add(markerCore);
+
+  const glowSprite = new THREE.Sprite(
+    new THREE.SpriteMaterial({ map: makeGlowTexture(), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })
+  );
+  glowSprite.scale.set(1.1, 1.1, 1.1);
+  markerPivot.add(glowSprite);
+
+  // pulsing rings
+  const RING_COUNT = 3;
+  const RING_CYCLE = 2.4; // seconds
+  const rings = [];
+  for (let i = 0; i < RING_COUNT; i++) {
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(0.1, 0.13, 48),
+      new THREE.MeshBasicMaterial({ color: GREEN, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false })
+    );
+    ring.userData.phase = (i / RING_COUNT) * RING_CYCLE;
+    markerPivot.add(ring);
+    rings.push(ring);
+  }
+
+  // ---------- initial orientation: bring Munich to face the camera ----------
+  const initialQuat = new THREE.Quaternion().setFromUnitVectors(mucDir, new THREE.Vector3(0, 0, 1));
+  globeGroup.quaternion.copy(initialQuat);
+  globeGroup.rotation.x = -0.12;
+
+  // ---------- camera intro animation ----------
+  const CAMERA_START_Z = 16;
+  const CAMERA_END_Z = 8.4;
+  const INTRO_DURATION = 3.2; // seconds
+  camera.position.set(0, 1.6, CAMERA_START_Z);
+  camera.lookAt(0, 0, 0);
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  // ---------- render loop ----------
+  const clock = new THREE.Clock();
+  let labelShown = false;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    // intro camera zoom
+    const introT = Math.min(t / INTRO_DURATION, 1);
+    const eased = easeOutCubic(introT);
+    camera.position.z = CAMERA_START_Z + (CAMERA_END_Z - CAMERA_START_Z) * eased;
+    camera.position.y = 1.6 + (0.35 - 1.6) * eased;
+    camera.lookAt(0, 0, 0);
+
+    if (introT >= 1 && !labelShown) {
+      labelShown = true;
+      hubLabel.style.opacity = '1';
+      introCaption.style.opacity = '1';
+    }
+
+    // idle auto-rotation (slow, continuous)
+    globeGroup.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), 0.0016);
+
+    // pulse rings
+    rings.forEach((ring) => {
+      const local = ((t + ring.userData.phase) % RING_CYCLE) / RING_CYCLE;
+      const scale = 0.3 + local * 3.2;
+      ring.scale.set(scale, scale, scale);
+      ring.material.opacity = (1 - local) * 0.55;
+    });
+
+    // marker glow subtle breathing
+    const breathe = 1 + Math.sin(t * 2) * 0.08;
+    glowSprite.scale.set(1.1 * breathe, 1.1 * breathe, 1.1 * breathe);
+
+    // project label to screen space
+    if (labelShown) {
+      const worldPos = new THREE.Vector3();
+      markerCore.getWorldPosition(worldPos);
+      const screenPos = worldPos.clone().project(camera);
+      const visible = screenPos.z < 1;
+      if (visible) {
+        const x = (screenPos.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-screenPos.y * 0.5 + 0.5) * window.innerHeight;
+        hubLabel.style.transform = `translate(${x + 14}px, ${y - 14}px)`;
+        hubLabel.style.opacity = '1';
+      } else {
+        hubLabel.style.opacity = '0';
+      }
+    }
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+</script>
+</body>
+</html>
