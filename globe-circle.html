@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AVS — Globe</title>
+<style>
+  html, body{
+    margin:0;
+    padding:0;
+    height:100%;
+    background:#ffffff;
+    overflow:hidden;
+  }
+  #stage{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  #stage::before{
+    /* soft grounding glow beneath the globe */
+    content:'';
+    position:absolute;
+    width:60vmin;
+    height:60vmin;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(46,166,114,0.16) 0%, rgba(46,166,114,0) 70%);
+    filter:blur(6px);
+  }
+  #globe-canvas{
+    display:block;
+    cursor:grab;
+    position:relative;
+  }
+  #globe-canvas:active{cursor:grabbing;}
+
+  .tooltip{
+    position:fixed;
+    top:0;
+    left:0;
+    transform:translate(-9999px,-9999px);
+    background:#111111;
+    color:#fff;
+    padding:9px 13px;
+    border-radius:9px;
+    font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;
+    font-size:12.5px;
+    line-height:1.35;
+    pointer-events:none;
+    z-index:20;
+    box-shadow:0 8px 24px rgba(0,0,0,0.22);
+    opacity:0;
+    transition:opacity 0.15s ease;
+  }
+  .tooltip strong{display:block;font-size:13px;font-weight:700;}
+  .tooltip span{color:#a6a6a3;font-size:11.5px;font-weight:500;}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <canvas id="globe-canvas"></canvas>
+</div>
+<div class="tooltip" id="tooltip">
+  <strong id="tooltip-city"></strong>
+  <span id="tooltip-sub"></span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3"></script>
+<script>
+(function () {
+  const GREEN_HEX = 0x2ea672;
+  const LAND_FILL = '#a9dfc3';
+  const LAND_STROKE = '#7fcaa4';
+  const OCEAN_FILL = '#ffffff';
+  const RADIUS = 5.4;
+
+  const HUB = { name: 'München', code: 'MUC', sub: 'AVS Hub · Modul E', lat: 48.1351, lon: 11.5820, isHub: true };
+
+  const CITIES = [
+    { name: 'Frankfurt', code: 'FRA', sub: 'Deutschland', lat: 50.1109, lon: 8.6821 },
+    { name: 'Hamburg', code: 'HAM', sub: 'Deutschland', lat: 53.5511, lon: 9.9937 },
+    { name: 'Berlin', code: 'BER', sub: 'Deutschland', lat: 52.5200, lon: 13.4050 },
+    { name: 'Amsterdam', code: 'AMS', sub: 'Niederlande', lat: 52.3676, lon: 4.9041 },
+    { name: 'London', code: 'LHR', sub: 'Vereinigtes Königreich', lat: 51.5074, lon: -0.1278 },
+    { name: 'Paris', code: 'CDG', sub: 'Frankreich', lat: 48.8566, lon: 2.3522 },
+    { name: 'Madrid', code: 'MAD', sub: 'Spanien', lat: 40.4168, lon: -3.7038 },
+    { name: 'Mailand', code: 'MXP', sub: 'Italien', lat: 45.4642, lon: 9.1900 },
+    { name: 'Wien', code: 'VIE', sub: 'Österreich', lat: 48.2082, lon: 16.3738 },
+    { name: 'Zürich', code: 'ZRH', sub: 'Schweiz', lat: 47.3769, lon: 8.5417 },
+    { name: 'Istanbul', code: 'IST', sub: 'Türkei', lat: 41.0082, lon: 28.9784 },
+    { name: 'Warschau', code: 'WAW', sub: 'Polen', lat: 52.2297, lon: 21.0122 },
+    { name: 'Stockholm', code: 'ARN', sub: 'Schweden', lat: 59.3293, lon: 18.0686 },
+    { name: 'Dubai', code: 'DXB', sub: 'Vereinigte Arabische Emirate', lat: 25.2048, lon: 55.2708 },
+    { name: 'Doha', code: 'DOH', sub: 'Katar', lat: 25.2854, lon: 51.5310 },
+    { name: 'Singapur', code: 'SIN', sub: 'Singapur', lat: 1.3521, lon: 103.8198 },
+    { name: 'Hongkong', code: 'HKG', sub: 'China', lat: 22.3193, lon: 114.1694 },
+    { name: 'Shanghai', code: 'PVG', sub: 'China', lat: 31.2304, lon: 121.4737 },
+    { name: 'Tokio', code: 'NRT', sub: 'Japan', lat: 35.6762, lon: 139.6503 },
+    { name: 'Seoul', code: 'ICN', sub: 'Südkorea', lat: 37.5665, lon: 126.9780 },
+    { name: 'Mumbai', code: 'BOM', sub: 'Indien', lat: 19.0760, lon: 72.8777 },
+    { name: 'New York', code: 'JFK', sub: 'USA', lat: 40.7128, lon: -74.0060 },
+    { name: 'Chicago', code: 'ORD', sub: 'USA', lat: 41.8781, lon: -87.6298 },
+    { name: 'Los Angeles', code: 'LAX', sub: 'USA', lat: 34.0522, lon: -118.2437 },
+    { name: 'Miami', code: 'MIA', sub: 'USA', lat: 25.7617, lon: -80.1918 },
+    { name: 'São Paulo', code: 'GRU', sub: 'Brasilien', lat: -23.5505, lon: -46.6333 },
+    { name: 'Johannesburg', code: 'JNB', sub: 'Südafrika', lat: -26.2041, lon: 28.0473 },
+    { name: 'Nairobi', code: 'NBO', sub: 'Kenia', lat: -1.2921, lon: 36.8219 },
+    { name: 'Sydney', code: 'SYD', sub: 'Australien', lat: -33.8688, lon: 151.2093 },
+  ];
+
+  const canvas = document.getElementById('globe-canvas');
+  const tooltip = document.getElementById('tooltip');
+  const tooltipCity = document.getElementById('tooltip-city');
+  const tooltipSub = document.getElementById('tooltip-sub');
+
+  function stageSize() {
+    const s = Math.min(window.innerWidth, window.innerHeight) * 0.78;
+    return Math.max(340, Math.min(s, 760));
+  }
+  let size = stageSize();
+  canvas.width = size;
+  canvas.height = size;
+  canvas.style.width = size + 'px';
+  canvas.style.height = size + 'px';
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
+  camera.position.set(0, 0, 15.5);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(size, size, false);
+
+  // lighting: soft key light + fill, gives rounded, glossy shading like a product render
+  scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+  const key = new THREE.DirectionalLight(0xffffff, 0.85);
+  key.position.set(-6, 5, 8);
+  scene.add(key);
+  const fill = new THREE.DirectionalLight(0xdff5e9, 0.25);
+  fill.position.set(6, -3, -4);
+  scene.add(fill);
+
+  function latLonToVector3(lat, lon, radius) {
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (lon + 180) * (Math.PI / 180);
+    return new THREE.Vector3(
+      -radius * Math.sin(phi) * Math.cos(theta),
+      radius * Math.cos(phi),
+      radius * Math.sin(phi) * Math.sin(theta)
+    );
+  }
+
+  const globeGroup = new THREE.Group();
+  scene.add(globeGroup);
+  const markerMeshes = [];
+
+  function buildMapTexture(landFeature) {
+    const W = 2600, H = 1300;
+    const c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = OCEAN_FILL;
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = LAND_FILL;
+    ctx.strokeStyle = LAND_STROKE;
+    ctx.lineWidth = 1.4;
+
+    function project(lon, lat) {
+      return [((lon + 180) / 360) * W, ((90 - lat) / 180) * H];
+    }
+    function drawRing(ring) {
+      ctx.beginPath();
+      ring.forEach((pt, i) => {
+        const [x, y] = project(pt[0], pt[1]);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+    }
+    landFeature.features.forEach((f) => {
+      const geom = f.geometry;
+      if (!geom) return;
+      if (geom.type === 'Polygon') geom.coordinates.forEach(drawRing);
+      else if (geom.type === 'MultiPolygon') geom.coordinates.forEach((poly) => poly.forEach(drawRing));
+    });
+    const tex = new THREE.CanvasTexture(c);
+    tex.anisotropy = 4;
+    return tex;
+  }
+
+  function makeGlowTexture(hex) {
+    const s = 128;
+    const c = document.createElement('canvas');
+    c.width = c.height = s;
+    const ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+    g.addColorStop(0, hex + 'e6');
+    g.addColorStop(0.4, hex + '55');
+    g.addColorStop(1, hex + '00');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, s, s);
+    return new THREE.CanvasTexture(c);
+  }
+
+  function addCityMarker(city) {
+    const dir = latLonToVector3(city.lat, city.lon, 1).normalize();
+    const pos = dir.clone().multiplyScalar(RADIUS + 0.01);
+    const pivot = new THREE.Object3D();
+    pivot.position.copy(pos);
+    pivot.lookAt(0, 0, 0);
+    globeGroup.add(pivot);
+
+    const isHub = !!city.isHub;
+    const core = new THREE.Mesh(
+      new THREE.SphereGeometry(isHub ? 0.1 : 0.04, 12, 12),
+      new THREE.MeshBasicMaterial({ color: isHub ? GREEN_HEX : 0x2a2a28 })
+    );
+    pivot.add(core);
+
+    if (isHub) {
+      const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: makeGlowTexture('#2ea672'), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+      glow.scale.set(1.2, 1.2, 1.2);
+      pivot.add(glow);
+      for (let i = 0; i < 3; i++) {
+        const ring = new THREE.Mesh(
+          new THREE.RingGeometry(0.11, 0.14, 48),
+          new THREE.MeshBasicMaterial({ color: GREEN_HEX, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false })
+        );
+        ring.userData.phase = (i / 3) * 2.4;
+        ring.userData.isPulse = true;
+        pivot.add(ring);
+      }
+    }
+
+    const hit = new THREE.Mesh(
+      new THREE.SphereGeometry(isHub ? 0.3 : 0.2, 8, 8),
+      new THREE.MeshBasicMaterial({ visible: false })
+    );
+    pivot.add(hit);
+    hit.userData.city = city;
+    markerMeshes.push(hit);
+  }
+
+  function initialOrientation() {
+    const mucDir = latLonToVector3(HUB.lat, HUB.lon, 1).normalize();
+    const q = new THREE.Quaternion().setFromUnitVectors(mucDir, new THREE.Vector3(0.15, 0.1, 1).normalize());
+    globeGroup.quaternion.copy(q);
+  }
+
+  // ---------- drag to rotate ----------
+  let isDragging = false;
+  let lastX = 0, lastY = 0;
+
+  canvas.addEventListener('pointerdown', (e) => {
+    isDragging = true;
+    lastX = e.clientX; lastY = e.clientY;
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener('pointerup', () => { isDragging = false; });
+  canvas.addEventListener('pointerleave', () => { isDragging = false; tooltip.style.opacity = '0'; });
+  canvas.addEventListener('pointermove', (e) => {
+    if (isDragging) {
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      globeGroup.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), dx * 0.0032);
+      globeGroup.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), dy * 0.0026);
+      lastX = e.clientX; lastY = e.clientY;
+    }
+    handleHover(e);
+  });
+
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+
+  function handleHover(e) {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(markerMeshes);
+    if (hits.length) {
+      const city = hits[0].object.userData.city;
+      tooltipCity.textContent = `${city.name} (${city.code})`;
+      tooltipSub.textContent = city.sub;
+      tooltip.style.transform = `translate(${e.clientX + 16}px, ${e.clientY - 12}px)`;
+      tooltip.style.opacity = '1';
+    } else {
+      tooltip.style.opacity = '0';
+    }
+  }
+
+  const clock = new THREE.Clock();
+  function startRenderLoop() {
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      if (!isDragging) {
+        globeGroup.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), 0.0013);
+      }
+
+      globeGroup.children.forEach((child) => {
+        child.children && child.children.forEach((c) => {
+          if (c.userData && c.userData.isPulse) {
+            const local = ((t + c.userData.phase) % 2.4) / 2.4;
+            const scale = 0.4 + local * 3.2;
+            c.scale.set(scale, scale, scale);
+            c.material.opacity = (1 - local) * 0.5;
+          }
+        });
+      });
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  }
+
+  function buildGlobe(texture) {
+    const geometry = new THREE.SphereGeometry(RADIUS, 128, 128);
+    const material = new THREE.MeshPhongMaterial({ map: texture, shininess: 10, specular: 0x2a2a28 });
+    const globeMesh = new THREE.Mesh(geometry, material);
+    globeGroup.add(globeMesh);
+
+    // thin bright rim light to separate the sphere from the white background
+    const rim = new THREE.Mesh(
+      new THREE.SphereGeometry(RADIUS * 1.006, 96, 96),
+      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5, side: THREE.BackSide })
+    );
+    globeGroup.add(rim);
+
+    // outer atmosphere glow
+    const atmosphere = new THREE.Mesh(
+      new THREE.SphereGeometry(RADIUS * 1.05, 64, 64),
+      new THREE.MeshBasicMaterial({ color: GREEN_HEX, transparent: true, opacity: 0.08, side: THREE.BackSide })
+    );
+    globeGroup.add(atmosphere);
+
+    addCityMarker(HUB);
+    CITIES.forEach(addCityMarker);
+    initialOrientation();
+    startRenderLoop();
+  }
+
+  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json')
+    .then((r) => r.json())
+    .then((topology) => {
+      const land = topojson.feature(topology, topology.objects.land);
+      buildGlobe(buildMapTexture(land));
+    })
+    .catch((err) => {
+      console.error('Weltkarte konnte nicht geladen werden, verwende Fallback.', err);
+      const geometry = new THREE.SphereGeometry(RADIUS, 96, 96);
+      const material = new THREE.MeshPhongMaterial({ color: 0xa9dfc3 });
+      globeGroup.add(new THREE.Mesh(geometry, material));
+      addCityMarker(HUB);
+      CITIES.forEach(addCityMarker);
+      initialOrientation();
+      startRenderLoop();
+    });
+
+  window.addEventListener('resize', () => {
+    size = stageSize();
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
+    renderer.setSize(size, size, false);
+  });
+})();
+</script>
+</body>
+</html>
