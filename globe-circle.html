@@ -199,35 +199,61 @@
   const hubLabel = document.getElementById('hub-label');
 
   function buildMapTexture(landFeature) {
-    const W = 2600, H = 1300;
+    const W = 4096, H = 2048;
     const c = document.createElement('canvas');
     c.width = W; c.height = H;
     const ctx = c.getContext('2d');
     ctx.fillStyle = OCEAN_FILL;
     ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = LAND_FILL;
-    ctx.strokeStyle = LAND_STROKE;
-    ctx.lineWidth = 1.4;
 
     function project(lon, lat) {
       return [((lon + 180) / 360) * W, ((90 - lat) / 180) * H];
     }
-    function drawRing(ring) {
+    function ringPath(ring) {
       ctx.beginPath();
       ring.forEach((pt, i) => {
         const [x, y] = project(pt[0], pt[1]);
         if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
       });
       ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
     }
-    landFeature.features.forEach((f) => {
-      const geom = f.geometry;
-      if (!geom) return;
-      if (geom.type === 'Polygon') geom.coordinates.forEach(drawRing);
-      else if (geom.type === 'MultiPolygon') geom.coordinates.forEach((poly) => poly.forEach(drawRing));
-    });
+    function forEachRing(fn) {
+      landFeature.features.forEach((f) => {
+        const geom = f.geometry;
+        if (!geom) return;
+        if (geom.type === 'Polygon') geom.coordinates.forEach(fn);
+        else if (geom.type === 'MultiPolygon') geom.coordinates.forEach((poly) => poly.forEach(fn));
+      });
+    }
+
+    // pass 1: soft drop shadow so each landmass reads as a raised "plate"
+    // sitting slightly above the ocean surface
+    ctx.save();
+    ctx.shadowColor = 'rgba(15,50,35,0.45)';
+    ctx.shadowBlur = 22;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 10;
+    ctx.fillStyle = LAND_FILL;
+    forEachRing((ring) => { ringPath(ring); ctx.fill(); });
+    ctx.restore();
+
+    // pass 2: solid fill on top, cleans up any shadow bleed into the land itself
+    ctx.fillStyle = LAND_FILL;
+    forEachRing((ring) => { ringPath(ring); ctx.fill(); });
+
+    // pass 3: crisp coastline
+    ctx.strokeStyle = LAND_STROKE;
+    ctx.lineWidth = 2;
+    forEachRing((ring) => { ringPath(ring); ctx.stroke(); });
+
+    // pass 4: thin bright highlight along the upper-left edge of each plate,
+    // like a beveled edge catching light — reinforces the "raised plate" feel
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+    ctx.lineWidth = 1.1;
+    ctx.translate(-1.4, -1.4);
+    forEachRing((ring) => { ringPath(ring); ctx.stroke(); });
+    ctx.restore();
 
     // faint lat/lon graticule for a "data globe" feel
     ctx.strokeStyle = GRID_STROKE;
@@ -242,7 +268,11 @@
     }
 
     const tex = new THREE.CanvasTexture(c);
-    tex.anisotropy = 4;
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = true;
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    tex.needsUpdate = true;
     return tex;
   }
 
@@ -477,7 +507,7 @@
     startRenderLoop();
   }
 
-  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json')
+  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/land-50m.json')
     .then((r) => r.json())
     .then((topology) => {
       const land = topojson.feature(topology, topology.objects.land);
