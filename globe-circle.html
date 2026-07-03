@@ -56,6 +56,37 @@
   }
   .tooltip strong{display:block;font-size:13px;font-weight:700;}
   .tooltip span{color:#a6a6a3;font-size:11.5px;font-weight:500;}
+
+  .hub-label{
+    position:fixed;
+    top:0;
+    left:0;
+    transform:translate(-9999px,-9999px);
+    pointer-events:none;
+    text-align:center;
+    font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;
+    opacity:0;
+    transition:opacity 0.4s ease;
+    z-index:15;
+  }
+  .hub-label .name{
+    display:inline-block;
+    background:#0a0a0a;
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    padding:6px 12px;
+    border-radius:100px;
+    white-space:nowrap;
+    box-shadow:0 6px 16px rgba(0,0,0,0.18);
+    margin-bottom:6px;
+  }
+  .hub-label .stem{
+    width:1px;
+    height:14px;
+    background:rgba(10,10,10,0.35);
+    margin:0 auto;
+  }
 </style>
 </head>
 <body>
@@ -67,6 +98,10 @@
   <strong id="tooltip-city"></strong>
   <span id="tooltip-sub"></span>
 </div>
+<div class="hub-label" id="hub-label">
+  <span class="name">München · MUC</span>
+  <div class="stem"></div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/topojson-client@3"></script>
@@ -75,7 +110,8 @@
   const GREEN_HEX = 0x2ea672;
   const LAND_FILL = '#a9dfc3';
   const LAND_STROKE = '#7fcaa4';
-  const OCEAN_FILL = '#ffffff';
+  const OCEAN_FILL = '#fbfbf8';
+  const GRID_STROKE = 'rgba(46,166,114,0.10)';
   const RADIUS = 5.4;
 
   const HUB = { name: 'München', code: 'MUC', sub: 'AVS Hub · Modul E', lat: 48.1351, lon: 11.5820, isHub: true };
@@ -158,6 +194,9 @@
   const globeGroup = new THREE.Group();
   scene.add(globeGroup);
   const markerMeshes = [];
+  const flowArrows = [];
+  let hubPivot = null;
+  const hubLabel = document.getElementById('hub-label');
 
   function buildMapTexture(landFeature) {
     const W = 2600, H = 1300;
@@ -189,6 +228,19 @@
       if (geom.type === 'Polygon') geom.coordinates.forEach(drawRing);
       else if (geom.type === 'MultiPolygon') geom.coordinates.forEach((poly) => poly.forEach(drawRing));
     });
+
+    // faint lat/lon graticule for a "data globe" feel
+    ctx.strokeStyle = GRID_STROKE;
+    ctx.lineWidth = 1;
+    for (let lon = -180; lon <= 180; lon += 20) {
+      const [x] = project(lon, 0);
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let lat = -80; lat <= 80; lat += 20) {
+      const [, y] = project(0, lat);
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
     const tex = new THREE.CanvasTexture(c);
     tex.anisotropy = 4;
     return tex;
@@ -245,6 +297,37 @@
     pivot.add(hit);
     hit.userData.city = city;
     markerMeshes.push(hit);
+
+    if (isHub) hubPivot = pivot;
+    return dir;
+  }
+
+  // ---------- flight paths: München -> every destination ----------
+  function buildArc(hubDir, cityDir) {
+    const start = hubDir.clone().multiplyScalar(RADIUS);
+    const end = cityDir.clone().multiplyScalar(RADIUS);
+    const angle = hubDir.angleTo(cityDir);
+    const arcHeight = RADIUS * (0.22 + angle * 0.22);
+    const mid = hubDir.clone().add(cityDir).normalize().multiplyScalar(RADIUS + arcHeight);
+    const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+
+    const points = curve.getPoints(48);
+    const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
+    const lineMat = new THREE.LineBasicMaterial({ color: GREEN_HEX, transparent: true, opacity: 0.22 });
+    globeGroup.add(new THREE.Line(lineGeom, lineMat));
+
+    const arrow = new THREE.Mesh(
+      new THREE.ConeGeometry(0.032, 0.1, 8),
+      new THREE.MeshBasicMaterial({ color: GREEN_HEX, transparent: true, opacity: 0.9 })
+    );
+    globeGroup.add(arrow);
+
+    flowArrows.push({
+      curve,
+      mesh: arrow,
+      speed: 0.16 + Math.random() * 0.07,
+      offset: Math.random(),
+    });
   }
 
   function initialOrientation() {
@@ -253,12 +336,14 @@
     globeGroup.quaternion.copy(q);
   }
 
-  // ---------- drag to rotate ----------
+  // ---------- drag to rotate, with momentum ----------
   let isDragging = false;
   let lastX = 0, lastY = 0;
+  let spinVelY = 0, spinVelX = 0;
 
   canvas.addEventListener('pointerdown', (e) => {
     isDragging = true;
+    spinVelY = 0; spinVelX = 0;
     lastX = e.clientX; lastY = e.clientY;
     canvas.setPointerCapture(e.pointerId);
   });
@@ -268,8 +353,10 @@
     if (isDragging) {
       const dx = e.clientX - lastX;
       const dy = e.clientY - lastY;
-      globeGroup.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), dx * 0.0032);
-      globeGroup.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), dy * 0.0026);
+      spinVelY = dx * 0.0032;
+      spinVelX = dy * 0.0026;
+      globeGroup.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), spinVelY);
+      globeGroup.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), spinVelX);
       lastX = e.clientX; lastY = e.clientY;
     }
     handleHover(e);
@@ -296,15 +383,28 @@
   }
 
   const clock = new THREE.Clock();
+  const worldUp = new THREE.Vector3(0, 1, 0);
+  const worldRight = new THREE.Vector3(1, 0, 0);
+  const tmpVec = new THREE.Vector3();
+
   function startRenderLoop() {
     function animate() {
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
       if (!isDragging) {
-        globeGroup.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), 0.0013);
+        if (Math.abs(spinVelY) > 0.00003 || Math.abs(spinVelX) > 0.00003) {
+          // momentum: keep spinning after release, gently decaying
+          globeGroup.rotateOnWorldAxis(worldUp, spinVelY);
+          globeGroup.rotateOnWorldAxis(worldRight, spinVelX);
+          spinVelY *= 0.955;
+          spinVelX *= 0.955;
+        } else {
+          globeGroup.rotateOnWorldAxis(worldUp, 0.0013);
+        }
       }
 
+      // hub pulse rings
       globeGroup.children.forEach((child) => {
         child.children && child.children.forEach((c) => {
           if (c.userData && c.userData.isPulse) {
@@ -315,6 +415,33 @@
           }
         });
       });
+
+      // flying freight arrows along each München -> city arc
+      flowArrows.forEach((a) => {
+        const local = (t * a.speed + a.offset) % 1;
+        const pos = a.curve.getPoint(local);
+        const tangent = a.curve.getTangent(local).normalize();
+        a.mesh.position.copy(pos);
+        a.mesh.quaternion.setFromUnitVectors(worldUp, tangent);
+        const fade = Math.min(local * 6, (1 - local) * 6, 1);
+        a.mesh.material.opacity = 0.85 * fade;
+      });
+
+      // keep the München label pinned to the marker, hide it when it rotates to the far side
+      if (hubPivot) {
+        hubPivot.getWorldPosition(tmpVec);
+        const facing = tmpVec.clone().normalize().dot(camera.position.clone().normalize());
+        if (facing > 0.12) {
+          const screenPos = tmpVec.clone().project(camera);
+          const rect = canvas.getBoundingClientRect();
+          const x = rect.left + (screenPos.x * 0.5 + 0.5) * rect.width;
+          const y = rect.top + (-screenPos.y * 0.5 + 0.5) * rect.height;
+          hubLabel.style.transform = `translate(${x}px, ${y - 46}px) translateX(-50%)`;
+          hubLabel.style.opacity = '1';
+        } else {
+          hubLabel.style.opacity = '0';
+        }
+      }
 
       renderer.render(scene, camera);
     }
@@ -341,8 +468,11 @@
     );
     globeGroup.add(atmosphere);
 
-    addCityMarker(HUB);
-    CITIES.forEach(addCityMarker);
+    const hubDir = addCityMarker(HUB);
+    CITIES.forEach((city) => {
+      const cityDir = addCityMarker(city);
+      buildArc(hubDir, cityDir);
+    });
     initialOrientation();
     startRenderLoop();
   }
@@ -358,8 +488,11 @@
       const geometry = new THREE.SphereGeometry(RADIUS, 96, 96);
       const material = new THREE.MeshPhongMaterial({ color: 0xa9dfc3 });
       globeGroup.add(new THREE.Mesh(geometry, material));
-      addCityMarker(HUB);
-      CITIES.forEach(addCityMarker);
+      const hubDir = addCityMarker(HUB);
+      CITIES.forEach((city) => {
+        const cityDir = addCityMarker(city);
+        buildArc(hubDir, cityDir);
+      });
       initialOrientation();
       startRenderLoop();
     });
