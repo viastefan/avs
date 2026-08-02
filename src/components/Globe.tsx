@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { feature as topoFeature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
-const SIGNAL_HEX = 0x2f8028;
+const SIGNAL_HEX = 0x2f8f28;
 const LAND_FILL = "#243041";
 const LAND_STROKE = "#3a4a5c";
 const OCEAN_FILL = "#0b1520";
@@ -262,7 +262,7 @@ export function Globe({ className = "" }: { className?: string }) {
       if (isHub) {
         const glow = new THREE.Sprite(
           new THREE.SpriteMaterial({
-            map: makeGlowTexture("#2f8028"),
+            map: makeGlowTexture("#2f8f28"),
             transparent: true,
             depthWrite: false,
             blending: THREE.AdditiveBlending,
@@ -555,7 +555,7 @@ export function Globe({ className = "" }: { className?: string }) {
       <div
         className="pointer-events-none absolute inset-[22%] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(47,128,40,0.14) 0%, rgba(47,128,40,0) 70%)",
+          background: "radial-gradient(circle, rgba(47,143,40,0.2) 0%, rgba(47,143,40,0) 70%)",
           filter: "blur(10px)",
         }}
         aria-hidden
@@ -581,7 +581,7 @@ export function Globe({ className = "" }: { className?: string }) {
         <span className="inline-block whitespace-nowrap border border-[#2a3544] bg-[#0b1520] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f5f7fa]">
           München · MUC
         </span>
-        <div className="mx-auto mt-1.5 h-3 w-px bg-[#2f8028]/60" />
+        <div className="mx-auto mt-1.5 h-3 w-px bg-[#45b03a]/70" />
       </div>
     </div>
   );

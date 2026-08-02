@@ -125,69 +125,63 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <article className="feature">
-            <div className="feature__media">
-              <Image
-                src={images.containerYard.src}
-                alt={images.containerYard.alt}
-                fill
-                sizes="(max-width: 900px) 100vw, 55vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="feature__body">
-              <p className="kicker">Containerstauung</p>
-              <h2 className="h2" style={{ marginTop: 12 }}>
-                Effizient gestaut
-              </h2>
-              <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
-                Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft.
-              </p>
-              <Link
-                href="/containerstauung"
-                className="btn btn-dark"
-                style={{ marginTop: 28, alignSelf: "flex-start" }}
-              >
-                Mehr erfahren
-              </Link>
-            </div>
-          </article>
-        </div>
-      </section>
+      <section className="feature-band">
+        <article className="feature">
+          <div className="feature__media">
+            <Image
+              src={images.containerYard.src}
+              alt={images.containerYard.alt}
+              fill
+              sizes="(max-width: 960px) 100vw, 55vw"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+          <div className="feature__body">
+            <p className="kicker">Containerstauung</p>
+            <h2 className="h2" style={{ marginTop: 12 }}>
+              Effizient gestaut
+            </h2>
+            <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
+              Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft.
+            </p>
+            <Link
+              href="/containerstauung"
+              className="btn btn-secondary"
+              style={{ marginTop: 28, alignSelf: "flex-start" }}
+            >
+              Mehr erfahren
+            </Link>
+          </div>
+        </article>
 
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <article className="feature feature--flip">
-            <div className="feature__media">
-              <Image
-                src={images.training.src}
-                alt={images.training.alt}
-                fill
-                sizes="(max-width: 900px) 100vw, 55vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="feature__body">
-              <p className="kicker">Gefahrgutschulung</p>
-              <h2 className="h2" style={{ marginTop: 12 }}>
-                Sicher geschult
-              </h2>
-              <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
-                Praxisnahe Schulungen zu IATA, ADR und IMDG — Verpacken, Kennzeichnen und
-                Dokumentieren.
-              </p>
-              <Link
-                href="/gefahrgutschulung"
-                className="btn btn-primary"
-                style={{ marginTop: 28, alignSelf: "flex-start" }}
-              >
-                Mehr erfahren
-              </Link>
-            </div>
-          </article>
-        </div>
+        <article className="feature feature--flip">
+          <div className="feature__media">
+            <Image
+              src={images.training.src}
+              alt={images.training.alt}
+              fill
+              sizes="(max-width: 960px) 100vw, 55vw"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+          <div className="feature__body">
+            <p className="kicker">Gefahrgutschulung</p>
+            <h2 className="h2" style={{ marginTop: 12 }}>
+              Sicher geschult
+            </h2>
+            <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
+              Praxisnahe Schulungen zu IATA, ADR und IMDG — Verpacken, Kennzeichnen und
+              Dokumentieren.
+            </p>
+            <Link
+              href="/gefahrgutschulung"
+              className="btn btn-primary"
+              style={{ marginTop: 28, alignSelf: "flex-start" }}
+            >
+              Mehr erfahren
+            </Link>
+          </div>
+        </article>
       </section>
 
       <section className="section" style={{ paddingTop: 0 }}>
@@ -205,23 +199,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div className="cta">
-            <div>
-              <h2 className="h2">Wie können wir helfen?</h2>
-              <p className="muted" style={{ marginTop: 10 }}>
-                Anfrage senden oder anrufen — {site.address.line2}
-              </p>
-            </div>
-            <div className="cta__actions">
-              <Link href="/kontakt" className="btn btn-primary">
-                Kontakt
-              </Link>
-              <a href={site.phoneHref} className="btn btn-outline">
-                {site.phone}
-              </a>
-            </div>
+      <section className="cta-band">
+        <div className="wrap cta-band__row">
+          <div>
+            <p className="kicker" style={{ color: "var(--green-mist)" }}>
+              Direkt am Flughafen
+            </p>
+            <h2 className="h2" style={{ marginTop: 12 }}>
+              Wie können wir helfen?
+            </h2>
+            <p className="muted" style={{ marginTop: 12, maxWidth: 420 }}>
+              Anfrage senden oder anrufen — {site.address.line2}
+            </p>
+          </div>
+          <div className="cta__actions">
+            <Link href="/kontakt" className="btn btn-primary">
+              Kontakt
+            </Link>
+            <a href={site.phoneHref} className="btn btn-outline">
+              {site.phone}
+            </a>
           </div>
         </div>
       </section>

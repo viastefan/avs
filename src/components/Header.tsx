@@ -35,11 +35,11 @@ export function Header() {
           top: 0,
           zIndex: 50,
           height: "var(--header-h)",
-          borderBottom: solid || open ? "1px solid rgba(255,255,255,0.1)" : "1px solid transparent",
+          borderBottom: solid || open ? "1px solid rgba(255,255,255,0.12)" : "1px solid transparent",
           background:
             solid || open
-              ? "rgba(16,22,18,0.94)"
-              : "linear-gradient(to bottom, rgba(16,22,18,0.7), transparent)",
+              ? "rgba(12,18,14,0.96)"
+              : "linear-gradient(to bottom, rgba(12,18,14,0.78), transparent)",
           backdropFilter: solid || open ? "blur(16px)" : "none",
           transition: "background 0.25s ease, border-color 0.25s ease",
         }}
