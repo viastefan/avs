@@ -39,7 +39,7 @@ export function PageHero({
           </Link>
         ) : null}
         {eyebrow ? <p className="meta text-[var(--green-bright)]">{eyebrow}</p> : null}
-        <h1 className="font-display mt-4 max-w-3xl text-[clamp(2.4rem,6vw,4.25rem)] font-black leading-[0.95] tracking-tight">
+        <h1 className="font-display mt-4 max-w-3xl text-[clamp(2.25rem,5.5vw,3.75rem)] font-bold leading-[0.98] tracking-tight">
           {title}
         </h1>
         {description ? (

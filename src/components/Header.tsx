@@ -54,7 +54,7 @@ export function Header() {
             })}
             <a
               href={site.phoneHref}
-              className="text-[0.8rem] text-[var(--green-bright)] hover:text-[var(--paper)]"
+              className="text-[0.8rem] text-[var(--paper)] hover:text-[var(--green-bright)]"
             >
               {site.phone}
             </a>

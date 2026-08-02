@@ -38,6 +38,7 @@ export function Footer() {
         <div>
           <p className="meta mb-4">Kontakt</p>
           <address className="space-y-1 text-sm not-italic text-[var(--steel-on-dark)]">
+            <p>{site.address.line2}</p>
             <p>{site.address.line1}</p>
             <p>{site.address.city}</p>
             <p className="pt-3">

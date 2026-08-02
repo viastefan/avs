@@ -1,9 +1,9 @@
 export const site = {
   name: "AVS",
   legalName: "Airport-Verpackungs-Service GmbH",
-  tagline: "Verpackungs-Profis am Flughafen München",
+  tagline: "Verpackungsservice am Flughafen München",
   description:
-    "Spezialisten für Export-, Gefahrgut- und Schwergutverpackung am Flughafen München — IATA, ADR und IMDG konform.",
+    "Airport-Verpackungs-Service GmbH am Flughafen München — Export-, Gefahrgut- und Schwergutverpackung, Containerstauung und Gefahrgutschulung. IATA, ADR und IMDG konform.",
   phone: "+49 (0)89 975 945 91",
   phoneAlt: "+49 (0)89 975 945 92",
   phoneHref: "tel:+498997594591",

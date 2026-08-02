@@ -13,14 +13,16 @@ export default function KontaktPage() {
     <section className="band-light min-h-[calc(100svh-var(--header-h))]">
       <div className="wrap grid gap-16 py-16 md:py-24 lg:grid-cols-2 lg:gap-24">
         <div>
-          <h1 className="font-display text-4xl font-black leading-none md:text-6xl">Kontakt</h1>
+          <h1 className="font-display text-4xl font-bold leading-none md:text-5xl">Kontakt</h1>
           <p className="mt-6 max-w-sm text-base leading-relaxed text-[var(--steel-on-light)]">
-            Fragen zu Verpackung, Containerstauung oder Gefahrgutschulung — wir melden uns zeitnah.
+            Anfragen zu Verpackung, Containerstauung oder Gefahrgutschulung.
           </p>
 
           <div className="mt-12 space-y-4 text-sm text-[var(--steel-on-light)]">
             <p>
               {site.legalName}
+              <br />
+              {site.address.line2}
               <br />
               {site.address.line1}
               <br />
