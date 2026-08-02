@@ -80,7 +80,7 @@ export default function HomePage() {
       </section>
 
       <section id="leistungen" className="band-light">
-        <div className="wrap py-16 md:py-22 md:py-24">
+        <div className="wrap py-16 md:py-24">
           <div className="mb-10 flex items-end justify-between gap-6">
             <div>
               <p className="meta">Verpackungsservice</p>
