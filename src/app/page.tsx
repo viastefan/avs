@@ -10,189 +10,189 @@ const featured = services.slice(0, 5);
 export default function HomePage() {
   return (
     <>
-      <section className="home-hero">
-        <div className="home-hero__media">
+      <section className="hero">
+        <div className="hero__media">
           <Image
             src={images.hero.src}
             alt={images.hero.alt}
             fill
             priority
-            className="home-hero__img"
             sizes="100vw"
+            style={{ objectFit: "cover", objectPosition: "center 40%" }}
           />
         </div>
-        <div className="home-hero__shade" aria-hidden />
-
-        <div className="home-hero__content wrap">
-          <p className="eyebrow rise text-white/70">Flughafen München · Südallee</p>
-          <h1 className="font-display home-hero__brand rise rise-1 mt-4 text-white">{site.name}</h1>
-          <p className="home-hero__lead rise rise-2">
-            Verpackung, Containerstauung und Gefahrgutschulung am Frachtzentrum Modul&nbsp;H.
-          </p>
-          <div className="rise rise-3 mt-8 flex flex-wrap items-center gap-3">
-            <Link href="/kontakt" className="btn btn-primary">
-              Anfrage senden
-            </Link>
-            <Link href="/leistungen" className="btn btn-ghost">
-              Leistungen ansehen
-            </Link>
+        <div className="hero__shade" aria-hidden />
+        <div className="wrap hero__inner">
+          <div className="hero__stack">
+            <p className="kicker fade-up">Flughafen München · Südallee</p>
+            <h1 className="h1 fade-up fade-up-1" style={{ marginTop: 14 }}>
+              {site.name}
+            </h1>
+            <p className="lead fade-up fade-up-2">
+              Verpackung, Containerstauung und Gefahrgutschulung am Frachtzentrum Modul&nbsp;H.
+            </p>
+            <div className="hero__actions fade-up fade-up-2">
+              <Link href="/kontakt" className="btn btn-primary">
+                Anfrage senden
+              </Link>
+              <Link href="/leistungen" className="btn btn-secondary">
+                Leistungen
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="section-tight border-b border-[var(--line)]">
-        <div className="wrap flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p className="text-sm text-[var(--fog)] md:text-base">
-            <span className="font-semibold text-[var(--ink)]">{site.legalName}</span>
-            <span className="mx-2 text-[var(--line)]">·</span>
+      <div style={{ background: "var(--surface)", borderBottom: "1px solid var(--line)" }}>
+        <div
+          className="wrap"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 12,
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "18px 0",
+            fontSize: 14,
+            color: "var(--muted)",
+          }}
+        >
+          <p style={{ margin: 0 }}>
+            <strong style={{ color: "var(--ink)", fontWeight: 600 }}>{site.legalName}</strong>
+            {" · "}
             {site.address.line2}, {site.address.city}
           </p>
-          <p className="text-sm text-[var(--mist)]">
+          <p style={{ margin: 0 }}>
             Reglementierter Beauftragter{" "}
-            <span className="font-semibold text-[var(--ink)]">{site.approval}</span>
+            <strong style={{ color: "var(--ink)" }}>{site.approval}</strong>
           </p>
         </div>
-      </section>
+      </div>
 
       <section className="section">
-        <div className="wrap grid items-end gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+        <div className="wrap grid-2">
           <div>
-            <p className="eyebrow">Am Flughafen</p>
-            <h2 className="font-display mt-4 text-[length:var(--h2)] font-semibold">
-              Präzise Verpackung für globale Sendungen
+            <p className="kicker">Standort</p>
+            <h2 className="h2" style={{ marginTop: 12 }}>
+              Direkt am Frachtzentrum München
             </h2>
-            <p className="mt-5 max-w-xl text-[length:var(--lead)] leading-relaxed text-[var(--fog)]">
-              Wir begleiten Transportgüter für Luft, See und Straße — IATA-, ADR- und IMDG-konform,
-              mit klarer Dokumentation und Beratung vor Ort.
+            <p className="lead" style={{ marginTop: 16, maxWidth: 460 }}>
+              Fachgerechte Verpackung und Dokumentation für Luft-, See- und Straßenfracht —
+              IATA-, ADR- und IMDG-konform.
             </p>
           </div>
-          <div className="media media--wide">
+          <div className="figure">
             <Image
               src={images.warehouse.src}
               alt={images.warehouse.alt}
               fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 560px"
+              sizes="(max-width: 900px) 100vw, 540px"
+              style={{ objectFit: "cover" }}
             />
           </div>
         </div>
       </section>
 
-      <section id="leistungen" className="section pt-0">
+      <section className="section" style={{ paddingTop: 0 }} id="leistungen">
         <div className="wrap">
-          <div className="mb-8 flex items-end justify-between gap-4">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 16, marginBottom: 28 }}>
             <div>
-              <p className="eyebrow">Leistungen</p>
-              <h2 className="font-display mt-3 text-[length:var(--h2)] font-semibold">
-                Was wir für Sie übernehmen
-              </h2>
+              <p className="kicker">Leistungen</p>
+              <h2 className="h2" style={{ marginTop: 10 }}>Unsere Services</h2>
             </div>
-            <Link href="/leistungen" className="text-sm font-semibold text-[var(--green)] hover:underline">
-              Alle Services
+            <Link href="/leistungen" style={{ fontSize: 14, fontWeight: 600, color: "var(--blue)" }}>
+              Alle ansehen
             </Link>
           </div>
-
-          <div className="border-t border-[var(--line)]">
-            {featured.map((service, index) => (
-              <Link key={service.slug} href={`/leistungen/${service.slug}`} className="service-link">
-                <span className="service-link__idx">{String(index + 1).padStart(2, "0")}</span>
-                <span className="service-link__title">{service.title}</span>
-                <span className="text-sm leading-relaxed text-[var(--fog)] md:text-[0.95rem]">
-                  {service.summary}
-                </span>
-                <span className="service-link__arrow hidden md:inline" aria-hidden>
-                  →
-                </span>
+          <div className="list">
+            {featured.map((service, i) => (
+              <Link key={service.slug} href={`/leistungen/${service.slug}`}>
+                <span className="list__idx">{String(i + 1).padStart(2, "0")}</span>
+                <span className="list__title">{service.title}</span>
+                <span className="list__text">{service.summary}</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bleed-split border-y border-[var(--line)]">
-        <div className="bleed-split__media">
-          <Image
-            src={images.containerYard.src}
-            alt={images.containerYard.alt}
-            fill
-            className="object-cover"
-            sizes="(max-width: 960px) 100vw, 55vw"
-          />
-        </div>
-        <div className="bleed-split__copy">
-          <p className="eyebrow">Containerstauung</p>
-          <h2 className="font-display mt-3 text-[length:var(--h2)] font-semibold">
-            Effizient gestaut. Sicher geladen.
-          </h2>
-          <p className="mt-4 max-w-md text-[var(--fog)]">
-            Optimale Raumnutzung, Ladungssicherung und Palettisierung — für Land-, See- und
-            Luftfracht.
-          </p>
-          <Link href="/containerstauung" className="btn btn-ink mt-8 self-start">
-            Mehr zur Containerstauung
-          </Link>
-        </div>
-      </section>
-
-      <section className="bleed-split bleed-split--flip border-b border-[var(--line)]">
-        <div className="bleed-split__media">
-          <Image
-            src={images.training.src}
-            alt={images.training.alt}
-            fill
-            className="object-cover"
-            sizes="(max-width: 960px) 100vw, 55vw"
-          />
-        </div>
-        <div className="bleed-split__copy">
-          <p className="eyebrow">Gefahrgutschulung</p>
-          <h2 className="font-display mt-3 text-[length:var(--h2)] font-semibold">
-            Wissen, das Sendungen absichert
-          </h2>
-          <p className="mt-4 max-w-md text-[var(--fog)]">
-            Praxisnahe Schulungen zu IATA, ADR und IMDG — Verpacken, Kennzeichnen und
-            Dokumentieren nach Versenderpflichten.
-          </p>
-          <Link href="/gefahrgutschulung" className="btn btn-primary mt-8 self-start">
-            Mehr zur Schulung
-          </Link>
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <article className="feature">
+            <div className="feature__media">
+              <Image
+                src={images.containerYard.src}
+                alt={images.containerYard.alt}
+                fill
+                sizes="(max-width: 900px) 100vw, 55vw"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+            <div className="feature__body">
+              <p className="kicker">Containerstauung</p>
+              <h2 className="h2" style={{ marginTop: 12 }}>Effizient gestaut</h2>
+              <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
+                Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft.
+              </p>
+              <Link href="/containerstauung" className="btn btn-dark" style={{ marginTop: 28, alignSelf: "flex-start" }}>
+                Mehr erfahren
+              </Link>
+            </div>
+          </article>
         </div>
       </section>
 
-      <section className="section overflow-visible">
-        <div className="wrap grid items-center gap-12 overflow-visible lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <article className="feature feature--flip">
+            <div className="feature__media">
+              <Image
+                src={images.training.src}
+                alt={images.training.alt}
+                fill
+                sizes="(max-width: 900px) 100vw, 55vw"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+            <div className="feature__body">
+              <p className="kicker">Gefahrgutschulung</p>
+              <h2 className="h2" style={{ marginTop: 12 }}>Sicher geschult</h2>
+              <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
+                Praxisnahe Schulungen zu IATA, ADR und IMDG — Verpacken, Kennzeichnen und Dokumentieren.
+              </p>
+              <Link href="/gefahrgutschulung" className="btn btn-primary" style={{ marginTop: 28, alignSelf: "flex-start" }}>
+                Mehr erfahren
+              </Link>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap grid-2" style={{ alignItems: "center" }}>
           <div>
-            <p className="eyebrow">Netzwerk</p>
-            <h2 className="font-display mt-3 text-[length:var(--h2)] font-semibold">
-              Von München in die Welt
-            </h2>
-            <p className="mt-4 max-w-md text-[var(--fog)]">
-              Über den Hub München begleiten wir Sendungen in internationale Frachtnetzwerke —
-              verpackt, gestaut und dokumentiert.
+            <p className="kicker">Netzwerk</p>
+            <h2 className="h2" style={{ marginTop: 12 }}>Von München in die Welt</h2>
+            <p className="lead" style={{ marginTop: 16, maxWidth: 400 }}>
+              Vom Hub München begleiten wir Sendungen in internationale Frachtnetzwerke.
             </p>
           </div>
           <Globe />
         </div>
       </section>
 
-      <section className="section pt-0">
+      <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
-          <div className="panel flex flex-col items-start justify-between gap-8 px-7 py-10 md:flex-row md:items-center md:px-12 md:py-12">
+          <div className="cta">
             <div>
-              <h2 className="font-display text-[length:var(--h2)] font-semibold">
-                Sprechen Sie mit uns
-              </h2>
-              <p className="mt-3 max-w-lg text-[var(--fog)]">
-                Anfrage zu Ihrer Sendung — wir melden uns zeitnah. {site.address.line2}, Modul&nbsp;H.
+              <h2 className="h2">Wie können wir helfen?</h2>
+              <p className="muted" style={{ marginTop: 10 }}>
+                Anfrage senden oder anrufen — {site.address.line2}
               </p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/kontakt" className="btn btn-primary">
-                Kontakt
-              </Link>
-              <a href={site.phoneHref} className="btn btn-line">
-                {site.phone}
-              </a>
+            <div className="cta__actions">
+              <Link href="/kontakt" className="btn btn-primary">Kontakt</Link>
+              <a href={site.phoneHref} className="btn btn-outline">{site.phone}</a>
             </div>
           </div>
         </div>

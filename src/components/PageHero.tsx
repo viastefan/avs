@@ -21,24 +21,20 @@ export function PageHero({
   return (
     <section className="page-hero">
       <div className="page-hero__media">
-        <Image src={image.src} alt={image.alt} fill priority className="object-cover" sizes="100vw" />
+        <Image src={image.src} alt={image.alt} fill priority sizes="100vw" style={{ objectFit: "cover" }} />
       </div>
       <div className="page-hero__shade" aria-hidden />
-      <div className="page-hero__content wrap">
-        {backHref ? (
-          <Link href={backHref} className="text-sm text-white/70 hover:text-white">
-            ← {backLabel}
-          </Link>
-        ) : null}
-        {eyebrow ? <p className={`eyebrow text-white/65 ${backHref ? "mt-4" : ""}`}>{eyebrow}</p> : null}
-        <h1 className="font-display mt-3 max-w-3xl text-[length:var(--display)] font-semibold leading-[1.02]">
-          {title}
-        </h1>
-        {description ? (
-          <p className="mt-4 max-w-xl text-[length:var(--lead)] leading-relaxed text-white/78">
-            {description}
-          </p>
-        ) : null}
+      <div className="wrap">
+        <div className="page-hero__inner">
+          {backHref ? (
+            <Link href={backHref} style={{ color: "rgba(255,255,255,0.7)", fontSize: 14 }}>
+              ← {backLabel}
+            </Link>
+          ) : null}
+          {eyebrow ? <p className="kicker" style={{ marginTop: backHref ? 16 : 0 }}>{eyebrow}</p> : null}
+          <h1 className="h1" style={{ marginTop: 12, fontSize: "var(--fs-3xl)" }}>{title}</h1>
+          {description ? <p className="lead">{description}</p> : null}
+        </div>
       </div>
     </section>
   );

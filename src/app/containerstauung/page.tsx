@@ -6,8 +6,7 @@ import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Containerstauung",
-  description:
-    "Effiziente Containerstauung am Flughafen München — optimale Raumnutzung, Ladungssicherung und Palettisierung.",
+  description: "Effiziente Containerstauung am Flughafen München.",
 };
 
 export default function ContainerstauungPage() {
@@ -20,16 +19,16 @@ export default function ContainerstauungPage() {
         eyebrow="Stauung & Sicherung"
       />
       <section className="section">
-        <div className="wrap max-w-2xl">
-          <ul className="border-t border-[var(--line)]">
+        <div className="wrap" style={{ maxWidth: 680 }}>
+          <div className="list">
             {containerFeatures.map((feature) => (
-              <li key={feature.title} className="border-b border-[var(--line)] py-7">
-                <h2 className="font-display text-xl font-semibold">{feature.title}</h2>
-                <p className="mt-2 text-[var(--fog)]">{feature.text}</p>
-              </li>
+              <div key={feature.title} className="list-item">
+                <h2 className="list__title">{feature.title}</h2>
+                <p className="list__text" style={{ margin: 0 }}>{feature.text}</p>
+              </div>
             ))}
-          </ul>
-          <Link href="/kontakt" className="btn btn-primary mt-10">
+          </div>
+          <Link href="/kontakt" className="btn btn-primary" style={{ marginTop: 36 }}>
             Anfrage senden
           </Link>
         </div>

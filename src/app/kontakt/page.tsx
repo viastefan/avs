@@ -4,40 +4,33 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Kontakt",
-  description:
-    "Kontaktieren Sie die Airport-Verpackungs-Service GmbH am Flughafen München — Telefon, E-Mail oder Formular.",
+  description: "Kontaktieren Sie die Airport-Verpackungs-Service GmbH am Flughafen München.",
 };
 
 export default function KontaktPage() {
   return (
     <section className="section">
-      <div className="wrap grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <div className="wrap grid-2" style={{ alignItems: "start" }}>
         <div>
-          <p className="eyebrow">Kontakt</p>
-          <h1 className="font-display mt-3 text-[length:var(--display)] font-semibold leading-[1.02]">
-            Schreiben Sie uns
-          </h1>
-          <p className="mt-5 max-w-md text-[length:var(--lead)] text-[var(--fog)]">
+          <p className="kicker">Kontakt</p>
+          <h1 className="h2" style={{ marginTop: 12 }}>Schreiben Sie uns</h1>
+          <p className="lead" style={{ marginTop: 14, maxWidth: 400 }}>
             Anfragen zu Verpackung, Containerstauung oder Gefahrgutschulung.
           </p>
-          <div className="mt-10 space-y-3 text-sm text-[var(--fog)]">
-            <p className="font-semibold text-[var(--ink)]">{site.legalName}</p>
-            <p>
+          <div className="muted" style={{ marginTop: 32, fontSize: 14, display: "grid", gap: 8 }}>
+            <p style={{ margin: 0, fontWeight: 600, color: "var(--ink)" }}>{site.legalName}</p>
+            <p style={{ margin: 0 }}>
               {site.address.line2}
               <br />
               {site.address.line1}
               <br />
               {site.address.city}
             </p>
-            <p className="pt-2">
-              <a href={site.phoneHref} className="font-semibold text-[var(--green)]">
-                {site.phone}
-              </a>
+            <p style={{ margin: "8px 0 0" }}>
+              <a href={site.phoneHref} style={{ color: "var(--blue)", fontWeight: 600 }}>{site.phone}</a>
             </p>
-            <p>
-              <a href={site.emailHref} className="hover:text-[var(--ink)]">
-                {site.email}
-              </a>
+            <p style={{ margin: 0 }}>
+              <a href={site.emailHref}>{site.email}</a>
             </p>
           </div>
         </div>

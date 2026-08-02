@@ -3,65 +3,40 @@ import { site } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--line)] bg-[rgba(255,255,255,0.35)]">
-      <div className="wrap grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr] md:gap-8">
+    <footer style={{ borderTop: "1px solid var(--line)", background: "var(--surface)" }}>
+      <div className="wrap" style={{ display: "grid", gap: 40, padding: "56px 0", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
         <div>
-          <p className="font-display text-2xl font-semibold">{site.name}</p>
-          <p className="mt-3 max-w-sm text-sm leading-relaxed text-[var(--fog)]">
+          <p style={{ margin: 0, fontWeight: 700, fontSize: 22, letterSpacing: "-0.02em" }}>{site.name}</p>
+          <p className="muted" style={{ margin: "12px 0 0", fontSize: 14, maxWidth: 280 }}>
             {site.legalName}
             <br />
-            {site.address.line2} · {site.address.city}
+            {site.address.line2}, {site.address.city}
           </p>
         </div>
         <div>
-          <p className="eyebrow mb-4">Leistungen</p>
-          <ul className="space-y-2.5 text-sm text-[var(--fog)]">
-            <li>
-              <Link href="/leistungen" className="hover:text-[var(--ink)]">
-                Verpackungsservice
-              </Link>
-            </li>
-            <li>
-              <Link href="/containerstauung" className="hover:text-[var(--ink)]">
-                Containerstauung
-              </Link>
-            </li>
-            <li>
-              <Link href="/gefahrgutschulung" className="hover:text-[var(--ink)]">
-                Gefahrgutschulung
-              </Link>
-            </li>
+          <p className="kicker" style={{ marginBottom: 14 }}>Leistungen</p>
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+            <li><Link href="/leistungen" className="muted" style={{ fontSize: 14 }}>Verpackungsservice</Link></li>
+            <li><Link href="/containerstauung" className="muted" style={{ fontSize: 14 }}>Containerstauung</Link></li>
+            <li><Link href="/gefahrgutschulung" className="muted" style={{ fontSize: 14 }}>Gefahrgutschulung</Link></li>
           </ul>
         </div>
         <div>
-          <p className="eyebrow mb-4">Kontakt</p>
-          <div className="space-y-2 text-sm text-[var(--fog)]">
-            <p>
-              <a href={site.phoneHref} className="font-semibold text-[var(--ink)] hover:text-[var(--green)]">
-                {site.phone}
-              </a>
-            </p>
-            <p>
-              <a href={site.emailHref} className="hover:text-[var(--ink)]">
-                {site.email}
-              </a>
-            </p>
-            <p className="pt-2 text-xs">Reglementierter Beauftragter {site.approval}</p>
-          </div>
+          <p className="kicker" style={{ marginBottom: 14 }}>Kontakt</p>
+          <p style={{ margin: 0 }}>
+            <a href={site.phoneHref} style={{ fontSize: 14, fontWeight: 600, color: "var(--blue)" }}>{site.phone}</a>
+          </p>
+          <p style={{ margin: "8px 0 0" }}>
+            <a href={site.emailHref} className="muted" style={{ fontSize: 14 }}>{site.email}</a>
+          </p>
         </div>
       </div>
-      <div className="border-t border-[var(--line)]">
-        <div className="wrap flex flex-col gap-3 py-5 text-xs text-[var(--mist)] sm:flex-row sm:justify-between">
-          <p>
-            © {new Date().getFullYear()} {site.legalName}
-          </p>
-          <nav className="flex gap-5">
-            <Link href="/impressum" className="hover:text-[var(--ink)]">
-              Impressum
-            </Link>
-            <Link href="/datenschutz" className="hover:text-[var(--ink)]">
-              Datenschutz
-            </Link>
+      <div style={{ borderTop: "1px solid var(--line)" }}>
+        <div className="wrap" style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", padding: "18px 0", fontSize: 12, color: "var(--muted)" }}>
+          <p style={{ margin: 0 }}>© {new Date().getFullYear()} {site.legalName}</p>
+          <nav style={{ display: "flex", gap: 18 }}>
+            <Link href="/impressum">Impressum</Link>
+            <Link href="/datenschutz">Datenschutz</Link>
           </nav>
         </div>
       </div>

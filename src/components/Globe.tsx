@@ -5,11 +5,11 @@ import * as THREE from "three";
 import { feature as topoFeature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
-const SIGNAL_HEX = 0x0f5c4c;
-const LAND_FILL = "#2f3842";
-const LAND_STROKE = "#44505c";
-const OCEAN_FILL = "#12171d";
-const GRID_STROKE = "rgba(14,107,86,0.14)";
+const SIGNAL_HEX = 0x0b5cab;
+const LAND_FILL = "#243041";
+const LAND_STROKE = "#3a4a5c";
+const OCEAN_FILL = "#0b1520";
+const GRID_STROKE = "rgba(11,92,171,0.14)";
 const RADIUS = 5.4;
 
 type City = {
@@ -262,7 +262,7 @@ export function Globe({ className = "" }: { className?: string }) {
       if (isHub) {
         const glow = new THREE.Sprite(
           new THREE.SpriteMaterial({
-            map: makeGlowTexture("#2ea672"),
+            map: makeGlowTexture("#0b5cab"),
             transparent: true,
             depthWrite: false,
             blending: THREE.AdditiveBlending,
@@ -555,7 +555,7 @@ export function Globe({ className = "" }: { className?: string }) {
       <div
         className="pointer-events-none absolute inset-[22%] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(31,122,84,0.12) 0%, rgba(31,122,84,0) 70%)",
+          background: "radial-gradient(circle, rgba(11,92,171,0.12) 0%, rgba(11,92,171,0) 70%)",
           filter: "blur(10px)",
         }}
         aria-hidden
@@ -578,10 +578,10 @@ export function Globe({ className = "" }: { className?: string }) {
         className="pointer-events-none fixed z-[15] text-center opacity-0 transition-opacity"
         style={{ transform: "translate(-9999px,-9999px)" }}
       >
-        <span className="inline-block whitespace-nowrap border border-[#2a2b29] bg-[#0c0d0c] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f1f0eb]">
+        <span className="inline-block whitespace-nowrap border border-[#2a3544] bg-[#0b1520] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f5f7fa]">
           München · MUC
         </span>
-        <div className="mx-auto mt-1.5 h-3 w-px bg-[#1f7a54]/55" />
+        <div className="mx-auto mt-1.5 h-3 w-px bg-[#0b5cab]/60" />
       </div>
     </div>
   );

@@ -6,8 +6,7 @@ import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Verpackungsservice",
-  description:
-    "Export-, Gefahrgut-, Schwergut- und Spezialverpackung am Flughafen München — IATA, ADR und IMDG konform.",
+  description: "Export-, Gefahrgut-, Schwergut- und Spezialverpackung am Flughafen München.",
 };
 
 export default function LeistungenPage() {
@@ -21,17 +20,12 @@ export default function LeistungenPage() {
       />
       <section className="section">
         <div className="wrap">
-          <div className="border-t border-[var(--line)]">
-            {services.map((service, index) => (
-              <Link key={service.slug} href={`/leistungen/${service.slug}`} className="service-link">
-                <span className="service-link__idx">{String(index + 1).padStart(2, "0")}</span>
-                <span className="service-link__title">{service.title}</span>
-                <span className="text-sm leading-relaxed text-[var(--fog)] md:text-[0.95rem]">
-                  {service.summary}
-                </span>
-                <span className="service-link__arrow hidden md:inline" aria-hidden>
-                  →
-                </span>
+          <div className="list">
+            {services.map((service, i) => (
+              <Link key={service.slug} href={`/leistungen/${service.slug}`}>
+                <span className="list__idx">{String(i + 1).padStart(2, "0")}</span>
+                <span className="list__title">{service.title}</span>
+                <span className="list__text">{service.summary}</span>
               </Link>
             ))}
           </div>

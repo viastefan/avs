@@ -8,7 +8,7 @@ import { nav, site } from "@/lib/site";
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [solid, setSolid] = useState(false);
   const panelId = useId();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export function Header() {
   }, [open]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setSolid(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -28,45 +28,51 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 h-[var(--header-h)] transition-[background,border-color,backdrop-filter] duration-300 ${
-          scrolled || open
-            ? "border-b border-white/10 bg-[var(--ink)]/92 backdrop-blur-xl"
-            : "border-b border-transparent bg-gradient-to-b from-[var(--ink)]/70 to-transparent"
-        }`}
+        style={{
+          position: "fixed",
+          insetInline: 0,
+          top: 0,
+          zIndex: 50,
+          height: "var(--header-h)",
+          borderBottom: solid || open ? "1px solid rgba(255,255,255,0.12)" : "1px solid transparent",
+          background: solid || open ? "rgba(11,21,32,0.92)" : "linear-gradient(to bottom, rgba(11,21,32,0.65), transparent)",
+          backdropFilter: solid || open ? "blur(16px)" : "none",
+          transition: "background 0.25s ease, border-color 0.25s ease",
+        }}
       >
-        <div className="wrap flex h-full items-center justify-between gap-6">
-          <Link href="/" onClick={() => setOpen(false)} aria-label={`${site.name} Startseite`}>
-            <span className="font-display text-[1.35rem] font-semibold tracking-tight text-white">
-              {site.name}
-            </span>
+        <div className="wrap" style={{ display: "flex", height: "100%", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
+          <Link href="/" onClick={() => setOpen(false)} aria-label={`${site.name} Startseite`} style={{ fontWeight: 700, fontSize: 20, color: "#fff", letterSpacing: "-0.02em" }}>
+            {site.name}
           </Link>
 
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Hauptnavigation">
+          <nav className="hidden lg:flex" aria-label="Hauptnavigation" style={{ alignItems: "center", gap: 28 }}>
             {nav.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-[0.95rem] transition-colors ${
-                    active ? "text-white" : "text-white/65 hover:text-white"
-                  }`}
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: active ? "#fff" : "rgba(255,255,255,0.7)",
+                  }}
                 >
                   {item.label}
                 </Link>
               );
             })}
-            <Link href="/kontakt" className="btn btn-primary !min-h-10 !px-4 !text-sm">
+            <Link href="/kontakt" className="btn btn-primary" style={{ minHeight: 40, paddingInline: 16, fontSize: 13 }}>
               Kontakt
             </Link>
           </nav>
 
           <button
             type="button"
-            className="text-sm font-medium text-white lg:hidden"
+            className="lg:hidden"
+            style={{ background: "none", border: 0, color: "#fff", fontSize: 14, fontWeight: 600 }}
             aria-expanded={open}
             aria-controls={panelId}
-            aria-label={open ? "Menü schließen" : "Menü öffnen"}
             onClick={() => setOpen((v) => !v)}
           >
             {open ? "Schließen" : "Menü"}
@@ -75,33 +81,24 @@ export function Header() {
       </header>
 
       {open ? (
-        <div
-          id={panelId}
-          className="fixed inset-0 z-[100] bg-[var(--ink)] lg:hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Navigation"
-        >
-          <div className="flex h-[var(--header-h)] items-center justify-between px-[var(--gutter)]">
-            <span className="font-display text-[1.35rem] font-semibold text-white">{site.name}</span>
-            <button type="button" className="text-sm text-white" onClick={() => setOpen(false)}>
+        <div id={panelId} role="dialog" aria-modal="true" className="lg:hidden" style={{ position: "fixed", inset: 0, zIndex: 100, background: "#0b1520" }}>
+          <div style={{ display: "flex", height: "var(--header-h)", alignItems: "center", justifyContent: "space-between", paddingInline: "var(--gutter)" }}>
+            <span style={{ color: "#fff", fontWeight: 700, fontSize: 20 }}>{site.name}</span>
+            <button type="button" onClick={() => setOpen(false)} style={{ background: "none", border: 0, color: "#fff", fontSize: 14 }}>
               Schließen
             </button>
           </div>
-          <nav className="flex flex-col px-[var(--gutter)] pt-4" aria-label="Mobile Navigation">
+          <nav style={{ display: "flex", flexDirection: "column", padding: "8px var(--gutter)" }} aria-label="Mobile Navigation">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-white/10 py-5 text-2xl text-white"
+                style={{ padding: "20px 0", borderBottom: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 22, fontWeight: 600 }}
               >
                 {item.label}
               </Link>
             ))}
-            <a href={site.phoneHref} className="mt-8 text-sm text-white/60">
-              {site.phone}
-            </a>
           </nav>
         </div>
       ) : null}

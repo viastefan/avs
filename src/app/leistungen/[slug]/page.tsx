@@ -37,21 +37,21 @@ export default async function ServiceDetailPage({ params }: Props) {
     <>
       <PageHero title={service.title} image={image} backHref="/leistungen" backLabel="Leistungen" />
       <section className="section">
-        <article className="wrap max-w-2xl">
-          <p className="text-[length:var(--lead)] leading-relaxed text-[var(--fog)]">{service.summary}</p>
-          <div className="mt-8 space-y-4 text-[var(--fog)]">
+        <article className="wrap" style={{ maxWidth: 680 }}>
+          <p className="lead">{service.summary}</p>
+          <div className="muted" style={{ marginTop: 28, display: "grid", gap: 16 }}>
             {service.body.map((p) => (
-              <p key={p}>{p}</p>
+              <p key={p} style={{ margin: 0 }}>{p}</p>
             ))}
           </div>
           {service.highlights?.length ? (
-            <ul className="mt-8 space-y-2 text-sm text-[var(--mist)]">
+            <ul className="muted" style={{ marginTop: 28, paddingLeft: 18, display: "grid", gap: 6, fontSize: 14 }}>
               {service.highlights.map((h) => (
-                <li key={h}>— {h}</li>
+                <li key={h}>{h}</li>
               ))}
             </ul>
           ) : null}
-          <Link href="/kontakt" className="btn btn-primary mt-10">
+          <Link href="/kontakt" className="btn btn-primary" style={{ marginTop: 36 }}>
             Anfrage senden
           </Link>
         </article>

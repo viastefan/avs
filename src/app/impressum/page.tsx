@@ -6,34 +6,29 @@ export const metadata: Metadata = { title: "Impressum" };
 export default function ImpressumPage() {
   return (
     <section className="section">
-      <div className="wrap max-w-2xl">
-        <h1 className="font-display text-[length:var(--h2)] font-semibold">Impressum</h1>
-        <div className="mt-8 space-y-6 text-sm leading-relaxed text-[var(--fog)]">
+      <div className="wrap" style={{ maxWidth: 680 }}>
+        <h1 className="h2">Impressum</h1>
+        <div className="muted" style={{ marginTop: 28, display: "grid", gap: 24, fontSize: 14 }}>
           <div>
-            <h2 className="mb-2 font-semibold text-[var(--ink)]">Angaben gemäß § 5 TMG</h2>
-            <p>
-              {site.legalName}
-              <br />
-              {site.address.line1}
-              <br />
-              {site.address.line2}
-              <br />
+            <h2 style={{ margin: "0 0 8px", fontSize: 16, color: "var(--ink)" }}>Angaben gemäß § 5 TMG</h2>
+            <p style={{ margin: 0 }}>
+              {site.legalName}<br />
+              {site.address.line1}<br />
+              {site.address.line2}<br />
               {site.address.city}
             </p>
           </div>
           <div>
-            <h2 className="mb-2 font-semibold text-[var(--ink)]">Kontakt</h2>
-            <p>
-              {site.phone}
-              <br />
-              {site.phoneAlt}
-              <br />
+            <h2 style={{ margin: "0 0 8px", fontSize: 16, color: "var(--ink)" }}>Kontakt</h2>
+            <p style={{ margin: 0 }}>
+              {site.phone}<br />
+              {site.phoneAlt}<br />
               {site.email}
             </p>
           </div>
           <div>
-            <h2 className="mb-2 font-semibold text-[var(--ink)]">Reglementierter Beauftragter</h2>
-            <p>{site.approval}</p>
+            <h2 style={{ margin: "0 0 8px", fontSize: 16, color: "var(--ink)" }}>Reglementierter Beauftragter</h2>
+            <p style={{ margin: 0 }}>{site.approval}</p>
           </div>
         </div>
       </div>
