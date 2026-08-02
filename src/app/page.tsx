@@ -43,20 +43,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div style={{ background: "var(--surface)", borderBottom: "1px solid var(--line)" }}>
-        <div
-          className="wrap"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 12,
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "18px 0",
-            fontSize: 14,
-            color: "var(--muted)",
-          }}
-        >
+      <div className="info-bar">
+        <div className="wrap info-bar__inner">
           <p style={{ margin: 0 }}>
             <strong style={{ color: "var(--ink)", fontWeight: 600 }}>{site.legalName}</strong>
             {" · "}
@@ -80,6 +68,17 @@ export default function HomePage() {
               Fachgerechte Verpackung und Dokumentation für Luft-, See- und Straßenfracht —
               IATA-, ADR- und IMDG-konform.
             </p>
+            <a
+              href={site.phoneHref}
+              style={{
+                display: "inline-block",
+                marginTop: 24,
+                fontWeight: 600,
+                color: "var(--green)",
+              }}
+            >
+              {site.phone}
+            </a>
           </div>
           <div className="figure">
             <Image
@@ -95,12 +94,22 @@ export default function HomePage() {
 
       <section className="section" style={{ paddingTop: 0 }} id="leistungen">
         <div className="wrap">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 16, marginBottom: 28 }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "end",
+              gap: 16,
+              marginBottom: 28,
+            }}
+          >
             <div>
               <p className="kicker">Leistungen</p>
-              <h2 className="h2" style={{ marginTop: 10 }}>Unsere Services</h2>
+              <h2 className="h2" style={{ marginTop: 10 }}>
+                Unsere Services
+              </h2>
             </div>
-            <Link href="/leistungen" style={{ fontSize: 14, fontWeight: 600, color: "var(--blue)" }}>
+            <Link href="/leistungen" style={{ fontSize: 14, fontWeight: 600, color: "var(--green)" }}>
               Alle ansehen
             </Link>
           </div>
@@ -116,63 +125,72 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <article className="feature">
-            <div className="feature__media">
-              <Image
-                src={images.containerYard.src}
-                alt={images.containerYard.alt}
-                fill
-                sizes="(max-width: 900px) 100vw, 55vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="feature__body">
-              <p className="kicker">Containerstauung</p>
-              <h2 className="h2" style={{ marginTop: 12 }}>Effizient gestaut</h2>
-              <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
-                Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft.
-              </p>
-              <Link href="/containerstauung" className="btn btn-dark" style={{ marginTop: 28, alignSelf: "flex-start" }}>
-                Mehr erfahren
-              </Link>
-            </div>
-          </article>
-        </div>
-      </section>
+      <section className="feature-band">
+        <article className="feature">
+          <div className="feature__media">
+            <Image
+              src={images.containerYard.src}
+              alt={images.containerYard.alt}
+              fill
+              sizes="(max-width: 960px) 100vw, 55vw"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+          <div className="feature__body">
+            <p className="kicker">Containerstauung</p>
+            <h2 className="h2" style={{ marginTop: 12 }}>
+              Effizient gestaut
+            </h2>
+            <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
+              Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft.
+            </p>
+            <Link
+              href="/containerstauung"
+              className="btn btn-secondary"
+              style={{ marginTop: 28, alignSelf: "flex-start" }}
+            >
+              Mehr erfahren
+            </Link>
+          </div>
+        </article>
 
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <article className="feature feature--flip">
-            <div className="feature__media">
-              <Image
-                src={images.training.src}
-                alt={images.training.alt}
-                fill
-                sizes="(max-width: 900px) 100vw, 55vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className="feature__body">
-              <p className="kicker">Gefahrgutschulung</p>
-              <h2 className="h2" style={{ marginTop: 12 }}>Sicher geschult</h2>
-              <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
-                Praxisnahe Schulungen zu IATA, ADR und IMDG — Verpacken, Kennzeichnen und Dokumentieren.
-              </p>
-              <Link href="/gefahrgutschulung" className="btn btn-primary" style={{ marginTop: 28, alignSelf: "flex-start" }}>
-                Mehr erfahren
-              </Link>
-            </div>
-          </article>
-        </div>
+        <article className="feature feature--flip">
+          <div className="feature__media">
+            <Image
+              src={images.training.src}
+              alt={images.training.alt}
+              fill
+              sizes="(max-width: 960px) 100vw, 55vw"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+          <div className="feature__body">
+            <p className="kicker">Gefahrgutschulung</p>
+            <h2 className="h2" style={{ marginTop: 12 }}>
+              Sicher geschult
+            </h2>
+            <p className="muted" style={{ marginTop: 14, maxWidth: 380 }}>
+              Praxisnahe Schulungen zu IATA, ADR und IMDG — Verpacken, Kennzeichnen und
+              Dokumentieren.
+            </p>
+            <Link
+              href="/gefahrgutschulung"
+              className="btn btn-primary"
+              style={{ marginTop: 28, alignSelf: "flex-start" }}
+            >
+              Mehr erfahren
+            </Link>
+          </div>
+        </article>
       </section>
 
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap grid-2" style={{ alignItems: "center" }}>
           <div>
             <p className="kicker">Netzwerk</p>
-            <h2 className="h2" style={{ marginTop: 12 }}>Von München in die Welt</h2>
+            <h2 className="h2" style={{ marginTop: 12 }}>
+              Von München in die Welt
+            </h2>
             <p className="lead" style={{ marginTop: 16, maxWidth: 400 }}>
               Vom Hub München begleiten wir Sendungen in internationale Frachtnetzwerke.
             </p>
@@ -181,19 +199,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div className="cta">
-            <div>
-              <h2 className="h2">Wie können wir helfen?</h2>
-              <p className="muted" style={{ marginTop: 10 }}>
-                Anfrage senden oder anrufen — {site.address.line2}
-              </p>
-            </div>
-            <div className="cta__actions">
-              <Link href="/kontakt" className="btn btn-primary">Kontakt</Link>
-              <a href={site.phoneHref} className="btn btn-outline">{site.phone}</a>
-            </div>
+      <section className="cta-band">
+        <div className="wrap cta-band__row">
+          <div>
+            <p className="kicker" style={{ color: "var(--green-mist)" }}>
+              Direkt am Flughafen
+            </p>
+            <h2 className="h2" style={{ marginTop: 12 }}>
+              Wie können wir helfen?
+            </h2>
+            <p className="muted" style={{ marginTop: 12, maxWidth: 420 }}>
+              Anfrage senden oder anrufen — {site.address.line2}
+            </p>
+          </div>
+          <div className="cta__actions">
+            <Link href="/kontakt" className="btn btn-primary">
+              Kontakt
+            </Link>
+            <a href={site.phoneHref} className="btn btn-outline">
+              {site.phone}
+            </a>
           </div>
         </div>
       </section>

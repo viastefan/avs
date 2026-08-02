@@ -58,7 +58,7 @@ export function ContactForm() {
         {pending ? "Senden…" : "Absenden"}
       </button>
 
-      {state.message ? <p role="status" style={{ margin: 0, color: "var(--blue)", fontSize: 14 }}>{state.message}</p> : null}
+      {state.message ? <p role="status" style={{ margin: 0, color: "var(--green)", fontSize: 14 }}>{state.message}</p> : null}
       {state.error ? <p role="alert" style={{ margin: 0, color: "var(--danger)", fontSize: 14 }}>{state.error}</p> : null}
     </form>
   );

@@ -27,7 +27,7 @@ export default function KontaktPage() {
               {site.address.city}
             </p>
             <p style={{ margin: "8px 0 0" }}>
-              <a href={site.phoneHref} style={{ color: "var(--blue)", fontWeight: 600 }}>{site.phone}</a>
+              <a href={site.phoneHref} style={{ color: "var(--green)", fontWeight: 600 }}>{site.phone}</a>
             </p>
             <p style={{ margin: 0 }}>
               <a href={site.emailHref}>{site.email}</a>
