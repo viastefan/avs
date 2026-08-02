@@ -519,8 +519,11 @@ export function Globe({ className = "" }: { className?: string }) {
       if (!built && !disposed) buildGlobe();
     }, 2200);
 
-    fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-50m.json")
-      .then((r) => r.json())
+    fetch("/data/land-50m.json")
+      .then((r) => {
+        if (!r.ok) throw new Error(`Map HTTP ${r.status}`);
+        return r.json();
+      })
       .then((topology: Topology) => {
         if (disposed || built) return;
         window.clearTimeout(mapTimeout);
