@@ -24,7 +24,7 @@ export function Footer() {
         <div>
           <p className="kicker" style={{ marginBottom: 14 }}>Kontakt</p>
           <p style={{ margin: 0 }}>
-            <a href={site.phoneHref} style={{ fontSize: 14, fontWeight: 600, color: "var(--blue)" }}>{site.phone}</a>
+            <a href={site.phoneHref} style={{ fontSize: 14, fontWeight: 600, color: "var(--green)" }}>{site.phone}</a>
           </p>
           <p style={{ margin: "8px 0 0" }}>
             <a href={site.emailHref} className="muted" style={{ fontSize: 14 }}>{site.email}</a>

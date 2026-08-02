@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
@@ -34,18 +35,40 @@ export function Header() {
           top: 0,
           zIndex: 50,
           height: "var(--header-h)",
-          borderBottom: solid || open ? "1px solid rgba(255,255,255,0.12)" : "1px solid transparent",
-          background: solid || open ? "rgba(11,21,32,0.92)" : "linear-gradient(to bottom, rgba(11,21,32,0.65), transparent)",
+          borderBottom: solid || open ? "1px solid rgba(255,255,255,0.1)" : "1px solid transparent",
+          background:
+            solid || open
+              ? "rgba(16,22,18,0.94)"
+              : "linear-gradient(to bottom, rgba(16,22,18,0.7), transparent)",
           backdropFilter: solid || open ? "blur(16px)" : "none",
           transition: "background 0.25s ease, border-color 0.25s ease",
         }}
       >
-        <div className="wrap" style={{ display: "flex", height: "100%", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
-          <Link href="/" onClick={() => setOpen(false)} aria-label={`${site.name} Startseite`} style={{ fontWeight: 700, fontSize: 20, color: "#fff", letterSpacing: "-0.02em" }}>
-            {site.name}
+        <div
+          className="wrap"
+          style={{
+            display: "flex",
+            height: "100%",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 24,
+          }}
+        >
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            aria-label={`${site.name} Startseite`}
+            className="brand-mark"
+          >
+            <Image src="/brand/avs-logo.png" alt="" width={36} height={34} priority />
+            <span className="brand-mark__text">{site.name}</span>
           </Link>
 
-          <nav className="hidden lg:flex" aria-label="Hauptnavigation" style={{ alignItems: "center", gap: 28 }}>
+          <nav
+            className="hidden lg:flex"
+            aria-label="Hauptnavigation"
+            style={{ alignItems: "center", gap: 28 }}
+          >
             {nav.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
@@ -55,14 +78,19 @@ export function Header() {
                   style={{
                     fontSize: 14,
                     fontWeight: 500,
-                    color: active ? "#fff" : "rgba(255,255,255,0.7)",
+                    color: active ? "var(--green-mist)" : "rgba(255,255,255,0.72)",
+                    transition: "color 0.15s ease",
                   }}
                 >
                   {item.label}
                 </Link>
               );
             })}
-            <Link href="/kontakt" className="btn btn-primary" style={{ minHeight: 40, paddingInline: 16, fontSize: 13 }}>
+            <Link
+              href="/kontakt"
+              className="btn btn-primary"
+              style={{ minHeight: 40, paddingInline: 16, fontSize: 13 }}
+            >
               Kontakt
             </Link>
           </nav>
@@ -81,20 +109,50 @@ export function Header() {
       </header>
 
       {open ? (
-        <div id={panelId} role="dialog" aria-modal="true" className="lg:hidden" style={{ position: "fixed", inset: 0, zIndex: 100, background: "#0b1520" }}>
-          <div style={{ display: "flex", height: "var(--header-h)", alignItems: "center", justifyContent: "space-between", paddingInline: "var(--gutter)" }}>
-            <span style={{ color: "#fff", fontWeight: 700, fontSize: 20 }}>{site.name}</span>
-            <button type="button" onClick={() => setOpen(false)} style={{ background: "none", border: 0, color: "#fff", fontSize: 14 }}>
+        <div
+          id={panelId}
+          role="dialog"
+          aria-modal="true"
+          className="lg:hidden"
+          style={{ position: "fixed", inset: 0, zIndex: 100, background: "#101612" }}
+        >
+          <div
+            style={{
+              display: "flex",
+              height: "var(--header-h)",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingInline: "var(--gutter)",
+            }}
+          >
+            <span className="brand-mark">
+              <Image src="/brand/avs-logo.png" alt="" width={36} height={34} />
+              <span className="brand-mark__text">{site.name}</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              style={{ background: "none", border: 0, color: "#fff", fontSize: 14 }}
+            >
               Schließen
             </button>
           </div>
-          <nav style={{ display: "flex", flexDirection: "column", padding: "8px var(--gutter)" }} aria-label="Mobile Navigation">
+          <nav
+            style={{ display: "flex", flexDirection: "column", padding: "8px var(--gutter)" }}
+            aria-label="Mobile Navigation"
+          >
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                style={{ padding: "20px 0", borderBottom: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 22, fontWeight: 600 }}
+                style={{
+                  padding: "20px 0",
+                  borderBottom: "1px solid rgba(255,255,255,0.1)",
+                  color: "#fff",
+                  fontSize: 22,
+                  fontWeight: 600,
+                }}
               >
                 {item.label}
               </Link>
