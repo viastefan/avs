@@ -9,7 +9,7 @@ export function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initial);
 
   return (
-    <form action={action} className="space-y-4" noValidate>
+    <form action={action} className="space-y-5" noValidate>
       <input
         type="text"
         name="website"
@@ -19,58 +19,50 @@ export function ContactForm() {
         aria-hidden="true"
       />
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
-          <span className="meta mb-2 block text-[var(--mute)]">Vorname</span>
+          <span className="meta mb-2 block">Vorname</span>
           <input className="field" name="firstName" required autoComplete="given-name" />
         </label>
         <label className="block">
-          <span className="meta mb-2 block text-[var(--mute)]">Nachname</span>
+          <span className="meta mb-2 block">Nachname</span>
           <input className="field" name="lastName" required autoComplete="family-name" />
         </label>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
-          <span className="meta mb-2 block text-[var(--mute)]">E-Mail</span>
+          <span className="meta mb-2 block">E-Mail</span>
           <input className="field" type="email" name="email" required autoComplete="email" />
         </label>
         <label className="block">
-          <span className="meta mb-2 block text-[var(--mute)]">Unternehmen</span>
+          <span className="meta mb-2 block">Unternehmen</span>
           <input className="field" name="company" autoComplete="organization" />
         </label>
       </div>
 
       <label className="block">
-        <span className="meta mb-2 block text-[var(--mute)]">Betreff</span>
+        <span className="meta mb-2 block">Betreff</span>
         <input className="field" name="subject" required />
       </label>
 
       <label className="block">
-        <span className="meta mb-2 block text-[var(--mute)]">Anfrage</span>
-        <textarea
-          className="field field-area"
-          name="message"
-          required
-          placeholder="Ihre Anfrage an AVS"
-        />
+        <span className="meta mb-2 block">Nachricht</span>
+        <textarea className="field field-area" name="message" required />
       </label>
 
-      <button type="submit" className="btn-primary w-full sm:w-auto" disabled={pending}>
+      <button type="submit" className="btn-primary" disabled={pending}>
         {pending ? "Senden…" : "Absenden"}
       </button>
 
       {state.message ? (
-        <p
-          role="status"
-          className="border border-[var(--green)] px-3 py-2 text-sm text-[var(--green)]"
-        >
+        <p role="status" className="text-sm text-[var(--green)]">
           {state.message}
         </p>
       ) : null}
 
       {state.error ? (
-        <p role="alert" className="border border-[var(--danger)] px-3 py-2 text-sm text-[var(--danger)]">
+        <p role="alert" className="text-sm text-[var(--danger)]">
           {state.error}
         </p>
       ) : null}

@@ -3,60 +3,52 @@ import { nav, site } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--line)] bg-[var(--ink)] text-[var(--paper)]">
-      <div className="wrap grid gap-0 md:grid-cols-12">
-        <div className="border-b border-[var(--line)] py-10 md:col-span-5 md:border-b-0 md:border-r md:pr-10">
-          <p className="font-display text-5xl font-black tracking-tight">{site.name}</p>
-          <p className="meta mt-4 text-[var(--mute)]">{site.legalName}</p>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-[var(--steel)]">
-            Reglementierter Beauftragter{" "}
-            <span className="text-[var(--green)]">{site.approval}</span>. Verpackung, Stauung und
-            Schulung am Flughafen München.
+    <footer className="border-t border-[var(--line)]">
+      <div className="wrap grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr] md:gap-8">
+        <div>
+          <p className="font-display text-2xl font-bold">{site.name}</p>
+          <p className="mt-3 max-w-sm text-sm leading-relaxed text-[var(--steel)]">
+            {site.legalName}
+            <br />
+            Reglementierter Beauftragter {site.approval}
           </p>
         </div>
 
-        <div className="border-b border-[var(--line)] py-10 md:col-span-3 md:border-b-0 md:border-r md:px-8">
-          <p className="meta text-[var(--mute)]">Index</p>
-          <ul className="mt-4 space-y-2 text-sm uppercase tracking-wide">
-            {nav.map((item, i) => (
+        <div>
+          <p className="meta mb-4">Seiten</p>
+          <ul className="space-y-2 text-sm text-[var(--steel)]">
+            {nav.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="hover:text-[var(--green)]">
-                  <span className="mr-2 text-[var(--mute)]">{String(i + 1).padStart(2, "0")}</span>
+                <Link href={item.href} className="hover:text-[var(--paper)]">
                   {item.label}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href="/impressum" className="hover:text-[var(--green)]">
+              <Link href="/impressum" className="hover:text-[var(--paper)]">
                 Impressum
               </Link>
             </li>
             <li>
-              <Link href="/datenschutz" className="hover:text-[var(--green)]">
+              <Link href="/datenschutz" className="hover:text-[var(--paper)]">
                 Datenschutz
               </Link>
             </li>
           </ul>
         </div>
 
-        <div className="py-10 md:col-span-4 md:pl-8">
-          <p className="meta text-[var(--mute)]">Standort</p>
-          <address className="mt-4 space-y-1 text-sm not-italic text-[var(--steel)]">
+        <div>
+          <p className="meta mb-4">Kontakt</p>
+          <address className="space-y-1 text-sm not-italic text-[var(--steel)]">
             <p>{site.address.line1}</p>
-            <p>{site.address.line2}</p>
             <p>{site.address.city}</p>
-            <p className="pt-4">
+            <p className="pt-3">
               <a href={site.phoneHref} className="text-[var(--paper)] hover:text-[var(--green)]">
                 {site.phone}
               </a>
             </p>
             <p>
-              <a href="tel:+498997594592" className="text-[var(--paper)] hover:text-[var(--green)]">
-                {site.phoneAlt}
-              </a>
-            </p>
-            <p>
-              <a href={site.emailHref} className="text-[var(--paper)] hover:text-[var(--green)]">
+              <a href={site.emailHref} className="hover:text-[var(--paper)]">
                 {site.email}
               </a>
             </p>
@@ -65,10 +57,8 @@ export function Footer() {
       </div>
 
       <div className="border-t border-[var(--line)]">
-        <div className="wrap flex flex-col gap-2 py-4 text-[0.7rem] uppercase tracking-[0.08em] text-[var(--mute)] md:flex-row md:justify-between">
-          <p>
-            © {new Date().getFullYear()} {site.legalName}
-          </p>
+        <div className="wrap flex flex-col gap-2 py-5 text-xs text-[var(--mute)] md:flex-row md:justify-between">
+          <p>© {new Date().getFullYear()} {site.legalName}</p>
           <p>Stefan Dirnberger · München</p>
         </div>
       </div>

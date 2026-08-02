@@ -23,57 +23,36 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-[var(--line)] bg-[var(--ink)]">
-        <div className="wrap flex h-full items-center justify-between gap-4">
-          <Link
-            href="/"
-            onClick={closeNav}
-            className="flex items-center gap-3"
-            aria-label={`${site.name} Startseite`}
-          >
-            <span className="flex h-8 w-8 items-center justify-center border border-[var(--line)] bg-[var(--ink-2)] text-[var(--green)]">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M4 18L12 4L20 18H4Z" stroke="currentColor" strokeWidth="1.8" />
-                <path d="M8.5 14H15.5" stroke="currentColor" strokeWidth="1.8" />
-              </svg>
-            </span>
-            <span className="leading-none">
-              <span className="font-display block text-[1.35rem] font-extrabold tracking-tight text-[var(--paper)]">
-                {site.name}
-              </span>
-              <span className="meta mt-0.5 block text-[var(--mute)]">MUC · Modul H</span>
-            </span>
+      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-[var(--line)] bg-[var(--ink)]/90 backdrop-blur-md">
+        <div className="wrap flex h-full items-center justify-between gap-8">
+          <Link href="/" onClick={closeNav} className="font-display text-lg font-bold tracking-tight" aria-label={`${site.name} Startseite`}>
+            {site.name}
+            <span className="ml-2 text-[var(--mute)]">MUC</span>
           </Link>
 
-          <nav className="hidden items-stretch self-stretch lg:flex" aria-label="Hauptnavigation">
-            {nav.map((item, i) => {
-              const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          <nav className="hidden items-center gap-8 lg:flex" aria-label="Hauptnavigation">
+            {nav.map((item) => {
+              const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center border-l border-[var(--line)] px-5 text-[0.72rem] font-medium uppercase tracking-[0.08em] transition-colors ${
-                    isActive
-                      ? "text-[var(--green)]"
-                      : "text-[var(--paper)] hover:bg-[var(--ink-2)]"
+                  className={`text-[0.8rem] tracking-wide transition-colors ${
+                    active ? "text-[var(--green)]" : "text-[var(--steel)] hover:text-[var(--paper)]"
                   }`}
                 >
-                  <span className="mr-2 text-[var(--mute)]">{String(i + 1).padStart(2, "0")}</span>
                   {item.label}
                 </Link>
               );
             })}
-            <a
-              href={site.phoneHref}
-              className="flex items-center border-l border-[var(--line)] bg-[var(--paper)] px-5 text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--ink)] hover:bg-[var(--green)]"
-            >
+            <a href={site.phoneHref} className="btn-primary">
               Anrufen
             </a>
           </nav>
 
           <button
             type="button"
-            className="inline-flex h-9 items-center border border-[var(--line)] px-3 text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--paper)] lg:hidden"
+            className="meta text-[var(--paper)] lg:hidden"
             aria-expanded={open}
             aria-controls={panelId}
             aria-label={open ? "Menü schließen" : "Menü öffnen"}
@@ -93,29 +72,23 @@ export function Header() {
           aria-label="Navigation"
         >
           <div className="flex h-[var(--header-h)] items-center justify-between border-b border-[var(--line)] px-[var(--gutter)]">
-            <span className="font-display text-xl font-extrabold text-[var(--paper)]">{site.name}</span>
-            <button
-              type="button"
-              className="border border-[var(--line)] px-3 py-2 text-[0.72rem] uppercase tracking-[0.08em] text-[var(--paper)]"
-              aria-label="Menü schließen"
-              onClick={closeNav}
-            >
+            <span className="font-display text-lg font-bold">{site.name}</span>
+            <button type="button" className="meta" onClick={closeNav} aria-label="Menü schließen">
               Schließen
             </button>
           </div>
-          <nav className="flex flex-col" aria-label="Mobile Navigation">
-            {nav.map((item, i) => (
+          <nav className="flex flex-col px-[var(--gutter)] py-8" aria-label="Mobile Navigation">
+            {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={closeNav}
-                className="flex items-center justify-between border-b border-[var(--line)] px-[var(--gutter)] py-5 text-lg font-medium uppercase tracking-wide text-[var(--paper)]"
+                className="border-b border-[var(--line)] py-5 text-xl text-[var(--paper)]"
               >
-                <span>{item.label}</span>
-                <span className="meta text-[var(--mute)]">{String(i + 1).padStart(2, "0")}</span>
+                {item.label}
               </Link>
             ))}
-            <a href={site.phoneHref} className="btn-primary m-[var(--gutter)]">
+            <a href={site.phoneHref} className="btn-primary mt-8 self-start">
               {site.phone}
             </a>
           </nav>

@@ -1,31 +1,24 @@
 @import "tailwindcss";
 
 /*
-  AVS Design System — Black Industrial
-  ------------------------------------
-  Black field. White structure. Green only as sparse signal.
-  Zero radius. Visible rules. Spec typography.
+  AVS — Black, quiet, precise
+  Black field. Minimal green. Space over density.
 */
 
 :root {
   --ink: #0a0a0a;
-  --ink-2: #121212;
-  --ink-3: #1a1a1a;
+  --ink-2: #111111;
   --paper: #ecece8;
-  --paper-2: #111111;
   --steel: #8a8a84;
-  --mute: #5c5c56;
-  --line: #2a2a2a;
-  --line-soft: rgba(236, 236, 232, 0.08);
+  --mute: #5a5a54;
+  --line: #222222;
   --green: #2ea672;
-  --green-dim: #1f7a52;
-  --signal: var(--green);
   --danger: #c1121f;
   --background: var(--ink);
   --foreground: var(--paper);
-  --header-h: 3.5rem;
-  --gutter: clamp(1rem, 3vw, 2rem);
-  --max: 72rem;
+  --header-h: 4rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --max: 68rem;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -35,7 +28,6 @@
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-steel: var(--steel);
-  --color-signal: var(--green);
   --color-green: var(--green);
   --color-line: var(--line);
   --font-sans: var(--font-body);
@@ -67,26 +59,16 @@ body {
 
 .font-display {
   font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
-  font-stretch: condensed;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
 }
 
-.font-mono,
 .meta {
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.site-shell {
-  background-color: var(--ink);
-  background-image:
-    linear-gradient(var(--line-soft) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-  background-size: 56px 56px;
-  background-position: -1px -1px;
+  color: var(--mute);
 }
 
 .wrap {
@@ -94,23 +76,19 @@ body {
   margin-inline: auto;
 }
 
-.btn,
 .btn-primary,
-.btn-accent,
-.btn-ghost,
-.btn-ghost-light {
+.btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.65rem;
   min-height: 2.75rem;
-  padding: 0.65rem 1.1rem;
-  border: 1px solid var(--paper);
+  padding: 0.7rem 1.25rem;
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  border: 1px solid transparent;
   transition: background 0.15s var(--ease), color 0.15s var(--ease), border-color 0.15s var(--ease);
 }
 
@@ -121,39 +99,26 @@ body {
 }
 
 .btn-primary:hover {
-  background: transparent;
-  color: var(--paper);
-}
-
-.btn-accent {
-  background: transparent;
-  color: var(--green);
-  border-color: var(--green);
-}
-
-.btn-accent:hover {
   background: var(--green);
+  border-color: var(--green);
   color: var(--ink);
 }
 
-.btn-ghost,
-.btn-ghost-light {
+.btn-ghost {
   background: transparent;
   color: var(--paper);
   border-color: var(--line);
 }
 
-.btn-ghost:hover,
-.btn-ghost-light:hover {
+.btn-ghost:hover {
   border-color: var(--paper);
-  background: var(--ink-3);
 }
 
 .field {
   width: 100%;
   min-height: 2.85rem;
   padding: 0.75rem 0.9rem;
-  background: var(--ink-2);
+  background: transparent;
   border: 1px solid var(--line);
   color: var(--paper);
   outline: none;
@@ -162,59 +127,45 @@ body {
 
 .field:focus {
   border-color: var(--green);
-  box-shadow: inset 3px 0 0 var(--green);
 }
 
 .field-area {
-  min-height: 9rem;
+  min-height: 8rem;
   resize: vertical;
 }
 
-.index {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  color: var(--mute);
-  text-transform: uppercase;
+.fade-in {
+  animation: fade-in 0.9s var(--ease) both;
 }
 
-.clip-in {
-  animation: clip-in 0.85s var(--ease) both;
+.fade-in-1 {
+  animation-delay: 0.1s;
+}
+.fade-in-2 {
+  animation-delay: 0.2s;
+}
+.fade-in-3 {
+  animation-delay: 0.3s;
 }
 
-.clip-in-1 {
-  animation-delay: 0.08s;
-}
-.clip-in-2 {
-  animation-delay: 0.16s;
-}
-.clip-in-3 {
-  animation-delay: 0.24s;
-}
-.clip-in-4 {
-  animation-delay: 0.32s;
-}
-
-@keyframes clip-in {
+@keyframes fade-in {
   from {
     opacity: 0;
-    clip-path: inset(0 0 100% 0);
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
-    clip-path: inset(0 0 0 0);
     transform: translateY(0);
   }
 }
 
 .hero-media {
-  animation: ken 28s linear infinite alternate;
+  animation: ken 32s linear infinite alternate;
 }
 
 @keyframes ken {
   from {
-    transform: scale(1.02);
+    transform: scale(1.03);
   }
   to {
     transform: scale(1.08);
@@ -226,11 +177,10 @@ body {
     scroll-behavior: auto;
   }
   .hero-media,
-  .clip-in,
-  .clip-in-1,
-  .clip-in-2,
-  .clip-in-3,
-  .clip-in-4 {
+  .fade-in,
+  .fade-in-1,
+  .fade-in-2,
+  .fade-in-3 {
     animation: none !important;
   }
 }

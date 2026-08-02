@@ -10,68 +10,52 @@ export const metadata: Metadata = {
 
 export default function KontaktPage() {
   return (
-    <section className="border-b border-[var(--line)]">
-      <div className="wrap grid gap-0 lg:grid-cols-12">
-        <div className="border-b border-[var(--line)] py-12 lg:col-span-5 lg:border-b-0 lg:border-r lg:pr-10 lg:py-16">
-          <p className="meta text-[var(--mute)]">Kanal / Direkt</p>
-          <h1 className="font-display mt-3 text-5xl font-black leading-none md:text-6xl">Kontakt</h1>
-          <div className="mt-6 h-px w-16 bg-[var(--green)]" />
-          <p className="mt-6 text-sm leading-relaxed text-[var(--steel)]">
-            Fragen zu Verpackung, Containerstauung oder Gefahrgutschulung — anrufen oder Formular
-            nutzen.
-          </p>
+    <section className="wrap grid gap-16 py-16 md:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
+      <div>
+        <p className="meta">Kontakt</p>
+        <h1 className="font-display mt-3 text-4xl font-black leading-none md:text-6xl">
+          Schreiben Sie uns
+        </h1>
+        <p className="mt-6 max-w-md text-base leading-relaxed text-[var(--steel)]">
+          Fragen zu Verpackung, Stauung oder Schulung — wir melden uns zeitnah.
+        </p>
 
-          <dl className="mt-10 space-y-6">
-            <div>
-              <dt className="meta text-[var(--mute)]">Adresse</dt>
-              <dd className="mt-2 text-sm text-[var(--steel)]">
-                <p className="font-semibold text-[var(--paper)]">{site.legalName}</p>
-                <p>{site.address.line1}</p>
-                <p>{site.address.line2}</p>
-                <p>
-                  {site.address.city}, {site.address.region}
-                </p>
-              </dd>
-            </div>
-            <div>
-              <dt className="meta text-[var(--mute)]">Telefon</dt>
-              <dd className="mt-2 space-y-1 text-sm font-semibold">
-                <p>
-                  <a href={site.phoneHref} className="hover:text-[var(--green)]">
-                    {site.phone}
-                  </a>
-                </p>
-                <p>
-                  <a href="tel:+498997594592" className="hover:text-[var(--green)]">
-                    {site.phoneAlt}
-                  </a>
-                </p>
-              </dd>
-            </div>
-            <div>
-              <dt className="meta text-[var(--mute)]">E-Mail</dt>
-              <dd className="mt-2 text-sm font-semibold">
-                <a href={site.emailHref} className="hover:text-[var(--green)]">
-                  {site.email}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className="meta text-[var(--mute)]">Zulassung</dt>
-              <dd className="mt-2 font-mono text-sm text-[var(--green)]">{site.approval}</dd>
-            </div>
-          </dl>
-        </div>
-
-        <div className="py-12 lg:col-span-7 lg:pl-10 lg:py-16">
-          <div className="border border-[var(--line)] bg-[var(--ink-2)] p-6 md:p-8">
-            <p className="meta text-[var(--mute)]">Form / 01</p>
-            <h2 className="font-display mt-2 text-3xl font-black">Anfrage senden</h2>
-            <div className="mt-6">
-              <ContactForm />
-            </div>
+        <dl className="mt-12 space-y-6 text-sm">
+          <div>
+            <dt className="meta mb-2">Adresse</dt>
+            <dd className="text-[var(--steel)]">
+              {site.legalName}
+              <br />
+              {site.address.line1}
+              <br />
+              {site.address.city}
+            </dd>
           </div>
-        </div>
+          <div>
+            <dt className="meta mb-2">Telefon</dt>
+            <dd>
+              <a href={site.phoneHref} className="hover:text-[var(--green)]">
+                {site.phone}
+              </a>
+              <br />
+              <a href="tel:+498997594592" className="hover:text-[var(--green)]">
+                {site.phoneAlt}
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt className="meta mb-2">E-Mail</dt>
+            <dd>
+              <a href={site.emailHref} className="hover:text-[var(--green)]">
+                {site.email}
+              </a>
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <div>
+        <ContactForm />
       </div>
     </section>
   );

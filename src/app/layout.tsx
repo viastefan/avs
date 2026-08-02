@@ -46,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de" className={`${display.variable} ${body.variable} ${mono.variable} h-full`}>
-      <body className="site-shell flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-[var(--ink)]">
         <Header />
         <main className="flex-1 pt-[var(--header-h)]">{children}</main>
         <Footer />
