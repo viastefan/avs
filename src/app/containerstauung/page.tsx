@@ -23,11 +23,9 @@ export default function ContainerstauungPage() {
         <div className="wrap max-w-2xl">
           <ul className="border-t border-[var(--line)]">
             {containerFeatures.map((feature) => (
-              <li key={feature.title} className="border-b border-[var(--line)] py-6">
-                <h2 className="font-display text-lg font-semibold">{feature.title}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)] md:text-base">
-                  {feature.text}
-                </p>
+              <li key={feature.title} className="border-b border-[var(--line)] py-7">
+                <h2 className="font-display text-xl font-semibold">{feature.title}</h2>
+                <p className="mt-2 text-[var(--fog)]">{feature.text}</p>
               </li>
             ))}
           </ul>

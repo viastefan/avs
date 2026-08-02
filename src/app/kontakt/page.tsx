@@ -11,17 +11,17 @@ export const metadata: Metadata = {
 export default function KontaktPage() {
   return (
     <section className="section">
-      <div className="wrap grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="wrap grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div>
           <p className="eyebrow">Kontakt</p>
-          <h1 className="font-display mt-3 text-[length:var(--t-display)] font-semibold">
-            Nachricht an AVS
+          <h1 className="font-display mt-3 text-[length:var(--display)] font-semibold leading-[1.02]">
+            Schreiben Sie uns
           </h1>
-          <p className="mt-4 max-w-md text-[var(--muted)]">
+          <p className="mt-5 max-w-md text-[length:var(--lead)] text-[var(--fog)]">
             Anfragen zu Verpackung, Containerstauung oder Gefahrgutschulung.
           </p>
-          <div className="mt-8 space-y-3 text-sm text-[var(--muted)]">
-            <p className="font-medium text-[var(--ink)]">{site.legalName}</p>
+          <div className="mt-10 space-y-3 text-sm text-[var(--fog)]">
+            <p className="font-semibold text-[var(--ink)]">{site.legalName}</p>
             <p>
               {site.address.line2}
               <br />
@@ -29,7 +29,7 @@ export default function KontaktPage() {
               <br />
               {site.address.city}
             </p>
-            <p>
+            <p className="pt-2">
               <a href={site.phoneHref} className="font-semibold text-[var(--green)]">
                 {site.phone}
               </a>

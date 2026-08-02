@@ -5,11 +5,11 @@ import { services } from "@/lib/content";
 import { images } from "@/lib/images";
 import { site } from "@/lib/site";
 
-const featured = services.slice(0, 4);
+const featured = services.slice(0, 5);
 
 export default function HomePage() {
   return (
-    <div className="bg-[var(--bg)]">
+    <>
       <section className="home-hero">
         <div className="home-hero__media">
           <Image
@@ -22,54 +22,58 @@ export default function HomePage() {
           />
         </div>
         <div className="home-hero__shade" aria-hidden />
+
         <div className="home-hero__content wrap">
           <p className="eyebrow rise text-white/70">Flughafen München · Südallee</p>
-          <h1 className="font-display rise rise-1 mt-3 max-w-2xl text-[length:var(--t-display)] font-semibold text-white">
-            {site.name}
-            <span className="mt-2 block text-[clamp(1.15rem,2.2vw,1.45rem)] font-medium tracking-normal text-white/80">
-              Airport-Verpackungs-Service
-            </span>
-          </h1>
-          <p className="rise rise-2 mt-5 max-w-lg text-[length:var(--t-body)] leading-relaxed text-white/80">
+          <h1 className="font-display home-hero__brand rise rise-1 mt-4 text-white">{site.name}</h1>
+          <p className="home-hero__lead rise rise-2">
             Verpackung, Containerstauung und Gefahrgutschulung am Frachtzentrum Modul&nbsp;H.
           </p>
-          <div className="rise rise-2 mt-7 flex flex-wrap gap-3">
+          <div className="rise rise-3 mt-8 flex flex-wrap items-center gap-3">
             <Link href="/kontakt" className="btn btn-primary">
-              Nachricht senden
+              Anfrage senden
             </Link>
-            <Link href="/leistungen" className="btn btn-secondary">
-              Leistungen
+            <Link href="/leistungen" className="btn btn-ghost">
+              Leistungen ansehen
             </Link>
           </div>
         </div>
       </section>
 
+      <section className="section-tight border-b border-[var(--line)]">
+        <div className="wrap flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <p className="text-sm text-[var(--fog)] md:text-base">
+            <span className="font-semibold text-[var(--ink)]">{site.legalName}</span>
+            <span className="mx-2 text-[var(--line)]">·</span>
+            {site.address.line2}, {site.address.city}
+          </p>
+          <p className="text-sm text-[var(--mist)]">
+            Reglementierter Beauftragter{" "}
+            <span className="font-semibold text-[var(--ink)]">{site.approval}</span>
+          </p>
+        </div>
+      </section>
+
       <section className="section">
-        <div className="wrap grid gap-10 md:grid-cols-2 md:gap-16">
+        <div className="wrap grid items-end gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           <div>
-            <p className="eyebrow">Standort</p>
-            <h2 className="font-display mt-3 text-[length:var(--t-title)] font-semibold">
-              Südallee, Frachtzentrum Modul&nbsp;H
+            <p className="eyebrow">Am Flughafen</p>
+            <h2 className="font-display mt-4 text-[length:var(--h2)] font-semibold">
+              Präzise Verpackung für globale Sendungen
             </h2>
-            <p className="mt-4 max-w-md text-[var(--muted)]">
-              Persönliche Beratung und fachgerechte Abwicklung direkt am Münchner Flughafen —
-              für Luft-, See- und Straßenfracht.
+            <p className="mt-5 max-w-xl text-[length:var(--lead)] leading-relaxed text-[var(--fog)]">
+              Wir begleiten Transportgüter für Luft, See und Straße — IATA-, ADR- und IMDG-konform,
+              mit klarer Dokumentation und Beratung vor Ort.
             </p>
           </div>
-          <div>
-            <address className="not-italic text-[var(--muted)]">
-              <p className="font-medium text-[var(--ink)]">{site.legalName}</p>
-              <p className="mt-2">{site.address.line1}</p>
-              <p>{site.address.line2}</p>
-              <p>{site.address.city}</p>
-            </address>
-            <p className="mt-5 text-sm text-[var(--muted)]">
-              Reglementierter Beauftragter{" "}
-              <span className="font-semibold text-[var(--ink)]">{site.approval}</span>
-            </p>
-            <a href={site.phoneHref} className="mt-4 inline-block font-semibold text-[var(--green)]">
-              {site.phone}
-            </a>
+          <div className="media media--wide">
+            <Image
+              src={images.warehouse.src}
+              alt={images.warehouse.alt}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 560px"
+            />
           </div>
         </div>
       </section>
@@ -78,32 +82,26 @@ export default function HomePage() {
         <div className="wrap">
           <div className="mb-8 flex items-end justify-between gap-4">
             <div>
-              <p className="eyebrow">Service</p>
-              <h2 className="font-display mt-2 text-[length:var(--t-title)] font-semibold">Leistungen</h2>
+              <p className="eyebrow">Leistungen</p>
+              <h2 className="font-display mt-3 text-[length:var(--h2)] font-semibold">
+                Was wir für Sie übernehmen
+              </h2>
             </div>
-            <Link href="/leistungen" className="text-sm font-semibold text-[var(--green)]">
-              Alle ansehen
+            <Link href="/leistungen" className="text-sm font-semibold text-[var(--green)] hover:underline">
+              Alle Services
             </Link>
           </div>
 
-          <div className="media-frame mb-10">
-            <Image
-              src={images.warehouse.src}
-              alt={images.warehouse.alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1120px) 100vw, 1120px"
-            />
-          </div>
-
           <div className="border-t border-[var(--line)]">
-            {featured.map((service) => (
-              <Link key={service.slug} href={`/leistungen/${service.slug}`} className="service-row">
-                <span className="service-row__title font-display text-lg font-semibold md:text-xl">
-                  {service.title}
-                </span>
-                <span className="text-[var(--t-small)] leading-relaxed text-[var(--muted)] md:text-base">
+            {featured.map((service, index) => (
+              <Link key={service.slug} href={`/leistungen/${service.slug}`} className="service-link">
+                <span className="service-link__idx">{String(index + 1).padStart(2, "0")}</span>
+                <span className="service-link__title">{service.title}</span>
+                <span className="text-sm leading-relaxed text-[var(--fog)] md:text-[0.95rem]">
                   {service.summary}
+                </span>
+                <span className="service-link__arrow hidden md:inline" aria-hidden>
+                  →
                 </span>
               </Link>
             ))}
@@ -111,69 +109,66 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section pt-0">
-        <div className="wrap split">
-          <div className="media-frame media-frame--tall">
-            <Image
-              src={images.containerYard.src}
-              alt={images.containerYard.alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 900px) 100vw, 50vw"
-            />
-          </div>
-          <div>
-            <p className="eyebrow">Stauung</p>
-            <h2 className="font-display mt-2 text-[length:var(--t-title)] font-semibold">
-              Containerstauung
-            </h2>
-            <p className="mt-4 text-[var(--muted)]">
-              Effiziente Raumnutzung, Ladungssicherung und Palettisierung — geplant und
-              ausgeführt für Land, See und Luft.
-            </p>
-            <Link href="/containerstauung" className="btn btn-ink mt-7">
-              Mehr erfahren
-            </Link>
-          </div>
+      <section className="bleed-split border-y border-[var(--line)]">
+        <div className="bleed-split__media">
+          <Image
+            src={images.containerYard.src}
+            alt={images.containerYard.alt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 960px) 100vw, 55vw"
+          />
+        </div>
+        <div className="bleed-split__copy">
+          <p className="eyebrow">Containerstauung</p>
+          <h2 className="font-display mt-3 text-[length:var(--h2)] font-semibold">
+            Effizient gestaut. Sicher geladen.
+          </h2>
+          <p className="mt-4 max-w-md text-[var(--fog)]">
+            Optimale Raumnutzung, Ladungssicherung und Palettisierung — für Land-, See- und
+            Luftfracht.
+          </p>
+          <Link href="/containerstauung" className="btn btn-ink mt-8 self-start">
+            Mehr zur Containerstauung
+          </Link>
         </div>
       </section>
 
-      <section className="section pt-0">
-        <div className="wrap split split--flip">
-          <div className="media-frame media-frame--tall">
-            <Image
-              src={images.training.src}
-              alt={images.training.alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 900px) 100vw, 50vw"
-            />
-          </div>
-          <div>
-            <p className="eyebrow">Schulung</p>
-            <h2 className="font-display mt-2 text-[length:var(--t-title)] font-semibold">
-              Gefahrgutschulung
-            </h2>
-            <p className="mt-4 text-[var(--muted)]">
-              Praxisnahe Schulungen zu IATA, ADR und IMDG für sicheres Verpacken, Kennzeichnen
-              und Dokumentieren.
-            </p>
-            <Link href="/gefahrgutschulung" className="btn btn-primary mt-7">
-              Mehr erfahren
-            </Link>
-          </div>
+      <section className="bleed-split bleed-split--flip border-b border-[var(--line)]">
+        <div className="bleed-split__media">
+          <Image
+            src={images.training.src}
+            alt={images.training.alt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 960px) 100vw, 55vw"
+          />
+        </div>
+        <div className="bleed-split__copy">
+          <p className="eyebrow">Gefahrgutschulung</p>
+          <h2 className="font-display mt-3 text-[length:var(--h2)] font-semibold">
+            Wissen, das Sendungen absichert
+          </h2>
+          <p className="mt-4 max-w-md text-[var(--fog)]">
+            Praxisnahe Schulungen zu IATA, ADR und IMDG — Verpacken, Kennzeichnen und
+            Dokumentieren nach Versenderpflichten.
+          </p>
+          <Link href="/gefahrgutschulung" className="btn btn-primary mt-8 self-start">
+            Mehr zur Schulung
+          </Link>
         </div>
       </section>
 
-      <section className="section pt-0 overflow-visible">
-        <div className="wrap split overflow-visible">
+      <section className="section overflow-visible">
+        <div className="wrap grid items-center gap-12 overflow-visible lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
           <div>
             <p className="eyebrow">Netzwerk</p>
-            <h2 className="font-display mt-2 text-[length:var(--t-title)] font-semibold">
+            <h2 className="font-display mt-3 text-[length:var(--h2)] font-semibold">
               Von München in die Welt
             </h2>
-            <p className="mt-4 max-w-md text-[var(--muted)]">
-              Vom Hub München begleiten wir Sendungen in internationale Frachtnetzwerke.
+            <p className="mt-4 max-w-md text-[var(--fog)]">
+              Über den Hub München begleiten wir Sendungen in internationale Frachtnetzwerke —
+              verpackt, gestaut und dokumentiert.
             </p>
           </div>
           <Globe />
@@ -181,25 +176,27 @@ export default function HomePage() {
       </section>
 
       <section className="section pt-0">
-        <div className="wrap flex flex-col items-start justify-between gap-6 rounded-[var(--radius)] bg-[var(--surface)] px-6 py-10 md:flex-row md:items-center md:px-10 md:py-12">
-          <div>
-            <h2 className="font-display text-[length:var(--t-title)] font-semibold">
-              Wie können wir helfen?
-            </h2>
-            <p className="mt-2 text-[var(--muted)]">
-              Anfrage senden oder anrufen — {site.address.line2}
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/kontakt" className="btn btn-primary">
-              Kontakt
-            </Link>
-            <a href={site.phoneHref} className="btn btn-outline">
-              {site.phone}
-            </a>
+        <div className="wrap">
+          <div className="panel flex flex-col items-start justify-between gap-8 px-7 py-10 md:flex-row md:items-center md:px-12 md:py-12">
+            <div>
+              <h2 className="font-display text-[length:var(--h2)] font-semibold">
+                Sprechen Sie mit uns
+              </h2>
+              <p className="mt-3 max-w-lg text-[var(--fog)]">
+                Anfrage zu Ihrer Sendung — wir melden uns zeitnah. {site.address.line2}, Modul&nbsp;H.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/kontakt" className="btn btn-primary">
+                Kontakt
+              </Link>
+              <a href={site.phoneHref} className="btn btn-line">
+                {site.phone}
+              </a>
+            </div>
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }

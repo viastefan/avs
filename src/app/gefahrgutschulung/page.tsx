@@ -23,11 +23,9 @@ export default function GefahrgutschulungPage() {
         <div className="wrap max-w-2xl">
           <ul className="border-t border-[var(--line)]">
             {trainingTopics.map((topic) => (
-              <li key={topic.title} className="border-b border-[var(--line)] py-6">
-                <h2 className="font-display text-lg font-semibold">{topic.title}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)] md:text-base">
-                  {topic.items.join(" · ")}
-                </p>
+              <li key={topic.title} className="border-b border-[var(--line)] py-7">
+                <h2 className="font-display text-xl font-semibold">{topic.title}</h2>
+                <p className="mt-2 text-[var(--fog)]">{topic.items.join(" · ")}</p>
               </li>
             ))}
           </ul>

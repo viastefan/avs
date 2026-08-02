@@ -9,7 +9,7 @@ export function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initial);
 
   return (
-    <form action={action} className="space-y-5" noValidate>
+    <form action={action} className="panel space-y-5 p-6 md:p-8" noValidate>
       <input
         type="text"
         name="website"
@@ -21,22 +21,22 @@ export function ContactForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
-          <span className="eyebrow mb-2 block">Vorname</span>
+          <span className="mb-2 block text-sm font-medium text-[var(--fog)]">Vorname</span>
           <input className="field" name="firstName" required autoComplete="given-name" />
         </label>
         <label className="block">
-          <span className="eyebrow mb-2 block">Nachname</span>
+          <span className="mb-2 block text-sm font-medium text-[var(--fog)]">Nachname</span>
           <input className="field" name="lastName" required autoComplete="family-name" />
         </label>
       </div>
 
       <label className="block">
-        <span className="eyebrow mb-2 block">E-Mail</span>
+        <span className="mb-2 block text-sm font-medium text-[var(--fog)]">E-Mail</span>
         <input className="field" type="email" name="email" required autoComplete="email" />
       </label>
 
       <label className="block">
-        <span className="eyebrow mb-2 block">Nachricht</span>
+        <span className="mb-2 block text-sm font-medium text-[var(--fog)]">Nachricht</span>
         <textarea className="field field-area" name="message" required />
       </label>
 

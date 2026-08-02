@@ -30,12 +30,12 @@ export function PageHero({
             ← {backLabel}
           </Link>
         ) : null}
-        {eyebrow ? <p className="eyebrow mt-2 text-white/65">{eyebrow}</p> : null}
-        <h1 className="font-display mt-3 max-w-3xl text-[length:var(--t-display)] font-semibold">
+        {eyebrow ? <p className={`eyebrow text-white/65 ${backHref ? "mt-4" : ""}`}>{eyebrow}</p> : null}
+        <h1 className="font-display mt-3 max-w-3xl text-[length:var(--display)] font-semibold leading-[1.02]">
           {title}
         </h1>
         {description ? (
-          <p className="mt-4 max-w-xl text-[length:var(--t-body)] leading-relaxed text-white/80">
+          <p className="mt-4 max-w-xl text-[length:var(--lead)] leading-relaxed text-white/78">
             {description}
           </p>
         ) : null}

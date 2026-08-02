@@ -22,14 +22,16 @@ export default function LeistungenPage() {
       <section className="section">
         <div className="wrap">
           <div className="border-t border-[var(--line)]">
-            {services.map((service) => (
-              <Link key={service.slug} href={`/leistungen/${service.slug}`} className="service-row">
-                <h2 className="service-row__title font-display text-xl font-semibold">
-                  {service.title}
-                </h2>
-                <p className="text-sm leading-relaxed text-[var(--muted)] md:text-base">
+            {services.map((service, index) => (
+              <Link key={service.slug} href={`/leistungen/${service.slug}`} className="service-link">
+                <span className="service-link__idx">{String(index + 1).padStart(2, "0")}</span>
+                <span className="service-link__title">{service.title}</span>
+                <span className="text-sm leading-relaxed text-[var(--fog)] md:text-[0.95rem]">
                   {service.summary}
-                </p>
+                </span>
+                <span className="service-link__arrow hidden md:inline" aria-hidden>
+                  →
+                </span>
               </Link>
             ))}
           </div>

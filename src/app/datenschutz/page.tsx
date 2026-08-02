@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Datenschutz",
-};
+export const metadata: Metadata = { title: "Datenschutz" };
 
 export default function DatenschutzPage() {
   return (
     <section className="section">
       <div className="wrap max-w-2xl">
-        <h1 className="font-display text-[length:var(--t-display)] font-semibold">Datenschutz</h1>
-        <div className="mt-8 space-y-6 text-sm leading-relaxed text-[var(--muted)]">
+        <h1 className="font-display text-[length:var(--h2)] font-semibold">Datenschutz</h1>
+        <div className="mt-8 space-y-6 text-sm leading-relaxed text-[var(--fog)]">
           <div>
             <h2 className="mb-2 font-semibold text-[var(--ink)]">Verantwortlicher</h2>
             <p>
