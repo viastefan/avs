@@ -1,25 +1,40 @@
-# Codera Landing Page (Recreation)
+# AVS — Airport-Verpackungs-Service GmbH
 
-Static recreation of the "Codera" fleet-management landing page design, built with plain HTML/CSS.
+Hochmoderne Website für die **Airport-Verpackungs-Service GmbH** am Flughafen München.
+Deployed on Vercel: [avs-tau.vercel.app](https://avs-tau.vercel.app/)
 
-## Local preview
-Just open `index.html` in a browser, or serve it:
+Inhaltlich basierend auf [airport-verpackungen.de](https://www.airport-verpackungen.de/).
+
+## Stack
+
+- Next.js (App Router)
+- TypeScript + Tailwind CSS
+- Three.js Globe (München Hub)
+- Vercel Serverless API für Kontaktformular
+
+## Lokal starten
 
 ```bash
-npx serve .
+npm install
+npm run dev
 ```
 
-## Deploy to Vercel
-```bash
-npm i -g vercel
-vercel
-```
-No build step needed — it's a static site (Vercel auto-detects this).
+## Kontaktformular (optional)
 
-## Push to GitHub
-```bash
-git remote add origin https://github.com/<your-username>/<repo-name>.git
-git branch -M main
-git push -u origin main
+Ohne E-Mail-Provider werden Anfragen im Server-Log protokolliert.
+Für echten Versand:
+
+```env
+RESEND_API_KEY=re_xxx
+CONTACT_TO_EMAIL=info@airport-verpackungen.de
+CONTACT_FROM_EMAIL=AVS Website <onboarding@resend.dev>
 ```
-Then import the repo in [vercel.com/new](https://vercel.com/new) for automatic deploys on every push.
+
+## Scripts
+
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+```
