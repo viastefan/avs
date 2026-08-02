@@ -31,9 +31,6 @@ export const metadata: Metadata = {
     type: "website",
     url: site.url,
   },
-  alternates: {
-    canonical: "/",
-  },
 };
 
 export default function RootLayout({

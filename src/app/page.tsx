@@ -125,30 +125,30 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Globe hub — second viewport, one purpose */}
+      {/* Globe hub — one purpose */}
       <section className="overflow-hidden border-t border-[var(--line)]">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 md:grid-cols-2 md:px-8 md:py-28">
-          <div>
+        <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
               Hub München
             </p>
             <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
               Weltweite Verbindungen. Ein klarer Ausgangspunkt.
             </h2>
-            <p className="mt-5 max-w-md text-base leading-relaxed text-[var(--steel)]">
+            <p className="mt-5 text-base leading-relaxed text-[var(--steel)]">
               Von MUC aus begleiten wir Ihre Güter in die globalen Frachtnetzwerke — mit korrekter
               Dokumentation und verlässlicher Verpackung.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/containerstauung" className="btn-primary">
-                Containerstauung
-              </Link>
-              <Link href="/gefahrgutschulung" className="btn-ghost">
-                Gefahrgutschulung
-              </Link>
-            </div>
           </div>
-          <Globe className="h-[min(70vw,520px)] w-full" />
+          <Globe className="mt-10 w-full" />
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link href="/containerstauung" className="btn-primary">
+              Containerstauung
+            </Link>
+            <Link href="/gefahrgutschulung" className="btn-ghost">
+              Gefahrgutschulung
+            </Link>
+          </div>
         </div>
       </section>
 

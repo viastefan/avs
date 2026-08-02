@@ -22,7 +22,7 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[rgba(238,242,239,0.86)] backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[rgba(238,242,239,0.92)] backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5 md:px-8">
         <Link
           href="/"
@@ -73,7 +73,7 @@ export function Header() {
           </a>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center border border-[var(--line)] bg-white/50 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center border border-[var(--line)] bg-white lg:hidden"
             aria-expanded={open}
             aria-controls={panelId}
             aria-label={open ? "Menü schließen" : "Menü öffnen"}
@@ -96,19 +96,22 @@ export function Header() {
       </div>
 
       {open ? (
-        <div id={panelId} className="border-t border-[var(--line)] bg-[var(--paper)] lg:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4" aria-label="Mobile Navigation">
+        <div
+          id={panelId}
+          className="fixed inset-x-0 bottom-0 top-[65px] z-50 border-t border-[var(--line)] bg-[var(--paper)] lg:hidden"
+        >
+          <nav className="mx-auto flex h-full max-w-6xl flex-col gap-1 px-5 py-6" aria-label="Mobile Navigation">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={closeNav}
-                className="py-3 text-base font-medium text-[var(--ink)]"
+                className="border-b border-[var(--line)] py-4 text-lg font-medium text-[var(--ink)]"
               >
                 {item.label}
               </Link>
             ))}
-            <a href={site.phoneHref} className="btn-primary mt-2 w-full text-sm">
+            <a href={site.phoneHref} className="btn-primary mt-6 w-full text-sm">
               {site.phone}
             </a>
           </nav>

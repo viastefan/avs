@@ -1,59 +1,22 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useActionState } from "react";
+import { submitContact, type ContactState } from "@/app/actions/kontakt";
 
-type Status = "idle" | "loading" | "success" | "error";
+const initial: ContactState = { ok: false };
 
 export function ContactForm() {
-  const [status, setStatus] = useState<Status>("idle");
-  const [message, setMessage] = useState("");
-
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("loading");
-    setMessage("");
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
-    try {
-      const res = await fetch("/api/kontakt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: data.get("firstName"),
-          lastName: data.get("lastName"),
-          email: data.get("email"),
-          company: data.get("company"),
-          subject: data.get("subject"),
-          message: data.get("message"),
-          website: data.get("website"),
-        }),
-      });
-
-      const json = (await res.json()) as { ok?: boolean; error?: string };
-      if (!res.ok || !json.ok) {
-        throw new Error(json.error || "Senden fehlgeschlagen");
-      }
-
-      setStatus("success");
-      setMessage("Vielen Dank! Ihr Anliegen wird schnellstmöglich bearbeitet.");
-      form.reset();
-    } catch (err) {
-      setStatus("error");
-      setMessage(err instanceof Error ? err.message : "Bitte versuchen Sie es erneut.");
-    }
-  }
+  const [state, action, pending] = useActionState(submitContact, initial);
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4" noValidate>
+    <form action={action} className="space-y-4" noValidate>
       <input
         type="text"
         name="website"
         tabIndex={-1}
         autoComplete="off"
-        className="hidden"
-        aria-hidden
+        className="absolute -left-[9999px] h-0 w-0 opacity-0"
+        aria-hidden="true"
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -93,16 +56,19 @@ export function ContactForm() {
         />
       </label>
 
-      <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status === "loading"}>
-        {status === "loading" ? "Wird gesendet…" : "Anfrage einreichen"}
+      <button type="submit" className="btn-primary w-full sm:w-auto" disabled={pending}>
+        {pending ? "Wird gesendet…" : "Anfrage einreichen"}
       </button>
 
-      {message ? (
-        <p
-          role="status"
-          className={`text-sm ${status === "success" ? "text-[var(--accent-deep)]" : "text-red-700"}`}
-        >
-          {message}
+      {state.message ? (
+        <p role="status" className="rounded-sm bg-[rgba(46,166,114,0.12)] px-3 py-2 text-sm text-[var(--accent-deep)]">
+          {state.message}
+        </p>
+      ) : null}
+
+      {state.error ? (
+        <p role="alert" className="rounded-sm bg-red-50 px-3 py-2 text-sm text-red-700">
+          {state.error}
         </p>
       ) : null}
     </form>

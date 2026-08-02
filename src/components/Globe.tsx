@@ -82,7 +82,8 @@ export function Globe({ className = "" }: { className?: string }) {
 
     let disposed = false;
     let frame = 0;
-    let size = 0;
+    let size = 420;
+    let built = false;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
@@ -111,9 +112,10 @@ export function Globe({ className = "" }: { className?: string }) {
     let hubPivot: THREE.Object3D | null = null;
 
     function stageSize() {
-      const w = wrap!.clientWidth;
-      const h = wrap!.clientHeight;
-      return Math.max(280, Math.min(Math.min(w, h) * 0.92, 640));
+      const rect = wrap!.getBoundingClientRect();
+      const w = rect.width || wrap!.clientWidth || 420;
+      const h = rect.height || wrap!.clientHeight || 420;
+      return Math.max(300, Math.min(Math.min(w, h) * 0.96, 640));
     }
 
     function resize() {
@@ -450,6 +452,8 @@ export function Globe({ className = "" }: { className?: string }) {
     }
 
     function buildGlobe(texture?: THREE.Texture) {
+      if (built || disposed) return;
+      built = true;
       const geometry = new THREE.SphereGeometry(RADIUS, 128, 128);
       const material = texture
         ? new THREE.MeshPhongMaterial({ map: texture, shininess: 10, specular: 0x2a2a28 })
@@ -493,25 +497,36 @@ export function Globe({ className = "" }: { className?: string }) {
     resize();
     const onResize = () => resize();
     window.addEventListener("resize", onResize);
+    const ro = new ResizeObserver(() => resize());
+    ro.observe(wrap);
+
+    const mapTimeout = window.setTimeout(() => {
+      if (!built && !disposed) buildGlobe();
+    }, 2200);
 
     fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-50m.json")
       .then((r) => r.json())
       .then((topology: Topology) => {
-        if (disposed) return;
+        if (disposed || built) return;
+        window.clearTimeout(mapTimeout);
         const land = topoFeature(
           topology,
           topology.objects.land as GeometryCollection,
         ) as unknown as GeoJSON.FeatureCollection;
         buildGlobe(buildMapTexture(land));
       })
-      .catch(() => {
-        if (!disposed) buildGlobe();
+      .catch((err) => {
+        console.warn("Weltkarte konnte nicht geladen werden.", err);
+        window.clearTimeout(mapTimeout);
+        if (!built && !disposed) buildGlobe();
       });
 
     return () => {
       disposed = true;
+      window.clearTimeout(mapTimeout);
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", onResize);
+      ro.disconnect();
       canvas.removeEventListener("pointerdown", onPointerDown);
       canvas.removeEventListener("pointerup", onPointerUp);
       canvas.removeEventListener("pointerleave", onPointerLeave);
@@ -522,15 +537,23 @@ export function Globe({ className = "" }: { className?: string }) {
   }, []);
 
   return (
-    <div ref={wrapRef} className={`relative flex items-center justify-center ${className}`}>
+    <div
+      ref={wrapRef}
+      className={`relative mx-auto flex min-h-[320px] w-full max-w-[640px] items-center justify-center aspect-square ${className}`}
+    >
       <div
-        className="pointer-events-none absolute h-[70%] w-[70%] rounded-full"
+        className="pointer-events-none absolute inset-[12%] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(46,166,114,0.16) 0%, rgba(46,166,114,0) 70%)",
+          background: "radial-gradient(circle, rgba(46,166,114,0.18) 0%, rgba(46,166,114,0) 70%)",
           filter: "blur(6px)",
         }}
+        aria-hidden
       />
-      <canvas ref={canvasRef} className="relative z-[1] cursor-grab active:cursor-grabbing" />
+      <canvas
+        ref={canvasRef}
+        className="relative z-[1] h-full w-full max-h-full max-w-full cursor-grab active:cursor-grabbing"
+        aria-label="Interaktiver Globus mit AVS Hub München"
+      />
       <div
         ref={tooltipRef}
         className="pointer-events-none fixed z-20 rounded-lg bg-[#111] px-3.5 py-2 text-[12.5px] text-white opacity-0 shadow-lg transition-opacity"
