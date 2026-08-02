@@ -5,11 +5,11 @@ import * as THREE from "three";
 import { feature as topoFeature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
-const GREEN_HEX = 0x2ea672;
-const LAND_FILL = "#a9dfc3";
-const LAND_STROKE = "#7fcaa4";
-const OCEAN_FILL = "#fbfbf8";
-const GRID_STROKE = "rgba(46,166,114,0.10)";
+const SIGNAL_HEX = 0xd6ff3c;
+const LAND_FILL = "#1a1a1a";
+const LAND_STROKE = "#0a0a0a";
+const OCEAN_FILL = "#ecece8";
+const GRID_STROKE = "rgba(10,10,10,0.08)";
 const RADIUS = 5.4;
 
 type City = {
@@ -175,7 +175,7 @@ export function Globe({ className = "" }: { className?: string }) {
       }
 
       ctx.save();
-      ctx.shadowColor = "rgba(15,50,35,0.45)";
+      ctx.shadowColor = "rgba(0,0,0,0.35)";
       ctx.shadowBlur = 22;
       ctx.shadowOffsetY = 10;
       ctx.fillStyle = LAND_FILL;
@@ -259,14 +259,14 @@ export function Globe({ className = "" }: { className?: string }) {
       const isHub = !!city.isHub;
       const core = new THREE.Mesh(
         new THREE.SphereGeometry(isHub ? 0.1 : 0.04, 12, 12),
-        new THREE.MeshBasicMaterial({ color: isHub ? GREEN_HEX : 0x2a2a28 }),
+        new THREE.MeshBasicMaterial({ color: isHub ? SIGNAL_HEX : 0x0a0a0a }),
       );
       pivot.add(core);
 
       if (isHub) {
         const glow = new THREE.Sprite(
           new THREE.SpriteMaterial({
-            map: makeGlowTexture("#2ea672"),
+            map: makeGlowTexture("#d6ff3c"),
             transparent: true,
             depthWrite: false,
             blending: THREE.AdditiveBlending,
@@ -278,7 +278,7 @@ export function Globe({ className = "" }: { className?: string }) {
           const ring = new THREE.Mesh(
             new THREE.RingGeometry(0.11, 0.14, 48),
             new THREE.MeshBasicMaterial({
-              color: GREEN_HEX,
+              color: SIGNAL_HEX,
               transparent: true,
               opacity: 0,
               side: THREE.DoubleSide,
@@ -312,15 +312,15 @@ export function Globe({ className = "" }: { className?: string }) {
       const points = curve.getPoints(48);
       const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
       const lineMat = new THREE.LineBasicMaterial({
-        color: GREEN_HEX,
+        color: SIGNAL_HEX,
         transparent: true,
-        opacity: 0.22,
+        opacity: 0.28,
       });
       globeGroup.add(new THREE.Line(lineGeom, lineMat));
 
       const arrow = new THREE.Mesh(
         new THREE.ConeGeometry(0.032, 0.1, 8),
-        new THREE.MeshBasicMaterial({ color: GREEN_HEX, transparent: true, opacity: 0.9 }),
+        new THREE.MeshBasicMaterial({ color: SIGNAL_HEX, transparent: true, opacity: 0.9 }),
       );
       globeGroup.add(arrow);
       flowArrows.push({
@@ -491,7 +491,7 @@ export function Globe({ className = "" }: { className?: string }) {
           new THREE.Mesh(
             new THREE.SphereGeometry(RADIUS * 1.05, 64, 64),
             new THREE.MeshBasicMaterial({
-              color: GREEN_HEX,
+              color: SIGNAL_HEX,
               transparent: true,
               opacity: 0.08,
               side: THREE.BackSide,

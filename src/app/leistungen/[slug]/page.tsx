@@ -24,41 +24,49 @@ export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
   const service = getService(slug);
   if (!service) notFound();
+  const index = services.findIndex((s) => s.slug === slug);
 
   return (
-    <article className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-        {service.sector}
-      </p>
-      <h1 className="font-display mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-5xl">
-        {service.title}
-      </h1>
-      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--steel)]">{service.summary}</p>
+    <article className="border-b border-[var(--ink)]">
+      <div className="wrap py-12 md:py-16">
+        <p className="meta text-[var(--steel)]">
+          Spec / {String(index + 1).padStart(2, "0")} · {service.sector}
+        </p>
+        <h1 className="font-display mt-3 max-w-4xl text-5xl font-black leading-none md:text-7xl">
+          {service.title}
+        </h1>
+        <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--steel)]">{service.summary}</p>
 
-      <div className="mt-12 max-w-2xl space-y-5 text-base leading-relaxed text-[var(--ink-soft)]">
-        {service.body.map((p) => (
-          <p key={p}>{p}</p>
-        ))}
-      </div>
-
-      {service.highlights?.length ? (
-        <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-[var(--accent-deep)]">
-          {service.highlights.map((h) => (
-            <li key={h}>· {h}</li>
+        <div className="mt-12 max-w-2xl space-y-5 border-t border-[var(--ink)] pt-8 text-base leading-relaxed text-[var(--ink)]">
+          {service.body.map((p) => (
+            <p key={p}>{p}</p>
           ))}
-        </ul>
-      ) : null}
+        </div>
 
-      <div className="mt-14 flex flex-wrap gap-3">
-        <Link href="/kontakt" className="btn-primary">
-          Beratung anfragen
-        </Link>
-        <a href={site.phoneHref} className="btn-ghost border border-[var(--line)] bg-white/60">
-          {site.phone}
-        </a>
-        <Link href="/leistungen" className="btn-ghost">
-          ← Alle Leistungen
-        </Link>
+        {service.highlights?.length ? (
+          <ul className="mt-10 grid gap-0 border border-[var(--ink)] sm:grid-cols-3">
+            {service.highlights.map((h) => (
+              <li
+                key={h}
+                className="border-b border-[var(--ink)] p-4 text-sm font-medium sm:border-b-0 sm:border-r sm:last:border-r-0"
+              >
+                {h}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+
+        <div className="mt-12 flex flex-wrap">
+          <Link href="/kontakt" className="btn-accent">
+            Beratung
+          </Link>
+          <a href={site.phoneHref} className="btn-primary -ml-px">
+            {site.phone}
+          </a>
+          <Link href="/leistungen" className="btn-ghost -ml-px">
+            ← Katalog
+          </Link>
+        </div>
       </div>
     </article>
   );

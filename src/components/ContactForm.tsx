@@ -20,54 +20,54 @@ export function ContactForm() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block text-sm">
-          <span className="mb-1.5 block font-medium text-[var(--ink-soft)]">Vorname</span>
+        <label className="block">
+          <span className="meta mb-2 block text-[var(--steel)]">Vorname</span>
           <input className="field" name="firstName" required autoComplete="given-name" />
         </label>
-        <label className="block text-sm">
-          <span className="mb-1.5 block font-medium text-[var(--ink-soft)]">Nachname</span>
+        <label className="block">
+          <span className="meta mb-2 block text-[var(--steel)]">Nachname</span>
           <input className="field" name="lastName" required autoComplete="family-name" />
         </label>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block text-sm">
-          <span className="mb-1.5 block font-medium text-[var(--ink-soft)]">E-Mail</span>
+        <label className="block">
+          <span className="meta mb-2 block text-[var(--steel)]">E-Mail</span>
           <input className="field" type="email" name="email" required autoComplete="email" />
         </label>
-        <label className="block text-sm">
-          <span className="mb-1.5 block font-medium text-[var(--ink-soft)]">Unternehmen</span>
+        <label className="block">
+          <span className="meta mb-2 block text-[var(--steel)]">Unternehmen</span>
           <input className="field" name="company" autoComplete="organization" />
         </label>
       </div>
 
-      <label className="block text-sm">
-        <span className="mb-1.5 block font-medium text-[var(--ink-soft)]">Betreff</span>
+      <label className="block">
+        <span className="meta mb-2 block text-[var(--steel)]">Betreff</span>
         <input className="field" name="subject" required />
       </label>
 
-      <label className="block text-sm">
-        <span className="mb-1.5 block font-medium text-[var(--ink-soft)]">Ihre Anfrage</span>
+      <label className="block">
+        <span className="meta mb-2 block text-[var(--steel)]">Anfrage</span>
         <textarea
           className="field field-area"
           name="message"
           required
-          placeholder="Formulieren Sie hier Ihre Anfrage an uns"
+          placeholder="Ihre Anfrage an AVS"
         />
       </label>
 
       <button type="submit" className="btn-primary w-full sm:w-auto" disabled={pending}>
-        {pending ? "Wird gesendet…" : "Anfrage einreichen"}
+        {pending ? "Senden…" : "Absenden"}
       </button>
 
       {state.message ? (
-        <p role="status" className="rounded-sm bg-[rgba(46,166,114,0.12)] px-3 py-2 text-sm text-[var(--accent-deep)]">
+        <p role="status" className="border border-[var(--ink)] bg-[var(--signal)] px-3 py-2 text-sm text-[var(--ink)]">
           {state.message}
         </p>
       ) : null}
 
       {state.error ? (
-        <p role="alert" className="rounded-sm bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p role="alert" className="border border-[var(--danger)] bg-[var(--danger)] px-3 py-2 text-sm text-white">
           {state.error}
         </p>
       ) : null}

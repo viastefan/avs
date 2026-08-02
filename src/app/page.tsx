@@ -7,117 +7,135 @@ import { site } from "@/lib/site";
 export default function HomePage() {
   return (
     <>
-      {/* Hero — one composition, brand first, full-bleed visual */}
-      <section className="relative isolate -mt-[4.5rem] min-h-[100svh] overflow-hidden grain">
-        <div className="absolute inset-0 -z-10">
-          <Image
-            src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2400&auto=format&fit=crop"
-            alt="Luftfracht und Container am Flughafen"
-            fill
-            priority
-            className="hero-media object-cover object-[center_40%]"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[rgba(6,14,11,0.92)] via-[rgba(6,14,11,0.68)] to-[rgba(6,14,11,0.35)]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(6,14,11,0.75)] via-transparent to-[rgba(6,14,11,0.35)]" />
-        </div>
-
-        <div className="relative z-[2] mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-5 pb-20 pt-28 md:justify-center md:px-8 md:pb-28 md:pt-24">
-          <p className="reveal text-xs font-semibold uppercase tracking-[0.22em] text-[var(--accent-bright)]">
-            {site.legalName}
-          </p>
-          <p className="font-display reveal reveal-delay-1 mt-4 text-6xl font-semibold tracking-tight text-white sm:text-7xl md:text-8xl lg:text-[7.5rem] lg:leading-[0.95]">
-            {site.name}
-          </p>
-          <div className="accent-line mt-5 h-0.5 w-28 bg-[var(--accent-bright)]" />
-          <h1 className="reveal reveal-delay-2 font-display mt-8 max-w-2xl text-2xl font-medium leading-snug tracking-tight text-white sm:text-3xl md:text-4xl">
-            Verpackungs-Profis am Flughafen München
-          </h1>
-          <p className="reveal reveal-delay-3 mt-5 max-w-xl text-base leading-relaxed text-[#d5e6dc] sm:text-lg">
-            Export, Gefahrgut und Schwergut — präzise verpackt für Luft, See und Straße.
-          </p>
-          <div className="reveal reveal-delay-3 mt-10 flex flex-wrap items-center gap-3">
-            <Link href="/kontakt" className="btn-accent">
-              Anfrage stellen
-            </Link>
-            <Link href="/leistungen" className="btn-ghost-light">
-              Leistungen ansehen →
-            </Link>
-          </div>
-
-          <div className="reveal reveal-delay-3 mt-14 flex flex-wrap gap-x-8 gap-y-2 text-sm text-white/70">
-            <span>{site.address.city}</span>
-            <span>RA {site.approval}</span>
-            <a href={site.phoneHref} className="text-white/85 transition hover:text-[var(--accent-bright)]">
-              {site.phone}
-            </a>
-          </div>
-        </div>
-
-        <a
-          href="#leistungen"
-          className="absolute bottom-6 left-1/2 z-[2] hidden -translate-x-1/2 flex-col items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55 md:flex"
-        >
-          Scroll
-          <span className="block h-8 w-px origin-top animate-pulse bg-[var(--accent-bright)]" />
-        </a>
-      </section>
-
-      {/* Intro */}
-      <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-        <div className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-            Standort Flughafen München
-          </p>
-          <h2 className="font-display mt-4 text-3xl font-semibold tracking-tight text-[var(--ink)] md:text-5xl">
-            Spezialisten für Transportverpackung am Münchner Flughafen
-          </h2>
-          <p className="mt-6 text-lg leading-relaxed text-[var(--steel)]">
-            Am Flughafen München werden täglich tonnenweise Waren abgefertigt. Wir verpacken große und
-            kleine Transportgüter — mit Erfahrung, Vorschriftenkenntnis und klarer Beratung, egal wohin
-            Ihre Sendung geht.
-          </p>
-        </div>
-      </section>
-
-      {/* Services overview — one job */}
-      <section id="leistungen" className="border-t border-[var(--line)] bg-[rgba(255,255,255,0.35)]">
-        <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-                Sektor Verpackung
+      {/* Hero: split industrial — brand panel + evidence photo */}
+      <section className="relative -mt-[var(--header-h)] min-h-[100svh] border-b border-[var(--ink)]">
+        <div className="grid min-h-[100svh] lg:grid-cols-12">
+          <div className="relative z-[1] flex flex-col justify-between border-b border-[var(--ink)] bg-[var(--ink)] px-[var(--gutter)] py-8 text-[var(--paper)] lg:col-span-5 lg:border-b-0 lg:border-r lg:py-10">
+            <div className="pt-14 lg:pt-16">
+              <p className="meta clip-in text-[var(--signal)]">
+                {site.legalName} · Flughafen München
               </p>
-              <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                Unsere Leistungen
-              </h2>
+              <p className="font-display clip-in clip-in-1 mt-5 text-[clamp(5.5rem,14vw,9.5rem)] font-black leading-[0.82] tracking-[-0.04em] text-[var(--paper)]">
+                {site.name}
+              </p>
+              <div className="clip-in clip-in-2 mt-6 h-3 w-full max-w-[12rem] bg-[var(--signal)]" />
+              <h1 className="clip-in clip-in-3 mt-8 max-w-md font-display text-[clamp(1.4rem,2.6vw,2rem)] font-bold leading-[1.05] text-[var(--paper)]">
+                Verpackung. Gefahrgut. Export.
+                <span className="mt-2 block text-[var(--signal)]">Standort MUC.</span>
+              </h1>
+              <p className="clip-in clip-in-4 mt-5 max-w-sm text-sm leading-relaxed text-white/65">
+                Präzise Verpackung für Luft, See und Straße — Vorschriftenkonform, dokumentiert,
+                operativ am Frachtzentrum.
+              </p>
             </div>
-            <Link href="/leistungen" className="btn-ghost px-0">
-              Alle Leistungen →
+
+            <div className="mt-10 space-y-6">
+              <div className="flex flex-wrap gap-0">
+                <Link href="/kontakt" className="btn-accent">
+                  Anfrage
+                </Link>
+                <Link href="/leistungen" className="btn-ghost-light -ml-px">
+                  Leistungen
+                </Link>
+                <a href={site.phoneHref} className="btn-ghost-light -ml-px">
+                  {site.phone}
+                </a>
+              </div>
+              <dl className="grid grid-cols-2 gap-px border border-white/20 bg-white/20 text-[0.7rem] uppercase tracking-[0.06em]">
+                <div className="bg-[var(--ink)] p-3">
+                  <dt className="text-white/40">Zulassung</dt>
+                  <dd className="mt-1 text-[var(--signal)]">{site.approval}</dd>
+                </div>
+                <div className="bg-[var(--ink)] p-3">
+                  <dt className="text-white/40">Sektor</dt>
+                  <dd className="mt-1">Verpackung / Fracht</dd>
+                </div>
+                <div className="bg-[var(--ink)] p-3">
+                  <dt className="text-white/40">Adresse</dt>
+                  <dd className="mt-1">Modul H · Südallee</dd>
+                </div>
+                <div className="bg-[var(--ink)] p-3">
+                  <dt className="text-white/40">Ort</dt>
+                  <dd className="mt-1">85356 MUC</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <div className="relative min-h-[42vh] lg:col-span-7 lg:min-h-full">
+            <Image
+              src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2400&auto=format&fit=crop"
+              alt="Frachtlager mit Paletten und Transportgut"
+              fill
+              priority
+              className="hero-media object-cover grayscale contrast-125"
+              sizes="(max-width: 1024px) 100vw, 58vw"
+            />
+            <div className="absolute inset-0 bg-[var(--ink)]/25 mix-blend-multiply" />
+            <div className="absolute bottom-0 left-0 right-0 border-t border-[var(--ink)] bg-[var(--signal)] px-4 py-3">
+              <p className="meta flex flex-wrap justify-between gap-2 text-[var(--ink)]">
+                <span>Evidence · Air cargo ops</span>
+                <span>MUC / FRA / World</span>
+              </p>
+            </div>
+            <div className="pointer-events-none absolute left-4 top-4 border border-[var(--signal)] px-2 py-1">
+              <span className="meta text-[var(--signal)]">Fig. 01</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Spec intro */}
+      <section className="border-b border-[var(--ink)]">
+        <div className="wrap grid gap-0 md:grid-cols-12">
+          <div className="border-b border-[var(--ink)] py-12 md:col-span-4 md:border-b-0 md:border-r md:pr-8">
+            <p className="index">Abschnitt / 01</p>
+            <h2 className="font-display mt-3 text-3xl font-black leading-none md:text-4xl">
+              Operativ.
+              <br />
+              Regelkonform.
+            </h2>
+          </div>
+          <div className="py-12 md:col-span-8 md:pl-10">
+            <p className="max-w-2xl text-lg leading-relaxed text-[var(--steel)]">
+              Am Flughafen München werden täglich tonnenweise Waren abgefertigt. AVS verpackt große und
+              kleine Transportgüter — mit Erfahrung, Vorschriftenkenntnis und klarer Dokumentation für
+              IATA, ADR und IMDG.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Services index */}
+      <section id="leistungen" className="border-b border-[var(--ink)]">
+        <div className="wrap py-10">
+          <div className="flex flex-col justify-between gap-4 border-b border-[var(--ink)] pb-6 md:flex-row md:items-end">
+            <div>
+              <p className="index">Abschnitt / 02</p>
+              <h2 className="font-display mt-2 text-4xl font-black md:text-5xl">Leistungen</h2>
+            </div>
+            <Link href="/leistungen" className="btn-primary">
+              Gesamtkatalog
             </Link>
           </div>
 
-          <ul className="mt-12 divide-y divide-[var(--line)] border-y border-[var(--line)]">
-            {services.map((service) => (
-              <li key={service.slug}>
+          <ul>
+            {services.map((service, i) => (
+              <li key={service.slug} className="border-b border-[var(--ink)] last:border-b-0">
                 <Link
                   href={`/leistungen/${service.slug}`}
-                  className="group grid gap-3 py-7 transition md:grid-cols-[220px_1fr_auto] md:items-center md:gap-8"
+                  className="group grid gap-3 py-6 transition-colors hover:bg-[var(--signal)] md:grid-cols-[5rem_14rem_1fr_auto] md:items-baseline md:gap-6"
                 >
-                  <span className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-                    {service.sector}
+                  <span className="meta text-[var(--steel)] group-hover:text-[var(--ink)]">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span>
-                    <span className="font-display block text-xl font-semibold text-[var(--ink)] group-hover:text-[var(--accent-deep)] md:text-2xl">
-                      {service.title}
-                    </span>
-                    <span className="mt-2 block max-w-2xl text-sm leading-relaxed text-[var(--steel)] md:text-base">
-                      {service.summary}
-                    </span>
+                  <span className="font-display text-2xl font-extrabold leading-none md:text-3xl">
+                    {service.title}
                   </span>
-                  <span className="text-sm font-semibold text-[var(--ink)] opacity-60 transition group-hover:opacity-100">
-                    Mehr →
+                  <span className="max-w-xl text-sm leading-relaxed text-[var(--steel)] group-hover:text-[var(--ink)]">
+                    {service.summary}
                   </span>
+                  <span className="meta self-center text-[var(--ink)]">Öffnen →</span>
                 </Link>
               </li>
             ))}
@@ -125,70 +143,72 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Globe hub — one purpose */}
-      <section className="overflow-hidden border-t border-[var(--line)]">
-        <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+      {/* Hub / globe */}
+      <section className="border-b border-[var(--ink)]">
+        <div className="wrap grid gap-0 lg:grid-cols-12">
+          <div className="border-b border-[var(--ink)] py-12 lg:col-span-5 lg:border-b-0 lg:border-r lg:pr-10">
+            <p className="index">Abschnitt / 03</p>
+            <h2 className="font-display mt-3 text-4xl font-black leading-none md:text-5xl">
               Hub München
-            </p>
-            <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-              Weltweite Verbindungen. Ein klarer Ausgangspunkt.
             </h2>
-            <p className="mt-5 text-base leading-relaxed text-[var(--steel)]">
-              Von MUC aus begleiten wir Ihre Güter in die globalen Frachtnetzwerke — mit korrekter
-              Dokumentation und verlässlicher Verpackung.
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-[var(--steel)]">
+              Von MUC aus in die globalen Frachtnetzwerke — mit korrekter Dokumentation und
+              verlässlicher Verpackung.
             </p>
+            <div className="mt-8 flex flex-wrap">
+              <Link href="/containerstauung" className="btn-primary">
+                Containerstauung
+              </Link>
+              <Link href="/gefahrgutschulung" className="btn-ghost -ml-px">
+                Gefahrgutschulung
+              </Link>
+            </div>
           </div>
-          <Globe className="mt-10 w-full" />
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/containerstauung" className="btn-primary">
-              Containerstauung
-            </Link>
-            <Link href="/gefahrgutschulung" className="btn-ghost">
-              Gefahrgutschulung
-            </Link>
+          <div className="py-8 lg:col-span-7 lg:pl-6">
+            <div className="border border-[var(--ink)] bg-[var(--paper-2)] p-2">
+              <p className="meta mb-2 flex justify-between px-1 text-[var(--steel)]">
+                <span>Fig. 02 · Network</span>
+                <span>Drag to rotate</span>
+              </p>
+              <Globe className="w-full" />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Visual anchor section */}
-      <section className="relative isolate min-h-[52vh] overflow-hidden">
+      {/* Full-bleed evidence */}
+      <section className="relative min-h-[56vh] border-b border-[var(--ink)]">
         <Image
-          src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2200&auto=format&fit=crop"
-          alt="Lagerhalle mit Frachtgut und Paletten"
+          src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=2200&auto=format&fit=crop"
+          alt="Containerschiff und Hafenkräne"
           fill
-          className="object-cover"
+          className="object-cover grayscale contrast-110"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-[rgba(8,16,13,0.72)]" />
-        <div className="relative z-[1] mx-auto flex min-h-[52vh] max-w-6xl flex-col justify-end px-5 py-16 md:px-8">
-          <h2 className="font-display max-w-2xl text-3xl font-semibold text-white md:text-5xl">
-            Effizient gestaut. Sicher dokumentiert.
+        <div className="absolute inset-0 bg-[var(--ink)]/55" />
+        <div className="relative z-[1] wrap flex min-h-[56vh] flex-col justify-end py-12">
+          <p className="meta text-[var(--signal)]">Fig. 03 · Land / Sea / Air</p>
+          <h2 className="font-display mt-3 max-w-3xl text-4xl font-black text-[var(--paper)] md:text-6xl">
+            Gestaut. Gesichert. Dokumentiert.
           </h2>
-          <p className="mt-4 max-w-lg text-base text-[#d5e6dc]">
-            Containerstauung, Ladungssicherung und Gefahrgutdokumente — aus einer Hand am Standort
-            Flughafen München.
-          </p>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-        <div className="grid gap-10 border border-[var(--line)] bg-white/50 p-8 md:grid-cols-[1.2fr_1fr] md:p-12">
-          <div>
-            <h2 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
-              Sie haben Fragen?
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-[var(--steel)]">
-              Schreiben Sie uns oder rufen Sie an. Wir beraten Sie zu Verpackung, Stauung und Schulung.
+      {/* CTA strip */}
+      <section className="border-b border-[var(--ink)] bg-[var(--signal)]">
+        <div className="wrap grid gap-0 md:grid-cols-12">
+          <div className="border-b border-[var(--ink)] py-10 md:col-span-7 md:border-b-0 md:border-r md:pr-8">
+            <p className="index text-[var(--ink)]">Kontakt</p>
+            <h2 className="font-display mt-2 text-4xl font-black md:text-5xl">Direkt anfragen.</h2>
+            <p className="mt-4 max-w-lg text-sm text-[var(--ink)]/75">
+              Verpackung, Containerstauung oder Gefahrgutschulung — wir antworten operativ und klar.
             </p>
           </div>
-          <div className="flex flex-col justify-center gap-3 sm:flex-row md:flex-col lg:flex-row">
-            <Link href="/kontakt" className="btn-primary">
-              Kontaktformular
+          <div className="flex flex-col justify-center gap-0 py-10 md:col-span-5 md:pl-8">
+            <Link href="/kontakt" className="btn-primary w-full">
+              Formular öffnen
             </Link>
-            <a href={site.phoneHref} className="btn-ghost justify-center border border-[var(--line)] bg-white/70">
+            <a href={site.phoneHref} className="btn-ghost -mt-px w-full bg-[var(--paper)]">
               {site.phone}
             </a>
           </div>

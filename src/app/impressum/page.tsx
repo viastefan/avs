@@ -8,54 +8,47 @@ export const metadata: Metadata = {
 
 export default function ImpressumPage() {
   return (
-    <section className="mx-auto max-w-3xl px-5 py-16 md:px-8 md:py-24">
-      <h1 className="font-display text-4xl font-semibold tracking-tight">Impressum</h1>
-      <div className="mt-10 space-y-8 text-base leading-relaxed text-[var(--ink-soft)]">
-        <div>
-          <h2 className="font-display text-xl font-semibold text-[var(--ink)]">Angaben gemäß § 5 TMG</h2>
-          <p className="mt-3">
-            {site.legalName}
-            <br />
-            {site.address.line1}
-            <br />
-            {site.address.city}
-            <br />
-            {site.address.region}
-          </p>
-        </div>
-        <div>
-          <h2 className="font-display text-xl font-semibold text-[var(--ink)]">Kontakt</h2>
-          <p className="mt-3">
-            Telefon: {site.phone}
-            <br />
-            Telefon: {site.phoneAlt}
-            <br />
-            E-Mail: {site.email}
-          </p>
-        </div>
-        <div>
-          <h2 className="font-display text-xl font-semibold text-[var(--ink)]">
-            Reglementierter Beauftragter
-          </h2>
-          <p className="mt-3">Zulassungsnummer: {site.approval}</p>
-        </div>
-        <div>
-          <h2 className="font-display text-xl font-semibold text-[var(--ink)]">
-            Verantwortlich für den Inhalt
-          </h2>
-          <p className="mt-3">
-            {site.legalName}
-            <br />
-            {site.address.city}
-          </p>
-        </div>
-        <div>
-          <h2 className="font-display text-xl font-semibold text-[var(--ink)]">Haftungshinweis</h2>
-          <p className="mt-3">
-            Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte
-            externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber
-            verantwortlich.
-          </p>
+    <section className="border-b border-[var(--ink)]">
+      <div className="wrap max-w-3xl py-12 md:py-16">
+        <p className="meta text-[var(--steel)]">Legal / 01</p>
+        <h1 className="font-display mt-3 text-5xl font-black">Impressum</h1>
+        <div className="mt-10 space-y-8 text-sm leading-relaxed text-[var(--steel)]">
+          <div>
+            <h2 className="font-display text-xl font-extrabold text-[var(--ink)]">Angaben gemäß § 5 TMG</h2>
+            <p className="mt-3">
+              {site.legalName}
+              <br />
+              {site.address.line1}
+              <br />
+              {site.address.city}
+              <br />
+              {site.address.region}
+            </p>
+          </div>
+          <div>
+            <h2 className="font-display text-xl font-extrabold text-[var(--ink)]">Kontakt</h2>
+            <p className="mt-3">
+              Telefon: {site.phone}
+              <br />
+              Telefon: {site.phoneAlt}
+              <br />
+              E-Mail: {site.email}
+            </p>
+          </div>
+          <div>
+            <h2 className="font-display text-xl font-extrabold text-[var(--ink)]">
+              Reglementierter Beauftragter
+            </h2>
+            <p className="mt-3 font-mono">{site.approval}</p>
+          </div>
+          <div>
+            <h2 className="font-display text-xl font-extrabold text-[var(--ink)]">Haftungshinweis</h2>
+            <p className="mt-3">
+              Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte
+              externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber
+              verantwortlich.
+            </p>
+          </div>
         </div>
       </div>
     </section>

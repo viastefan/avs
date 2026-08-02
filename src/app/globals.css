@@ -1,36 +1,51 @@
 @import "tailwindcss";
 
+/*
+  AVS Design System — Industrial Spec
+  -----------------------------------
+  Principles:
+  1. Zero radius. No soft chrome.
+  2. Structure is visible: rules, indexes, mono meta.
+  3. One signal color. Everything else is ink/paper/steel.
+  4. Type does the hierarchy. Photography is evidence, not decoration.
+  5. Motion is structural (clip/slide), never bounce/glow.
+*/
+
 :root {
-  --ink: #0b1411;
-  --ink-soft: #1a2a24;
-  --paper: #eef2ef;
-  --paper-deep: #e2e9e4;
-  --mist: #c5d2ca;
-  --accent: #1f8a5b;
-  --accent-bright: #2ea672;
-  --accent-deep: #146644;
-  --steel: #4a5c55;
-  --line: rgba(11, 20, 17, 0.12);
-  --glow: rgba(46, 166, 114, 0.18);
+  --ink: #0a0a0a;
+  --ink-2: #1c1c1c;
+  --paper: #ecece8;
+  --paper-2: #e2e2dc;
+  --steel: #5c5c56;
+  --mute: #8a8a82;
+  --line: #0a0a0a;
+  --line-soft: rgba(10, 10, 10, 0.18);
+  --signal: #d6ff3c;
+  --signal-ink: #0a0a0a;
+  --danger: #c1121f;
   --background: var(--paper);
   --foreground: var(--ink);
+  --header-h: 3.5rem;
+  --gutter: clamp(1rem, 3vw, 2rem);
+  --max: 72rem;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
   --color-paper: var(--paper);
-  --color-paper-deep: var(--paper-deep);
-  --color-mist: var(--mist);
-  --color-accent: var(--accent);
-  --color-accent-bright: var(--accent-bright);
-  --color-accent-deep: var(--accent-deep);
   --color-steel: var(--steel);
+  --color-signal: var(--signal);
   --color-line: var(--line);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  border-radius: 0 !important;
 }
 
 html {
@@ -38,179 +53,129 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-body), system-ui, sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: rgba(46, 166, 114, 0.28);
+  background: var(--signal);
   color: var(--ink);
 }
 
 .font-display {
   font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+  font-stretch: condensed;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.font-mono,
+.meta {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .site-shell {
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(46, 166, 114, 0.12), transparent 55%),
-    radial-gradient(900px 500px at 100% 0%, rgba(20, 102, 68, 0.08), transparent 50%),
-    linear-gradient(180deg, #f5f8f6 0%, var(--paper) 40%, #e8efe9 100%);
-  background-attachment: fixed;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
 }
 
-.grain {
-  position: relative;
+.wrap {
+  width: min(100% - (var(--gutter) * 2), var(--max));
+  margin-inline: auto;
 }
 
-.grain::before {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
-  z-index: 1;
+.rule {
+  border-color: var(--line);
 }
 
-.hero-media {
-  animation: hero-drift 22s ease-in-out infinite alternate;
-}
-
-@keyframes hero-drift {
-  from {
-    transform: scale(1.05) translate3d(0, 0, 0);
-  }
-  to {
-    transform: scale(1.12) translate3d(-1.5%, -1%, 0);
-  }
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes line-grow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-.reveal {
-  animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.reveal-delay-1 {
-  animation-delay: 0.12s;
-}
-
-.reveal-delay-2 {
-  animation-delay: 0.24s;
-}
-
-.reveal-delay-3 {
-  animation-delay: 0.36s;
-}
-
-.accent-line {
-  transform-origin: left;
-  animation: line-grow 1s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
-}
-
+.btn,
 .btn-primary,
 .btn-accent,
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 3rem;
-  padding: 0.75rem 1.35rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-}
-
-.btn-primary {
-  background: var(--ink);
-  color: #f4faf6;
-}
-
-.btn-primary:hover {
-  background: var(--accent-deep);
-  transform: translateY(-1px);
-}
-
-.btn-accent {
-  background: var(--accent-bright);
-  color: var(--ink);
-}
-
-.btn-accent:hover {
-  background: #fff;
-  transform: translateY(-1px);
-}
-
-.btn-ghost {
-  padding: 0.75rem 1.25rem;
-  color: var(--ink);
-  border-bottom: 1px solid transparent;
-}
-
-.btn-ghost:hover {
-  color: var(--accent-deep);
-  border-bottom-color: var(--accent);
-}
-
+.btn-ghost,
 .btn-ghost-light {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  min-height: 3rem;
-  padding: 0.75rem 1.25rem;
-  color: #fff;
-  font-weight: 600;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  gap: 0.65rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid var(--ink);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn-primary:hover {
+  background: var(--signal);
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.btn-accent {
+  background: var(--signal);
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.btn-accent:hover {
+  background: var(--ink);
+  color: var(--signal);
+}
+
+.btn-ghost,
+.btn-ghost-light {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn-ghost-light {
+  color: var(--paper);
+  border-color: var(--paper);
 }
 
 .btn-ghost-light:hover {
-  color: var(--accent-bright);
-  border-bottom-color: var(--accent-bright);
-}
-
-.page-top {
-  padding-top: 4.5rem;
+  background: var(--signal);
+  color: var(--ink);
+  border-color: var(--signal);
 }
 
 .field {
   width: 100%;
-  min-height: 3rem;
-  padding: 0.85rem 1rem;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid var(--line);
+  min-height: 2.85rem;
+  padding: 0.75rem 0.9rem;
+  background: var(--paper);
+  border: 1px solid var(--ink);
   color: var(--ink);
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font: inherit;
 }
 
 .field:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--glow);
+  background: #fff;
+  box-shadow: inset 3px 0 0 var(--signal);
 }
 
 .field-area {
@@ -218,14 +183,67 @@ body {
   resize: vertical;
 }
 
+.index {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--steel);
+  text-transform: uppercase;
+}
+
+.clip-in {
+  animation: clip-in 0.85s var(--ease) both;
+}
+
+.clip-in-1 {
+  animation-delay: 0.08s;
+}
+.clip-in-2 {
+  animation-delay: 0.16s;
+}
+.clip-in-3 {
+  animation-delay: 0.24s;
+}
+.clip-in-4 {
+  animation-delay: 0.32s;
+}
+
+@keyframes clip-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+
+.hero-media {
+  animation: ken 28s linear infinite alternate;
+}
+
+@keyframes ken {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-
   .hero-media,
-  .reveal,
-  .accent-line {
+  .clip-in,
+  .clip-in-1,
+  .clip-in-2,
+  .clip-in-3,
+  .clip-in-4 {
     animation: none !important;
   }
 }

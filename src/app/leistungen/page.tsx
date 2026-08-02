@@ -12,68 +12,74 @@ export const metadata: Metadata = {
 export default function LeistungenPage() {
   return (
     <>
-      <section className="relative isolate -mt-[4.5rem] overflow-hidden grain">
-        <div className="absolute inset-0 -z-10">
-          <Image
-            src="https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?q=80&w=2200&auto=format&fit=crop"
-            alt="Luftfrachtcontainer und Verpackung"
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-[rgba(8,16,13,0.78)]" />
-        </div>
-        <div className="mx-auto max-w-6xl px-5 pb-24 pt-32 md:px-8 md:pb-32 md:pt-40">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-bright)]">
-            Verpackungsservice
-          </p>
-          <h1 className="font-display mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-white md:text-6xl">
-            Spezialisten für Verpackung aller Art
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-[#d5e6dc]">
-            Gefahrgüter und Transportgüter für Straße, See und Luftfracht — fachgerecht, aktuell und
-            dokumentiert.
-          </p>
+      <section className="relative -mt-[var(--header-h)] border-b border-[var(--ink)]">
+        <div className="grid lg:grid-cols-12">
+          <div className="bg-[var(--ink)] px-[var(--gutter)] py-16 text-[var(--paper)] lg:col-span-5 lg:py-24">
+            <p className="meta text-[var(--signal)]">Katalog / Leistungen</p>
+            <h1 className="font-display mt-4 text-5xl font-black leading-none md:text-6xl">
+              Verpackung aller Art
+            </h1>
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-white/65">
+              Gefahrgüter und Transportgüter für Straße, See und Luftfracht — fachgerecht, aktuell und
+              dokumentiert.
+            </p>
+          </div>
+          <div className="relative min-h-[280px] lg:col-span-7">
+            <Image
+              src="https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?q=80&w=2200&auto=format&fit=crop"
+              alt="Luftfrachtcontainer und Verpackung"
+              fill
+              priority
+              className="object-cover grayscale contrast-125"
+              sizes="(max-width:1024px) 100vw, 58vw"
+            />
+            <div className="absolute inset-0 bg-[var(--ink)]/30" />
+            <span className="meta absolute left-4 top-4 border border-[var(--signal)] px-2 py-1 text-[var(--signal)]">
+              Fig. A
+            </span>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
-        <div className="max-w-3xl">
-          <h2 className="font-display text-2xl font-semibold md:text-3xl">Unser Gewährleistungsanspruch</h2>
-          <p className="mt-5 text-base leading-relaxed text-[var(--steel)]">
-            Unser Fachgebiet umfasst die fachgerechte Verpackung von Gefahrgütern für den Straßen-, See-
-            und Luftfrachttransport. Dabei verwenden wir stets die aktuellsten Versionen der
-            IATA/ICAO-, IMDG-Code- sowie ADR-Vorschriften.
-          </p>
-          <ul className="mt-8 space-y-2 text-sm font-medium text-[var(--ink)]">
-            <li>Luftfracht — Shipper&apos;s Declaration</li>
-            <li>Seefracht — IMO-Erklärung</li>
-            <li>Straße — ADR-Beförderungsdokumente</li>
-          </ul>
+      <section className="border-b border-[var(--ink)]">
+        <div className="wrap grid gap-0 md:grid-cols-12">
+          <div className="border-b border-[var(--ink)] py-12 md:col-span-4 md:border-b-0 md:border-r md:pr-8">
+            <p className="index">Vorschriften</p>
+            <h2 className="font-display mt-3 text-3xl font-black">Gewährleistung</h2>
+          </div>
+          <div className="py-12 md:col-span-8 md:pl-10">
+            <p className="max-w-2xl text-base leading-relaxed text-[var(--steel)]">
+              Fachgerechte Verpackung von Gefahrgütern für Straßen-, See- und Luftfracht. Aktuelle
+              IATA/ICAO-, IMDG- und ADR-Vorschriften. Begleitpapiere inklusive.
+            </p>
+            <ul className="mt-8 divide-y divide-[var(--ink)] border-y border-[var(--ink)] text-sm">
+              <li className="py-3">Luftfracht — Shipper&apos;s Declaration</li>
+              <li className="py-3">Seefracht — IMO-Erklärung</li>
+              <li className="py-3">Straße — ADR-Beförderungsdokumente</li>
+            </ul>
+          </div>
         </div>
+      </section>
 
-        <div className="mt-16 divide-y divide-[var(--line)] border-y border-[var(--line)]">
-          {services.map((service) => (
-            <article key={service.slug} className="grid gap-4 py-10 md:grid-cols-[1fr_1.4fr] md:gap-12">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-                  {service.sector}
-                </p>
-                <h3 className="font-display mt-2 text-2xl font-semibold">{service.title}</h3>
-              </div>
-              <div>
-                <p className="text-base leading-relaxed text-[var(--steel)]">{service.summary}</p>
-                <Link
-                  href={`/leistungen/${service.slug}`}
-                  className="btn-ghost mt-5 px-0 text-[var(--accent-deep)]"
-                >
-                  Details ansehen →
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
+      <section className="wrap py-4">
+        {services.map((service, i) => (
+          <article
+            key={service.slug}
+            className="grid gap-4 border-b border-[var(--ink)] py-10 md:grid-cols-[5rem_1fr_1.2fr]"
+          >
+            <p className="meta text-[var(--steel)]">{String(i + 1).padStart(2, "0")}</p>
+            <div>
+              <p className="meta text-[var(--steel)]">{service.sector}</p>
+              <h3 className="font-display mt-2 text-3xl font-extrabold">{service.title}</h3>
+            </div>
+            <div>
+              <p className="text-sm leading-relaxed text-[var(--steel)]">{service.summary}</p>
+              <Link href={`/leistungen/${service.slug}`} className="btn-primary mt-5">
+                Spec öffnen
+              </Link>
+            </div>
+          </article>
+        ))}
       </section>
     </>
   );

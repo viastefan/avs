@@ -13,76 +13,86 @@ export const metadata: Metadata = {
 export default function GefahrgutschulungPage() {
   return (
     <>
-      <section className="relative isolate -mt-[4.5rem] overflow-hidden grain">
-        <div className="absolute inset-0 -z-10">
-          <Image
-            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2200&auto=format&fit=crop"
-            alt="Schulung und Dokumentation in der Logistik"
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-[rgba(8,16,13,0.8)]" />
-        </div>
-        <div className="mx-auto max-w-6xl px-5 pb-24 pt-32 md:px-8 md:pb-32 md:pt-40">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-bright)]">
-            Gefahrgutschulung
-          </p>
-          <h1 className="font-display mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-white md:text-6xl">
-            Erfolgreiche Gefahrgutschulung am Standort München Flughafen
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-[#d5e6dc]">
-            Qualifiziertes Personal für sicheren Gefahrguttransport — praxisnah und vorschriftenaktuell.
-          </p>
-          <Link
-            href="/kontakt"
-            className="btn-primary mt-8 bg-[var(--accent-bright)] text-[var(--ink)] hover:bg-white"
-          >
-            Termin anfragen
-          </Link>
+      <section className="relative -mt-[var(--header-h)] border-b border-[var(--ink)]">
+        <div className="grid lg:grid-cols-12">
+          <div className="bg-[var(--ink)] px-[var(--gutter)] py-16 text-[var(--paper)] lg:col-span-5 lg:py-24">
+            <p className="meta text-[var(--signal)]">Training / Compliance</p>
+            <h1 className="font-display mt-4 text-5xl font-black leading-none md:text-6xl">
+              Gefahrgutschulung
+            </h1>
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-white/65">
+              Qualifiziertes Personal für sicheren Gefahrguttransport — praxisnah und
+              vorschriftenaktuell.
+            </p>
+            <Link href="/kontakt" className="btn-accent mt-8">
+              Termin anfragen
+            </Link>
+          </div>
+          <div className="relative min-h-[280px] lg:col-span-7">
+            <Image
+              src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2200&auto=format&fit=crop"
+              alt="Dokumentation und Schulung"
+              fill
+              priority
+              className="object-cover grayscale contrast-125"
+              sizes="(max-width:1024px) 100vw, 58vw"
+            />
+            <div className="absolute inset-0 bg-[var(--ink)]/40" />
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
-        <div className="max-w-3xl">
-          <p className="text-base leading-relaxed text-[var(--steel)]">
-            Als Airport-Verpackungs-Service legen wir großen Wert auf Sicherheit und verantwortungsvollen
-            Umgang mit Gefahrgut. Durch regelmäßige Schulungen bleiben Sie und Ihr Team auf dem neuesten
-            Stand der Vorschriften und Best Practices.
-          </p>
-          <p className="mt-5 text-base leading-relaxed text-[var(--steel)]">
-            Unser Leistungsspektrum umfasst IATA-Schulungen sowie die Verantwortung für korrektes
-            Verpacken und die erforderliche Dokumentation — für ADR/Straße, IMDG/Seefracht und
-            IATA/Luftfracht.
-          </p>
+      <section className="border-b border-[var(--ink)]">
+        <div className="wrap grid gap-0 md:grid-cols-12">
+          <div className="border-b border-[var(--ink)] py-12 md:col-span-4 md:border-b-0 md:border-r md:pr-8">
+            <p className="index">Briefing</p>
+            <h2 className="font-display mt-3 text-3xl font-black">Sicherheit zuerst</h2>
+          </div>
+          <div className="space-y-4 py-12 text-sm leading-relaxed text-[var(--steel)] md:col-span-8 md:pl-10">
+            <p>
+              Als Airport-Verpackungs-Service legen wir großen Wert auf Sicherheit und
+              verantwortungsvollen Umgang mit Gefahrgut. Regelmäßige Schulungen halten Ihr Team auf dem
+              aktuellen Stand.
+            </p>
+            <p>
+              Leistungsspektrum: IATA-Schulungen, korrektes Verpacken, Dokumentation — für ADR/Straße,
+              IMDG/Seefracht und IATA/Luftfracht.
+            </p>
+          </div>
         </div>
+      </section>
 
-        <div className="mt-16 grid gap-10 md:grid-cols-2">
-          {trainingTopics.map((topic) => (
-            <div key={topic.title} className="border-t border-[var(--line)] pt-6">
-              <h2 className="font-display text-xl font-semibold">{topic.title}</h2>
+      <section className="wrap py-12">
+        <div className="grid gap-0 md:grid-cols-2">
+          {trainingTopics.map((topic, i) => (
+            <div
+              key={topic.title}
+              className="border border-[var(--ink)] p-6 md:-mt-px md:-ml-px"
+            >
+              <p className="meta text-[var(--steel)]">{String(i + 1).padStart(2, "0")}</p>
+              <h2 className="font-display mt-3 text-2xl font-extrabold">{topic.title}</h2>
               <ul className="mt-4 space-y-2 text-sm text-[var(--steel)]">
                 {topic.items.map((item) => (
-                  <li key={item}>· {item}</li>
+                  <li key={item} className="border-t border-[var(--line-soft)] pt-2">
+                    {item}
+                  </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
 
-        <div className="mt-16 border border-[var(--line)] bg-white/50 p-8 md:p-10">
-          <h2 className="font-display text-2xl font-semibold">Vereinbaren Sie jetzt einen Termin</h2>
-          <p className="mt-3 max-w-xl text-base text-[var(--steel)]">
-            Sie möchten eine Gefahrgutschulung für sich oder Ihre Mitarbeiter buchen? Wir beraten Sie
-            telefonisch oder vereinbaren direkt einen Termin.
+        <div className="mt-12 border border-[var(--ink)] bg-[var(--signal)] p-8">
+          <h2 className="font-display text-3xl font-black">Termin vereinbaren</h2>
+          <p className="mt-3 max-w-xl text-sm text-[var(--ink)]/75">
+            Schulung für Sie oder Ihr Team — telefonisch vorab oder direkt Termin.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap">
             <a href={site.phoneHref} className="btn-primary">
               {site.phone}
             </a>
-            <Link href="/kontakt" className="btn-ghost border border-[var(--line)] bg-white">
-              Schreiben Sie uns
+            <Link href="/kontakt" className="btn-ghost -ml-px bg-[var(--paper)]">
+              Schreiben
             </Link>
           </div>
         </div>
