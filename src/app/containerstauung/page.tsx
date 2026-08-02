@@ -15,34 +15,25 @@ export default function ContainerstauungPage() {
     <>
       <PageHero
         title="Containerstauung"
-        description="Raumnutzung, Ladungssicherung und Palettisierung — für Land, See und Luft."
+        description="Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft."
         image={images.containers}
         eyebrow="Stauung & Sicherung"
       />
-
-      <section className="band-light">
-        <div className="wrap py-14 md:py-20">
-          <ul className="max-w-2xl">
+      <section className="section">
+        <div className="wrap max-w-2xl">
+          <ul className="border-t border-[var(--line)]">
             {containerFeatures.map((feature) => (
-              <li
-                key={feature.title}
-                className="border-t border-[var(--line-on-light)] py-6 last:border-b"
-              >
-                <h2 className="font-display text-lg font-bold tracking-tight md:text-xl">
-                  {feature.title}
-                </h2>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--steel-on-light)] md:text-[0.95rem]">
+              <li key={feature.title} className="border-b border-[var(--line)] py-6">
+                <h2 className="font-display text-lg font-semibold">{feature.title}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)] md:text-base">
                   {feature.text}
                 </p>
               </li>
             ))}
           </ul>
-
-          <div className="mt-12">
-            <Link href="/kontakt" className="btn-dark">
-              Anfrage stellen
-            </Link>
-          </div>
+          <Link href="/kontakt" className="btn btn-primary mt-10">
+            Anfrage senden
+          </Link>
         </div>
       </section>
     </>

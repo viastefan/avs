@@ -9,7 +9,7 @@ export function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initial);
 
   return (
-    <form action={action} className="space-y-6" noValidate>
+    <form action={action} className="space-y-5" noValidate>
       <input
         type="text"
         name="website"
@@ -19,32 +19,31 @@ export function ContactForm() {
         aria-hidden="true"
       />
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
-          <span className="meta mb-2 block">Vorname</span>
+          <span className="eyebrow mb-2 block">Vorname</span>
           <input className="field" name="firstName" required autoComplete="given-name" />
         </label>
         <label className="block">
-          <span className="meta mb-2 block">Nachname</span>
+          <span className="eyebrow mb-2 block">Nachname</span>
           <input className="field" name="lastName" required autoComplete="family-name" />
         </label>
       </div>
 
       <label className="block">
-        <span className="meta mb-2 block">E-Mail</span>
+        <span className="eyebrow mb-2 block">E-Mail</span>
         <input className="field" type="email" name="email" required autoComplete="email" />
       </label>
 
       <label className="block">
-        <span className="meta mb-2 block">Nachricht</span>
+        <span className="eyebrow mb-2 block">Nachricht</span>
         <textarea className="field field-area" name="message" required />
       </label>
 
-      {/* Keep server action fields optional/hidden defaults */}
       <input type="hidden" name="company" value="" />
       <input type="hidden" name="subject" value="Anfrage über Website" />
 
-      <button type="submit" className="btn-primary" disabled={pending}>
+      <button type="submit" className="btn btn-primary" disabled={pending}>
         {pending ? "Senden…" : "Absenden"}
       </button>
 
@@ -53,7 +52,6 @@ export function ContactForm() {
           {state.message}
         </p>
       ) : null}
-
 
       {state.error ? (
         <p role="alert" className="text-sm text-[var(--danger)]">

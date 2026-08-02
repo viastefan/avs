@@ -17,29 +17,18 @@ export function Header() {
     };
   }, [open]);
 
-  function closeNav() {
-    setOpen(false);
-  }
-
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-[var(--line-on-dark)] bg-[var(--ink)]/95 backdrop-blur-md">
+      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-white/10 bg-[var(--ink)]/90 backdrop-blur-xl">
         <div className="wrap flex h-full items-center justify-between gap-6">
-          <Link
-            href="/"
-            onClick={closeNav}
-            className="flex flex-col leading-none"
-            aria-label={`${site.name} Startseite`}
-          >
-            <span className="font-display text-[1.15rem] font-semibold tracking-tight text-[#eef0f2]">
+          <Link href="/" onClick={() => setOpen(false)} className="min-w-0" aria-label={`${site.name} Startseite`}>
+            <span className="font-display text-[1.2rem] font-semibold tracking-tight text-white">
               {site.name}
             </span>
-            <span className="mt-1 hidden text-[0.68rem] tracking-[0.04em] text-[var(--mute-on-dark)] sm:block">
-              Flughafen München
-            </span>
+            <span className="ml-2 hidden text-[0.8rem] text-white/55 sm:inline">München</span>
           </Link>
 
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Hauptnavigation">
+          <nav className="hidden items-center gap-6 lg:flex" aria-label="Hauptnavigation">
             {nav.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
@@ -47,23 +36,21 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   className={`text-[0.92rem] transition-colors ${
-                    active
-                      ? "text-[#eef0f2]"
-                      : "text-[var(--steel-on-dark)] hover:text-[#eef0f2]"
+                    active ? "text-white" : "text-white/65 hover:text-white"
                   }`}
                 >
                   {item.label}
                 </Link>
               );
             })}
-            <Link href="/kontakt" className="btn-primary !min-h-9 !px-4 !text-[0.85rem]">
+            <Link href="/kontakt" className="btn btn-primary !min-h-9 !px-4 !text-sm">
               Kontakt
             </Link>
           </nav>
 
           <button
             type="button"
-            className="text-sm text-[#eef0f2] lg:hidden"
+            className="text-sm text-white lg:hidden"
             aria-expanded={open}
             aria-controls={panelId}
             aria-label={open ? "Menü schließen" : "Menü öffnen"}
@@ -82,26 +69,23 @@ export function Header() {
           aria-modal="true"
           aria-label="Navigation"
         >
-          <div className="flex h-[var(--header-h)] items-center justify-between border-b border-[var(--line-on-dark)] px-[var(--gutter)]">
-            <span className="font-display text-[1.15rem] font-semibold text-[#eef0f2]">{site.name}</span>
-            <button type="button" className="text-sm text-[#eef0f2]" onClick={closeNav} aria-label="Menü schließen">
+          <div className="flex h-[var(--header-h)] items-center justify-between border-b border-white/10 px-[var(--gutter)]">
+            <span className="font-display text-[1.2rem] font-semibold text-white">{site.name}</span>
+            <button type="button" className="text-sm text-white" onClick={() => setOpen(false)}>
               Schließen
             </button>
           </div>
-          <nav className="flex flex-col px-[var(--gutter)] pt-2" aria-label="Mobile Navigation">
+          <nav className="flex flex-col px-[var(--gutter)] pt-4" aria-label="Mobile Navigation">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={closeNav}
-                className="border-b border-[var(--line-on-dark)] py-5 text-xl text-[#eef0f2]"
+                onClick={() => setOpen(false)}
+                className="border-b border-white/10 py-5 text-xl text-white"
               >
                 {item.label}
               </Link>
             ))}
-            <a href={site.phoneHref} className="mt-8 text-sm text-[var(--steel-on-dark)]">
-              {site.phone}
-            </a>
           </nav>
         </div>
       ) : null}

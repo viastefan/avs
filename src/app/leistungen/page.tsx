@@ -19,29 +19,20 @@ export default function LeistungenPage() {
         image={images.packaging}
         eyebrow="Leistungen"
       />
-
-      <section className="band-light">
-        <div className="wrap py-14 md:py-20">
-          <ul>
+      <section className="section">
+        <div className="wrap">
+          <div className="border-t border-[var(--line)]">
             {services.map((service) => (
-              <li
-                key={service.slug}
-                className="border-t border-[var(--line-on-light)] last:border-b"
-              >
-                <Link
-                  href={`/leistungen/${service.slug}`}
-                  className="group grid gap-2 py-7 md:grid-cols-[1fr_1.5fr] md:gap-14"
-                >
-                  <h2 className="font-display text-xl font-bold tracking-tight transition-colors group-hover:text-[var(--green)] md:text-2xl">
-                    {service.title}
-                  </h2>
-                  <p className="text-sm leading-relaxed text-[var(--steel-on-light)] md:text-[0.95rem]">
-                    {service.summary}
-                  </p>
-                </Link>
-              </li>
+              <Link key={service.slug} href={`/leistungen/${service.slug}`} className="service-row">
+                <h2 className="service-row__title font-display text-xl font-semibold">
+                  {service.title}
+                </h2>
+                <p className="text-sm leading-relaxed text-[var(--muted)] md:text-base">
+                  {service.summary}
+                </p>
+              </Link>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
     </>

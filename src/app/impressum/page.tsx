@@ -7,22 +7,24 @@ export const metadata: Metadata = {
 
 export default function ImpressumPage() {
   return (
-    <section className="band-light min-h-[calc(100svh-var(--header-h))]">
-      <div className="wrap max-w-2xl py-16 md:py-24">
-        <h1 className="font-display text-4xl font-semibold">Impressum</h1>
-        <div className="mt-10 space-y-8 text-sm leading-relaxed text-[var(--steel-on-light)]">
+    <section className="section">
+      <div className="wrap max-w-2xl">
+        <h1 className="font-display text-[length:var(--t-display)] font-semibold">Impressum</h1>
+        <div className="mt-8 space-y-6 text-sm leading-relaxed text-[var(--muted)]">
           <div>
-            <h2 className="mb-2 font-medium text-[var(--charcoal)]">Angaben gemäß § 5 TMG</h2>
+            <h2 className="mb-2 font-semibold text-[var(--ink)]">Angaben gemäß § 5 TMG</h2>
             <p>
               {site.legalName}
               <br />
               {site.address.line1}
               <br />
+              {site.address.line2}
+              <br />
               {site.address.city}
             </p>
           </div>
           <div>
-            <h2 className="mb-2 font-medium text-[var(--charcoal)]">Kontakt</h2>
+            <h2 className="mb-2 font-semibold text-[var(--ink)]">Kontakt</h2>
             <p>
               {site.phone}
               <br />
@@ -32,7 +34,7 @@ export default function ImpressumPage() {
             </p>
           </div>
           <div>
-            <h2 className="mb-2 font-medium text-[var(--charcoal)]">Reglementierter Beauftragter</h2>
+            <h2 className="mb-2 font-semibold text-[var(--ink)]">Reglementierter Beauftragter</h2>
             <p>{site.approval}</p>
           </div>
         </div>

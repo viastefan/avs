@@ -10,18 +10,19 @@ export const metadata: Metadata = {
 
 export default function KontaktPage() {
   return (
-    <section className="band-light min-h-[calc(100svh-var(--header-h))]">
-      <div className="wrap grid gap-16 py-16 md:py-24 lg:grid-cols-2 lg:gap-24">
+    <section className="section">
+      <div className="wrap grid gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
-          <h1 className="font-display text-4xl font-semibold leading-none md:text-5xl">Kontakt</h1>
-          <p className="mt-6 max-w-sm text-base leading-relaxed text-[var(--steel-on-light)]">
+          <p className="eyebrow">Kontakt</p>
+          <h1 className="font-display mt-3 text-[length:var(--t-display)] font-semibold">
+            Nachricht an AVS
+          </h1>
+          <p className="mt-4 max-w-md text-[var(--muted)]">
             Anfragen zu Verpackung, Containerstauung oder Gefahrgutschulung.
           </p>
-
-          <div className="mt-12 space-y-4 text-sm text-[var(--steel-on-light)]">
+          <div className="mt-8 space-y-3 text-sm text-[var(--muted)]">
+            <p className="font-medium text-[var(--ink)]">{site.legalName}</p>
             <p>
-              {site.legalName}
-              <br />
               {site.address.line2}
               <br />
               {site.address.line1}
@@ -29,22 +30,17 @@ export default function KontaktPage() {
               {site.address.city}
             </p>
             <p>
-              <a href={site.phoneHref} className="font-medium text-[var(--charcoal)] hover:text-[var(--green)]">
+              <a href={site.phoneHref} className="font-semibold text-[var(--green)]">
                 {site.phone}
-              </a>
-              <br />
-              <a href="tel:+498997594592" className="hover:text-[var(--charcoal)]">
-                {site.phoneAlt}
               </a>
             </p>
             <p>
-              <a href={site.emailHref} className="hover:text-[var(--charcoal)]">
+              <a href={site.emailHref} className="hover:text-[var(--ink)]">
                 {site.email}
               </a>
             </p>
           </div>
         </div>
-
         <ContactForm />
       </div>
     </section>

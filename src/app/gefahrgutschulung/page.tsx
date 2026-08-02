@@ -19,30 +19,21 @@ export default function GefahrgutschulungPage() {
         image={images.training}
         eyebrow="Qualifikation"
       />
-
-      <section className="band-light">
-        <div className="wrap py-14 md:py-20">
-          <ul className="max-w-2xl">
+      <section className="section">
+        <div className="wrap max-w-2xl">
+          <ul className="border-t border-[var(--line)]">
             {trainingTopics.map((topic) => (
-              <li
-                key={topic.title}
-                className="border-t border-[var(--line-on-light)] py-6 last:border-b"
-              >
-                <h2 className="font-display text-lg font-bold tracking-tight md:text-xl">
-                  {topic.title}
-                </h2>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--steel-on-light)] md:text-[0.95rem]">
+              <li key={topic.title} className="border-b border-[var(--line)] py-6">
+                <h2 className="font-display text-lg font-semibold">{topic.title}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)] md:text-base">
                   {topic.items.join(" · ")}
                 </p>
               </li>
             ))}
           </ul>
-
-          <div className="mt-12">
-            <Link href="/kontakt" className="btn-dark">
-              Termin anfragen
-            </Link>
-          </div>
+          <Link href="/kontakt" className="btn btn-primary mt-10">
+            Termin anfragen
+          </Link>
         </div>
       </section>
     </>
