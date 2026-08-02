@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PageHero } from "@/components/PageHero";
 import { getService, services } from "@/lib/content";
 import { images } from "@/lib/images";
 
@@ -38,40 +38,34 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   return (
     <>
-      <section className="relative -mt-[var(--header-h)] min-h-[46svh] band-dark md:min-h-[52svh]">
-        <Image src={image.src} alt={image.alt} fill priority className="object-cover" sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)] via-[var(--ink)]/55 to-[var(--ink)]/40" />
-        <div className="relative z-[1] wrap flex min-h-[46svh] flex-col justify-end pb-12 pt-28 md:min-h-[52svh] md:pb-16">
-          <Link href="/leistungen" className="meta text-[var(--steel-on-dark)] hover:text-[var(--green-bright)]">
-            ← Leistungen
-          </Link>
-          <h1 className="font-display mt-4 max-w-2xl text-4xl font-black leading-none md:text-6xl">
-            {service.title}
-          </h1>
-        </div>
-      </section>
+      <PageHero
+        title={service.title}
+        image={image}
+        backHref="/leistungen"
+        backLabel="Leistungen"
+      />
 
       <section className="band-light">
-        <article className="wrap py-16 md:py-24">
+        <article className="wrap py-14 md:py-20">
           <p className="max-w-xl text-lg leading-relaxed text-[var(--steel-on-light)]">
             {service.summary}
           </p>
 
-          <div className="mt-10 max-w-xl space-y-5 text-base leading-relaxed text-[var(--steel-on-light)]">
+          <div className="mt-8 max-w-xl space-y-4 text-base leading-relaxed text-[var(--steel-on-light)]">
             {service.body.map((p) => (
               <p key={p}>{p}</p>
             ))}
           </div>
 
           {service.highlights?.length ? (
-            <ul className="mt-12 space-y-2 text-sm text-[var(--mute-on-light)]">
+            <ul className="mt-10 space-y-2 text-sm text-[var(--mute-on-light)]">
               {service.highlights.map((h) => (
                 <li key={h}>— {h}</li>
               ))}
             </ul>
           ) : null}
 
-          <div className="mt-14">
+          <div className="mt-12">
             <Link href="/kontakt" className="btn-dark">
               Anfrage stellen
             </Link>

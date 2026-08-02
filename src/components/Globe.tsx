@@ -96,8 +96,9 @@ export function Globe({ className = "" }: { className?: string }) {
     }
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
-    camera.position.set(0, 0, 15.5);
+    const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 1000);
+    // Pull back so sphere, arcs and atmosphere sit fully inside the frame
+    camera.position.set(0, 0, 19.5);
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.72));
     const key = new THREE.DirectionalLight(0xffffff, 0.85);
@@ -122,7 +123,8 @@ export function Globe({ className = "" }: { className?: string }) {
       const rect = wrap!.getBoundingClientRect();
       const w = rect.width || wrap!.clientWidth || 420;
       const h = rect.height || wrap!.clientHeight || 420;
-      return Math.max(300, Math.min(Math.min(w, h) * 0.96, 640));
+      // Slightly inset so the sphere never kisses the clip edge
+      return Math.max(240, Math.min(Math.min(w, h) * 0.86, 520));
     }
 
     function resize() {
@@ -132,6 +134,8 @@ export function Globe({ className = "" }: { className?: string }) {
       canvas!.style.width = `${size}px`;
       canvas!.style.height = `${size}px`;
       renderer.setSize(size, size, false);
+      camera.aspect = 1;
+      camera.updateProjectionMatrix();
     }
 
     function buildMapTexture(landFeature: GeoJSON.FeatureCollection) {
@@ -298,7 +302,7 @@ export function Globe({ className = "" }: { className?: string }) {
       const start = hubDir.clone().multiplyScalar(RADIUS);
       const end = cityDir.clone().multiplyScalar(RADIUS);
       const angle = hubDir.angleTo(cityDir);
-      const arcHeight = RADIUS * (0.22 + angle * 0.22);
+      const arcHeight = RADIUS * (0.16 + angle * 0.16);
       const mid = hubDir.clone().add(cityDir).normalize().multiplyScalar(RADIUS + arcHeight);
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
       const points = curve.getPoints(48);
@@ -481,11 +485,11 @@ export function Globe({ className = "" }: { className?: string }) {
         );
         globeGroup.add(
           new THREE.Mesh(
-            new THREE.SphereGeometry(RADIUS * 1.05, 64, 64),
+            new THREE.SphereGeometry(RADIUS * 1.035, 64, 64),
             new THREE.MeshBasicMaterial({
               color: SIGNAL_HEX,
               transparent: true,
-              opacity: 0.08,
+              opacity: 0.07,
               side: THREE.BackSide,
             }),
           ),
@@ -547,26 +551,23 @@ export function Globe({ className = "" }: { className?: string }) {
   }, []);
 
   return (
-    <div
-      ref={wrapRef}
-      className={`relative mx-auto flex min-h-[280px] w-full max-w-[520px] items-center justify-center aspect-square ${className}`}
-    >
+    <div ref={wrapRef} className={`globe-stage ${className}`}>
       <div
-        className="pointer-events-none absolute inset-[18%] rounded-full"
+        className="pointer-events-none absolute inset-[22%] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(46,166,114,0.08) 0%, rgba(46,166,114,0) 68%)",
-          filter: "blur(8px)",
+          background: "radial-gradient(circle, rgba(31,122,84,0.12) 0%, rgba(31,122,84,0) 70%)",
+          filter: "blur(10px)",
         }}
         aria-hidden
       />
       <canvas
         ref={canvasRef}
-        className="relative z-[1] h-full w-full max-h-full max-w-full cursor-grab active:cursor-grabbing"
+        className="relative z-[1] cursor-grab active:cursor-grabbing"
         aria-label="Interaktiver Globus mit AVS Hub München"
       />
       <div
         ref={tooltipRef}
-        className="pointer-events-none fixed z-20 rounded-lg bg-[#111] px-3.5 py-2 text-[12.5px] text-white opacity-0 shadow-lg transition-opacity"
+        className="pointer-events-none fixed z-20 bg-[#111] px-3.5 py-2 text-[12.5px] text-white opacity-0 transition-opacity"
         style={{ transform: "translate(-9999px,-9999px)" }}
       >
         <strong data-city className="block text-[13px]" />
@@ -577,10 +578,10 @@ export function Globe({ className = "" }: { className?: string }) {
         className="pointer-events-none fixed z-[15] text-center opacity-0 transition-opacity"
         style={{ transform: "translate(-9999px,-9999px)" }}
       >
-        <span className="inline-block whitespace-nowrap border border-[#2a2b29] bg-[#0c0d0c] px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] text-[#f1f0eb]">
+        <span className="inline-block whitespace-nowrap border border-[#2a2b29] bg-[#0c0d0c] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f1f0eb]">
           München · MUC
         </span>
-        <div className="mx-auto mt-1.5 h-3.5 w-px bg-[#1f7a54]/55" />
+        <div className="mx-auto mt-1.5 h-3 w-px bg-[#1f7a54]/55" />
       </div>
     </div>
   );

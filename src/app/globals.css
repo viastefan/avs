@@ -213,33 +213,184 @@ body {
   }
 }
 
-.hero-media {
-  animation: ken 40s linear infinite alternate;
+/* Home hero — always fills viewport, never leaves a strip */
+.home-hero {
+  position: relative;
+  margin-top: calc(-1 * var(--header-h));
+  height: 100svh;
+  min-height: 36rem;
+  max-height: 56rem;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.home-hero__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.home-hero__img {
+  object-fit: cover;
+  object-position: center 40%;
+  transform: scale(1.08);
+  animation: ken 42s linear infinite alternate;
+  will-change: transform;
+}
+
+.home-hero__shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* Solid base veil + directional gradients — no undarkened edge strips */
+  background:
+    linear-gradient(
+      105deg,
+      rgba(12, 13, 12, 0.94) 0%,
+      rgba(12, 13, 12, 0.82) 48%,
+      rgba(12, 13, 12, 0.7) 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(12, 13, 12, 0.95) 0%,
+      rgba(12, 13, 12, 0.58) 48%,
+      rgba(12, 13, 12, 0.65) 100%
+    ),
+    rgba(12, 13, 12, 0.4);
+}
+
+.home-hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: calc(var(--header-h) + 2.5rem);
+  padding-bottom: clamp(2.5rem, 8vh, 4.5rem);
+}
+
+@media (min-width: 768px) {
+  .home-hero__content {
+    justify-content: center;
+    padding-bottom: 4rem;
+  }
 }
 
 @keyframes ken {
   from {
-    transform: scale(1.02);
+    transform: scale(1.08);
   }
   to {
-    transform: scale(1.06);
+    transform: scale(1.14);
   }
 }
 
-.media-cover {
+/* Subpage heroes */
+.page-hero {
+  position: relative;
+  margin-top: calc(-1 * var(--header-h));
+  min-height: clamp(18rem, 42svh, 26rem);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.page-hero__media {
   position: absolute;
   inset: 0;
 }
 
-.media-cover img {
+.page-hero__media img {
   object-fit: cover;
+  object-position: center;
+}
+
+.page-hero__shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top,
+      rgba(12, 13, 12, 0.96) 0%,
+      rgba(12, 13, 12, 0.68) 48%,
+      rgba(12, 13, 12, 0.58) 100%
+    ),
+    rgba(12, 13, 12, 0.28);
+}
+
+.page-hero__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-top: calc(var(--header-h) + 2.75rem);
+  padding-bottom: clamp(2rem, 5vh, 3rem);
+}
+
+/* Split feature media panels */
+.feature-media {
+  position: relative;
+  min-height: clamp(16rem, 42vw, 28rem);
+  overflow: hidden;
+  background: var(--ink-2);
+  isolation: isolate;
+}
+
+.feature-media img {
+  object-fit: cover;
+}
+
+.feature-media__shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(12, 13, 12, 0.22);
+  pointer-events: none;
+}
+
+.feature-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2.5rem, 6vw, 4.5rem) var(--gutter);
+}
+
+@media (min-width: 1024px) {
+  .feature-copy {
+    padding-left: clamp(2.5rem, 5vw, 4.5rem);
+    padding-right: clamp(2.5rem, 5vw, 4.5rem);
+  }
+}
+
+/* Globe stage — inset framing so sphere/arcs aren't clipped */
+.globe-stage {
+  position: relative;
+  display: flex;
+  width: min(100%, 30rem);
+  margin-inline: auto;
+  aspect-ratio: 1;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  /* Extra vertical room so the sphere isn't cropped by section edges */
+  margin-block: 0.5rem 1.25rem;
+}
+
+.globe-stage canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .hero-media,
+  .home-hero__img,
   .fade-in,
   .fade-in-1,
   .fade-in-2 {
