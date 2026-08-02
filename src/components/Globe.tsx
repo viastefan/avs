@@ -5,11 +5,11 @@ import * as THREE from "three";
 import { feature as topoFeature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
-const SIGNAL_HEX = 0x2ea672;
-const LAND_FILL = "#1c1c1c";
-const LAND_STROKE = "#2a2a2a";
-const OCEAN_FILL = "#0a0a0a";
-const GRID_STROKE = "rgba(46,166,114,0.08)";
+const SIGNAL_HEX = 0x1f7a54;
+const LAND_FILL = "#2a2c2a";
+const LAND_STROKE = "#3a3c3a";
+const OCEAN_FILL = "#121312";
+const GRID_STROKE = "rgba(31,122,84,0.1)";
 const RADIUS = 5.4;
 
 type City = {
@@ -577,10 +577,10 @@ export function Globe({ className = "" }: { className?: string }) {
         className="pointer-events-none fixed z-[15] text-center opacity-0 transition-opacity"
         style={{ transform: "translate(-9999px,-9999px)" }}
       >
-        <span className="inline-block whitespace-nowrap border border-[#2a2a2a] bg-[#0a0a0a] px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] text-[#ecece8]">
+        <span className="inline-block whitespace-nowrap border border-[#2a2b29] bg-[#0c0d0c] px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] text-[#f1f0eb]">
           München · MUC
         </span>
-        <div className="mx-auto mt-1.5 h-3.5 w-px bg-[#2ea672]/50" />
+        <div className="mx-auto mt-1.5 h-3.5 w-px bg-[#1f7a54]/55" />
       </div>
     </div>
   );

@@ -54,6 +54,7 @@ export function ContactForm() {
         </p>
       ) : null}
 
+
       {state.error ? (
         <p role="alert" className="text-sm text-[var(--danger)]">
           {state.error}
