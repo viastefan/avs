@@ -74,23 +74,38 @@ export function Globe({ className = "" }: { className?: string }) {
     const wrap = wrapRef.current;
     const tooltip = tooltipRef.current;
     const hubLabel = hubLabelRef.current;
-    if (!canvas || !wrap || !tooltip || !hubLabel) return;
+    if (!canvas || !wrap || !tooltip || !hubLabel) {
+      console.warn("[AVS Globe] missing DOM refs");
+      return;
+    }
 
     const tooltipCity = tooltip.querySelector<HTMLElement>("[data-city]");
     const tooltipSub = tooltip.querySelector<HTMLElement>("[data-sub]");
-    if (!tooltipCity || !tooltipSub) return;
+    if (!tooltipCity || !tooltipSub) {
+      console.warn("[AVS Globe] missing tooltip nodes");
+      return;
+    }
 
     let disposed = false;
     let frame = 0;
     let size = 420;
     let built = false;
+    let renderer: THREE.WebGLRenderer;
+
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    } catch (error) {
+      console.error("[AVS Globe] WebGL init failed", error);
+      canvas.style.background =
+        "radial-gradient(circle at 35% 30%, #cfeeda 0%, #a9dfc3 45%, #7fcaa4 100%)";
+      canvas.style.borderRadius = "50%";
+      return;
+    }
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
     camera.position.set(0, 0, 15.5);
-
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.72));
     const key = new THREE.DirectionalLight(0xffffff, 0.85);
