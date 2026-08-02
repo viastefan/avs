@@ -27,28 +27,31 @@ export default async function ServiceDetailPage({ params }: Props) {
   const index = services.findIndex((s) => s.slug === slug);
 
   return (
-    <article className="border-b border-[var(--ink)]">
+    <article className="border-b border-[var(--line)]">
       <div className="wrap py-12 md:py-16">
-        <p className="meta text-[var(--steel)]">
+        <p className="meta text-[var(--mute)]">
           Spec / {String(index + 1).padStart(2, "0")} · {service.sector}
         </p>
         <h1 className="font-display mt-3 max-w-4xl text-5xl font-black leading-none md:text-7xl">
           {service.title}
         </h1>
+        <div className="mt-6 h-px w-16 bg-[var(--green)]" />
         <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--steel)]">{service.summary}</p>
 
-        <div className="mt-12 max-w-2xl space-y-5 border-t border-[var(--ink)] pt-8 text-base leading-relaxed text-[var(--ink)]">
+        <div className="mt-12 max-w-2xl space-y-5 border-t border-[var(--line)] pt-8 text-base leading-relaxed text-[var(--paper)]">
           {service.body.map((p) => (
-            <p key={p}>{p}</p>
+            <p key={p} className="text-[var(--steel)]">
+              {p}
+            </p>
           ))}
         </div>
 
         {service.highlights?.length ? (
-          <ul className="mt-10 grid gap-0 border border-[var(--ink)] sm:grid-cols-3">
+          <ul className="mt-10 grid gap-0 border border-[var(--line)] sm:grid-cols-3">
             {service.highlights.map((h) => (
               <li
                 key={h}
-                className="border-b border-[var(--ink)] p-4 text-sm font-medium sm:border-b-0 sm:border-r sm:last:border-r-0"
+                className="border-b border-[var(--line)] p-4 text-sm font-medium sm:border-b-0 sm:border-r sm:last:border-r-0"
               >
                 {h}
               </li>
@@ -57,10 +60,10 @@ export default async function ServiceDetailPage({ params }: Props) {
         ) : null}
 
         <div className="mt-12 flex flex-wrap">
-          <Link href="/kontakt" className="btn-accent">
+          <Link href="/kontakt" className="btn-primary">
             Beratung
           </Link>
-          <a href={site.phoneHref} className="btn-primary -ml-px">
+          <a href={site.phoneHref} className="btn-ghost -ml-px">
             {site.phone}
           </a>
           <Link href="/leistungen" className="btn-ghost -ml-px">

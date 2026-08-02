@@ -5,11 +5,11 @@ import * as THREE from "three";
 import { feature as topoFeature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
-const SIGNAL_HEX = 0xd6ff3c;
-const LAND_FILL = "#1a1a1a";
-const LAND_STROKE = "#0a0a0a";
-const OCEAN_FILL = "#ecece8";
-const GRID_STROKE = "rgba(10,10,10,0.08)";
+const SIGNAL_HEX = 0x2ea672;
+const LAND_FILL = "#1c1c1c";
+const LAND_STROKE = "#2a2a2a";
+const OCEAN_FILL = "#0a0a0a";
+const GRID_STROKE = "rgba(46,166,114,0.08)";
 const RADIUS = 5.4;
 
 type City = {
@@ -266,7 +266,7 @@ export function Globe({ className = "" }: { className?: string }) {
       if (isHub) {
         const glow = new THREE.Sprite(
           new THREE.SpriteMaterial({
-            map: makeGlowTexture("#d6ff3c"),
+            map: makeGlowTexture("#2ea672"),
             transparent: true,
             depthWrite: false,
             blending: THREE.AdditiveBlending,
@@ -585,10 +585,10 @@ export function Globe({ className = "" }: { className?: string }) {
         className="pointer-events-none fixed z-[15] text-center opacity-0 transition-opacity"
         style={{ transform: "translate(-9999px,-9999px)" }}
       >
-        <span className="inline-block whitespace-nowrap rounded-full bg-[#0a0a0a] px-3 py-1.5 text-[13px] font-bold text-white shadow-md">
+        <span className="inline-block whitespace-nowrap border border-[#2a2a2a] bg-[#0a0a0a] px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.06em] text-[#ecece8]">
           München · MUC
         </span>
-        <div className="mx-auto mt-1.5 h-3.5 w-px bg-black/35" />
+        <div className="mx-auto mt-1.5 h-3.5 w-px bg-[#2ea672]/50" />
       </div>
     </div>
   );

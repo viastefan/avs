@@ -7,23 +7,22 @@ import { site } from "@/lib/site";
 export default function HomePage() {
   return (
     <>
-      {/* Hero: split industrial — brand panel + evidence photo */}
-      <section className="relative -mt-[var(--header-h)] min-h-[100svh] border-b border-[var(--ink)]">
+      <section className="relative -mt-[var(--header-h)] min-h-[100svh] border-b border-[var(--line)]">
         <div className="grid min-h-[100svh] lg:grid-cols-12">
-          <div className="relative z-[1] flex flex-col justify-between border-b border-[var(--ink)] bg-[var(--ink)] px-[var(--gutter)] py-8 text-[var(--paper)] lg:col-span-5 lg:border-b-0 lg:border-r lg:py-10">
+          <div className="relative z-[1] flex flex-col justify-between border-b border-[var(--line)] bg-[var(--ink)] px-[var(--gutter)] py-8 lg:col-span-5 lg:border-b-0 lg:border-r lg:py-10">
             <div className="pt-14 lg:pt-16">
-              <p className="meta clip-in text-[var(--signal)]">
+              <p className="meta clip-in text-[var(--mute)]">
                 {site.legalName} · Flughafen München
               </p>
               <p className="font-display clip-in clip-in-1 mt-5 text-[clamp(5.5rem,14vw,9.5rem)] font-black leading-[0.82] tracking-[-0.04em] text-[var(--paper)]">
                 {site.name}
               </p>
-              <div className="clip-in clip-in-2 mt-6 h-3 w-full max-w-[12rem] bg-[var(--signal)]" />
+              <div className="clip-in clip-in-2 mt-6 h-px w-24 bg-[var(--green)]" />
               <h1 className="clip-in clip-in-3 mt-8 max-w-md font-display text-[clamp(1.4rem,2.6vw,2rem)] font-bold leading-[1.05] text-[var(--paper)]">
                 Verpackung. Gefahrgut. Export.
-                <span className="mt-2 block text-[var(--signal)]">Standort MUC.</span>
+                <span className="mt-2 block text-[var(--steel)]">Standort MUC.</span>
               </h1>
-              <p className="clip-in clip-in-4 mt-5 max-w-sm text-sm leading-relaxed text-white/65">
+              <p className="clip-in clip-in-4 mt-5 max-w-sm text-sm leading-relaxed text-[var(--steel)]">
                 Präzise Verpackung für Luft, See und Straße — Vorschriftenkonform, dokumentiert,
                 operativ am Frachtzentrum.
               </p>
@@ -31,31 +30,31 @@ export default function HomePage() {
 
             <div className="mt-10 space-y-6">
               <div className="flex flex-wrap gap-0">
-                <Link href="/kontakt" className="btn-accent">
+                <Link href="/kontakt" className="btn-primary">
                   Anfrage
                 </Link>
-                <Link href="/leistungen" className="btn-ghost-light -ml-px">
+                <Link href="/leistungen" className="btn-ghost -ml-px">
                   Leistungen
                 </Link>
-                <a href={site.phoneHref} className="btn-ghost-light -ml-px">
+                <a href={site.phoneHref} className="btn-ghost -ml-px">
                   {site.phone}
                 </a>
               </div>
-              <dl className="grid grid-cols-2 gap-px border border-white/20 bg-white/20 text-[0.7rem] uppercase tracking-[0.06em]">
-                <div className="bg-[var(--ink)] p-3">
-                  <dt className="text-white/40">Zulassung</dt>
-                  <dd className="mt-1 text-[var(--signal)]">{site.approval}</dd>
+              <dl className="grid grid-cols-2 gap-px border border-[var(--line)] bg-[var(--line)] text-[0.7rem] uppercase tracking-[0.06em]">
+                <div className="bg-[var(--ink-2)] p-3">
+                  <dt className="text-[var(--mute)]">Zulassung</dt>
+                  <dd className="mt-1 text-[var(--green)]">{site.approval}</dd>
                 </div>
-                <div className="bg-[var(--ink)] p-3">
-                  <dt className="text-white/40">Sektor</dt>
+                <div className="bg-[var(--ink-2)] p-3">
+                  <dt className="text-[var(--mute)]">Sektor</dt>
                   <dd className="mt-1">Verpackung / Fracht</dd>
                 </div>
-                <div className="bg-[var(--ink)] p-3">
-                  <dt className="text-white/40">Adresse</dt>
+                <div className="bg-[var(--ink-2)] p-3">
+                  <dt className="text-[var(--mute)]">Adresse</dt>
                   <dd className="mt-1">Modul H · Südallee</dd>
                 </div>
-                <div className="bg-[var(--ink)] p-3">
-                  <dt className="text-white/40">Ort</dt>
+                <div className="bg-[var(--ink-2)] p-3">
+                  <dt className="text-[var(--mute)]">Ort</dt>
                   <dd className="mt-1">85356 MUC</dd>
                 </div>
               </dl>
@@ -71,24 +70,25 @@ export default function HomePage() {
               className="hero-media object-cover grayscale contrast-125"
               sizes="(max-width: 1024px) 100vw, 58vw"
             />
-            <div className="absolute inset-0 bg-[var(--ink)]/25 mix-blend-multiply" />
-            <div className="absolute bottom-0 left-0 right-0 border-t border-[var(--ink)] bg-[var(--signal)] px-4 py-3">
-              <p className="meta flex flex-wrap justify-between gap-2 text-[var(--ink)]">
-                <span>Evidence · Air cargo ops</span>
+            <div className="absolute inset-0 bg-[var(--ink)]/40" />
+            <div className="absolute bottom-0 left-0 right-0 border-t border-[var(--line)] bg-[var(--ink)]/90 px-4 py-3 backdrop-blur-sm">
+              <p className="meta flex flex-wrap justify-between gap-2 text-[var(--steel)]">
+                <span>
+                  <span className="text-[var(--green)]">●</span> Evidence · Air cargo ops
+                </span>
                 <span>MUC / FRA / World</span>
               </p>
             </div>
-            <div className="pointer-events-none absolute left-4 top-4 border border-[var(--signal)] px-2 py-1">
-              <span className="meta text-[var(--signal)]">Fig. 01</span>
+            <div className="pointer-events-none absolute left-4 top-4 border border-[var(--line)] bg-[var(--ink)]/70 px-2 py-1">
+              <span className="meta text-[var(--steel)]">Fig. 01</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Spec intro */}
-      <section className="border-b border-[var(--ink)]">
+      <section className="border-b border-[var(--line)]">
         <div className="wrap grid gap-0 md:grid-cols-12">
-          <div className="border-b border-[var(--ink)] py-12 md:col-span-4 md:border-b-0 md:border-r md:pr-8">
+          <div className="border-b border-[var(--line)] py-12 md:col-span-4 md:border-b-0 md:border-r md:pr-8">
             <p className="index">Abschnitt / 01</p>
             <h2 className="font-display mt-3 text-3xl font-black leading-none md:text-4xl">
               Operativ.
@@ -106,36 +106,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Services index */}
-      <section id="leistungen" className="border-b border-[var(--ink)]">
+      <section id="leistungen" className="border-b border-[var(--line)]">
         <div className="wrap py-10">
-          <div className="flex flex-col justify-between gap-4 border-b border-[var(--ink)] pb-6 md:flex-row md:items-end">
+          <div className="flex flex-col justify-between gap-4 border-b border-[var(--line)] pb-6 md:flex-row md:items-end">
             <div>
               <p className="index">Abschnitt / 02</p>
               <h2 className="font-display mt-2 text-4xl font-black md:text-5xl">Leistungen</h2>
             </div>
-            <Link href="/leistungen" className="btn-primary">
+            <Link href="/leistungen" className="btn-ghost">
               Gesamtkatalog
             </Link>
           </div>
 
           <ul>
             {services.map((service, i) => (
-              <li key={service.slug} className="border-b border-[var(--ink)] last:border-b-0">
+              <li key={service.slug} className="border-b border-[var(--line)] last:border-b-0">
                 <Link
                   href={`/leistungen/${service.slug}`}
-                  className="group grid gap-3 py-6 transition-colors hover:bg-[var(--signal)] md:grid-cols-[5rem_14rem_1fr_auto] md:items-baseline md:gap-6"
+                  className="group grid gap-3 py-6 transition-colors hover:bg-[var(--ink-2)] md:grid-cols-[5rem_14rem_1fr_auto] md:items-baseline md:gap-6"
                 >
-                  <span className="meta text-[var(--steel)] group-hover:text-[var(--ink)]">
+                  <span className="meta text-[var(--mute)] group-hover:text-[var(--green)]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="font-display text-2xl font-extrabold leading-none md:text-3xl">
                     {service.title}
                   </span>
-                  <span className="max-w-xl text-sm leading-relaxed text-[var(--steel)] group-hover:text-[var(--ink)]">
+                  <span className="max-w-xl text-sm leading-relaxed text-[var(--steel)]">
                     {service.summary}
                   </span>
-                  <span className="meta self-center text-[var(--ink)]">Öffnen →</span>
+                  <span className="meta self-center text-[var(--mute)] group-hover:text-[var(--paper)]">
+                    Öffnen →
+                  </span>
                 </Link>
               </li>
             ))}
@@ -143,10 +144,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Hub / globe */}
-      <section className="border-b border-[var(--ink)]">
+      <section className="border-b border-[var(--line)]">
         <div className="wrap grid gap-0 lg:grid-cols-12">
-          <div className="border-b border-[var(--ink)] py-12 lg:col-span-5 lg:border-b-0 lg:border-r lg:pr-10">
+          <div className="border-b border-[var(--line)] py-12 lg:col-span-5 lg:border-b-0 lg:border-r lg:pr-10">
             <p className="index">Abschnitt / 03</p>
             <h2 className="font-display mt-3 text-4xl font-black leading-none md:text-5xl">
               Hub München
@@ -165,8 +165,8 @@ export default function HomePage() {
             </div>
           </div>
           <div className="py-8 lg:col-span-7 lg:pl-6">
-            <div className="border border-[var(--ink)] bg-[var(--paper-2)] p-2">
-              <p className="meta mb-2 flex justify-between px-1 text-[var(--steel)]">
+            <div className="border border-[var(--line)] bg-[var(--ink-2)] p-2">
+              <p className="meta mb-2 flex justify-between px-1 text-[var(--mute)]">
                 <span>Fig. 02 · Network</span>
                 <span>Drag to rotate</span>
               </p>
@@ -176,8 +176,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Full-bleed evidence */}
-      <section className="relative min-h-[56vh] border-b border-[var(--ink)]">
+      <section className="relative min-h-[56vh] border-b border-[var(--line)]">
         <Image
           src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=2200&auto=format&fit=crop"
           alt="Containerschiff und Hafenkräne"
@@ -185,22 +184,21 @@ export default function HomePage() {
           className="object-cover grayscale contrast-110"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-[var(--ink)]/55" />
+        <div className="absolute inset-0 bg-[var(--ink)]/70" />
         <div className="relative z-[1] wrap flex min-h-[56vh] flex-col justify-end py-12">
-          <p className="meta text-[var(--signal)]">Fig. 03 · Land / Sea / Air</p>
+          <p className="meta text-[var(--green)]">Fig. 03 · Land / Sea / Air</p>
           <h2 className="font-display mt-3 max-w-3xl text-4xl font-black text-[var(--paper)] md:text-6xl">
             Gestaut. Gesichert. Dokumentiert.
           </h2>
         </div>
       </section>
 
-      {/* CTA strip */}
-      <section className="border-b border-[var(--ink)] bg-[var(--signal)]">
+      <section className="border-b border-[var(--line)]">
         <div className="wrap grid gap-0 md:grid-cols-12">
-          <div className="border-b border-[var(--ink)] py-10 md:col-span-7 md:border-b-0 md:border-r md:pr-8">
-            <p className="index text-[var(--ink)]">Kontakt</p>
+          <div className="border-b border-[var(--line)] py-10 md:col-span-7 md:border-b-0 md:border-r md:pr-8">
+            <p className="index">Kontakt</p>
             <h2 className="font-display mt-2 text-4xl font-black md:text-5xl">Direkt anfragen.</h2>
-            <p className="mt-4 max-w-lg text-sm text-[var(--ink)]/75">
+            <p className="mt-4 max-w-lg text-sm text-[var(--steel)]">
               Verpackung, Containerstauung oder Gefahrgutschulung — wir antworten operativ und klar.
             </p>
           </div>
@@ -208,7 +206,7 @@ export default function HomePage() {
             <Link href="/kontakt" className="btn-primary w-full">
               Formular öffnen
             </Link>
-            <a href={site.phoneHref} className="btn-ghost -mt-px w-full bg-[var(--paper)]">
+            <a href={site.phoneHref} className="btn-ghost -mt-px w-full">
               {site.phone}
             </a>
           </div>

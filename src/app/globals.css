@@ -1,30 +1,28 @@
 @import "tailwindcss";
 
 /*
-  AVS Design System — Industrial Spec
-  -----------------------------------
-  Principles:
-  1. Zero radius. No soft chrome.
-  2. Structure is visible: rules, indexes, mono meta.
-  3. One signal color. Everything else is ink/paper/steel.
-  4. Type does the hierarchy. Photography is evidence, not decoration.
-  5. Motion is structural (clip/slide), never bounce/glow.
+  AVS Design System — Black Industrial
+  ------------------------------------
+  Black field. White structure. Green only as sparse signal.
+  Zero radius. Visible rules. Spec typography.
 */
 
 :root {
   --ink: #0a0a0a;
-  --ink-2: #1c1c1c;
+  --ink-2: #121212;
+  --ink-3: #1a1a1a;
   --paper: #ecece8;
-  --paper-2: #e2e2dc;
-  --steel: #5c5c56;
-  --mute: #8a8a82;
-  --line: #0a0a0a;
-  --line-soft: rgba(10, 10, 10, 0.18);
-  --signal: #d6ff3c;
-  --signal-ink: #0a0a0a;
+  --paper-2: #111111;
+  --steel: #8a8a84;
+  --mute: #5c5c56;
+  --line: #2a2a2a;
+  --line-soft: rgba(236, 236, 232, 0.08);
+  --green: #2ea672;
+  --green-dim: #1f7a52;
+  --signal: var(--green);
   --danger: #c1121f;
-  --background: var(--paper);
-  --foreground: var(--ink);
+  --background: var(--ink);
+  --foreground: var(--paper);
   --header-h: 3.5rem;
   --gutter: clamp(1rem, 3vw, 2rem);
   --max: 72rem;
@@ -37,7 +35,8 @@
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-steel: var(--steel);
-  --color-signal: var(--signal);
+  --color-signal: var(--green);
+  --color-green: var(--green);
   --color-line: var(--line);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
@@ -50,18 +49,19 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
   font-family: var(--font-body), system-ui, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--signal);
+  background: var(--green);
   color: var(--ink);
 }
 
@@ -81,21 +81,17 @@ body {
 }
 
 .site-shell {
-  background-color: var(--paper);
+  background-color: var(--ink);
   background-image:
     linear-gradient(var(--line-soft) 1px, transparent 1px),
     linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background-size: 56px 56px;
   background-position: -1px -1px;
 }
 
 .wrap {
   width: min(100% - (var(--gutter) * 2), var(--max));
   margin-inline: auto;
-}
-
-.rule {
-  border-color: var(--line);
 }
 
 .btn,
@@ -109,7 +105,7 @@ body {
   gap: 0.65rem;
   min-height: 2.75rem;
   padding: 0.65rem 1.1rem;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--paper);
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.72rem;
   font-weight: 500;
@@ -119,63 +115,54 @@ body {
 }
 
 .btn-primary {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
 }
 
 .btn-primary:hover {
-  background: var(--signal);
-  color: var(--ink);
-  border-color: var(--ink);
+  background: transparent;
+  color: var(--paper);
 }
 
 .btn-accent {
-  background: var(--signal);
-  color: var(--ink);
-  border-color: var(--ink);
+  background: transparent;
+  color: var(--green);
+  border-color: var(--green);
 }
 
 .btn-accent:hover {
-  background: var(--ink);
-  color: var(--signal);
+  background: var(--green);
+  color: var(--ink);
 }
 
 .btn-ghost,
 .btn-ghost-light {
   background: transparent;
-  color: var(--ink);
-}
-
-.btn-ghost:hover {
-  background: var(--ink);
   color: var(--paper);
+  border-color: var(--line);
 }
 
-.btn-ghost-light {
-  color: var(--paper);
-  border-color: var(--paper);
-}
-
+.btn-ghost:hover,
 .btn-ghost-light:hover {
-  background: var(--signal);
-  color: var(--ink);
-  border-color: var(--signal);
+  border-color: var(--paper);
+  background: var(--ink-3);
 }
 
 .field {
   width: 100%;
   min-height: 2.85rem;
   padding: 0.75rem 0.9rem;
-  background: var(--paper);
-  border: 1px solid var(--ink);
-  color: var(--ink);
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  color: var(--paper);
   outline: none;
   font: inherit;
 }
 
 .field:focus {
-  background: #fff;
-  box-shadow: inset 3px 0 0 var(--signal);
+  border-color: var(--green);
+  box-shadow: inset 3px 0 0 var(--green);
 }
 
 .field-area {
@@ -187,7 +174,7 @@ body {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.08em;
-  color: var(--steel);
+  color: var(--mute);
   text-transform: uppercase;
 }
 

@@ -8,13 +8,13 @@ export const metadata: Metadata = {
 
 export default function DatenschutzPage() {
   return (
-    <section className="border-b border-[var(--ink)]">
+    <section className="border-b border-[var(--line)]">
       <div className="wrap max-w-3xl py-12 md:py-16">
         <p className="meta text-[var(--steel)]">Legal / 02</p>
         <h1 className="font-display mt-3 text-5xl font-black">Datenschutz</h1>
         <div className="mt-10 space-y-8 text-sm leading-relaxed text-[var(--steel)]">
           <div>
-            <h2 className="font-display text-xl font-extrabold text-[var(--ink)]">1. Verantwortlicher</h2>
+            <h2 className="font-display text-xl font-extrabold text-[var(--paper)]">1. Verantwortlicher</h2>
             <p className="mt-3">
               {site.legalName}
               <br />
@@ -28,7 +28,7 @@ export default function DatenschutzPage() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-xl font-extrabold text-[var(--ink)]">
+            <h2 className="font-display text-xl font-extrabold text-[var(--paper)]">
               2. Hosting & Logfiles
             </h2>
             <p className="mt-3">
@@ -38,7 +38,7 @@ export default function DatenschutzPage() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-xl font-extrabold text-[var(--ink)]">3. Kontaktformular</h2>
+            <h2 className="font-display text-xl font-extrabold text-[var(--paper)]">3. Kontaktformular</h2>
             <p className="mt-3">
               Wenn Sie uns über das Kontaktformular schreiben, verarbeiten wir die angegebenen Daten zur
               Bearbeitung Ihrer Anfrage. Rechtsgrundlage: Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b bzw.
@@ -46,14 +46,14 @@ export default function DatenschutzPage() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-xl font-extrabold text-[var(--ink)]">4. Ihre Rechte</h2>
+            <h2 className="font-display text-xl font-extrabold text-[var(--paper)]">4. Ihre Rechte</h2>
             <p className="mt-3">
               Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
               Widerspruch sowie Datenübertragbarkeit und ein Beschwerderecht bei einer Aufsichtsbehörde.
             </p>
           </div>
           <div>
-            <h2 className="font-display text-xl font-extrabold text-[var(--ink)]">5. Globus-Daten</h2>
+            <h2 className="font-display text-xl font-extrabold text-[var(--paper)]">5. Globus-Daten</h2>
             <p className="mt-3">
               Für die interaktive Globus-Darstellung werden lokale Kartendaten unter `/data/` geladen.
             </p>

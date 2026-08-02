@@ -23,7 +23,7 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-[var(--ink)] bg-[var(--paper)]">
+      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-[var(--line)] bg-[var(--ink)]">
         <div className="wrap flex h-full items-center justify-between gap-4">
           <Link
             href="/"
@@ -31,17 +31,17 @@ export function Header() {
             className="flex items-center gap-3"
             aria-label={`${site.name} Startseite`}
           >
-            <span className="flex h-8 w-8 items-center justify-center border border-[var(--ink)] bg-[var(--ink)] text-[var(--signal)]">
+            <span className="flex h-8 w-8 items-center justify-center border border-[var(--line)] bg-[var(--ink-2)] text-[var(--green)]">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
                 <path d="M4 18L12 4L20 18H4Z" stroke="currentColor" strokeWidth="1.8" />
                 <path d="M8.5 14H15.5" stroke="currentColor" strokeWidth="1.8" />
               </svg>
             </span>
             <span className="leading-none">
-              <span className="font-display block text-[1.35rem] font-extrabold tracking-tight text-[var(--ink)]">
+              <span className="font-display block text-[1.35rem] font-extrabold tracking-tight text-[var(--paper)]">
                 {site.name}
               </span>
-              <span className="meta mt-0.5 block text-[var(--steel)]">MUC · Modul H</span>
+              <span className="meta mt-0.5 block text-[var(--mute)]">MUC · Modul H</span>
             </span>
           </Link>
 
@@ -52,10 +52,10 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center border-l border-[var(--ink)] px-5 text-[0.72rem] font-medium uppercase tracking-[0.08em] transition-colors ${
+                  className={`flex items-center border-l border-[var(--line)] px-5 text-[0.72rem] font-medium uppercase tracking-[0.08em] transition-colors ${
                     isActive
-                      ? "bg-[var(--ink)] text-[var(--signal)]"
-                      : "text-[var(--ink)] hover:bg-[var(--signal)]"
+                      ? "text-[var(--green)]"
+                      : "text-[var(--paper)] hover:bg-[var(--ink-2)]"
                   }`}
                 >
                   <span className="mr-2 text-[var(--mute)]">{String(i + 1).padStart(2, "0")}</span>
@@ -65,7 +65,7 @@ export function Header() {
             })}
             <a
               href={site.phoneHref}
-              className="flex items-center border-l border-[var(--ink)] bg-[var(--ink)] px-5 text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--signal)] hover:bg-[var(--signal)] hover:text-[var(--ink)]"
+              className="flex items-center border-l border-[var(--line)] bg-[var(--paper)] px-5 text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--ink)] hover:bg-[var(--green)]"
             >
               Anrufen
             </a>
@@ -73,7 +73,7 @@ export function Header() {
 
           <button
             type="button"
-            className="inline-flex h-9 items-center border border-[var(--ink)] bg-[var(--ink)] px-3 text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--signal)] lg:hidden"
+            className="inline-flex h-9 items-center border border-[var(--line)] px-3 text-[0.72rem] font-medium uppercase tracking-[0.08em] text-[var(--paper)] lg:hidden"
             aria-expanded={open}
             aria-controls={panelId}
             aria-label={open ? "Menü schließen" : "Menü öffnen"}
@@ -87,16 +87,16 @@ export function Header() {
       {open ? (
         <div
           id={panelId}
-          className="fixed inset-0 z-[100] bg-[var(--paper)] lg:hidden"
+          className="fixed inset-0 z-[100] bg-[var(--ink)] lg:hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
         >
-          <div className="flex h-[var(--header-h)] items-center justify-between border-b border-[var(--ink)] px-[var(--gutter)]">
-            <span className="font-display text-xl font-extrabold">{site.name}</span>
+          <div className="flex h-[var(--header-h)] items-center justify-between border-b border-[var(--line)] px-[var(--gutter)]">
+            <span className="font-display text-xl font-extrabold text-[var(--paper)]">{site.name}</span>
             <button
               type="button"
-              className="border border-[var(--ink)] px-3 py-2 text-[0.72rem] uppercase tracking-[0.08em]"
+              className="border border-[var(--line)] px-3 py-2 text-[0.72rem] uppercase tracking-[0.08em] text-[var(--paper)]"
               aria-label="Menü schließen"
               onClick={closeNav}
             >
@@ -109,13 +109,13 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={closeNav}
-                className="flex items-center justify-between border-b border-[var(--ink)] px-[var(--gutter)] py-5 text-lg font-medium uppercase tracking-wide"
+                className="flex items-center justify-between border-b border-[var(--line)] px-[var(--gutter)] py-5 text-lg font-medium uppercase tracking-wide text-[var(--paper)]"
               >
                 <span>{item.label}</span>
-                <span className="meta text-[var(--steel)]">{String(i + 1).padStart(2, "0")}</span>
+                <span className="meta text-[var(--mute)]">{String(i + 1).padStart(2, "0")}</span>
               </Link>
             ))}
-            <a href={site.phoneHref} className="btn-accent m-[var(--gutter)]">
+            <a href={site.phoneHref} className="btn-primary m-[var(--gutter)]">
               {site.phone}
             </a>
           </nav>

@@ -13,18 +13,19 @@ export const metadata: Metadata = {
 export default function GefahrgutschulungPage() {
   return (
     <>
-      <section className="relative -mt-[var(--header-h)] border-b border-[var(--ink)]">
+      <section className="relative -mt-[var(--header-h)] border-b border-[var(--line)]">
         <div className="grid lg:grid-cols-12">
-          <div className="bg-[var(--ink)] px-[var(--gutter)] py-16 text-[var(--paper)] lg:col-span-5 lg:py-24">
-            <p className="meta text-[var(--signal)]">Training / Compliance</p>
+          <div className="bg-[var(--ink)] px-[var(--gutter)] py-16 lg:col-span-5 lg:py-24">
+            <p className="meta text-[var(--mute)]">Training / Compliance</p>
             <h1 className="font-display mt-4 text-5xl font-black leading-none md:text-6xl">
               Gefahrgutschulung
             </h1>
-            <p className="mt-6 max-w-md text-sm leading-relaxed text-white/65">
+            <div className="mt-6 h-px w-16 bg-[var(--green)]" />
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-[var(--steel)]">
               Qualifiziertes Personal für sicheren Gefahrguttransport — praxisnah und
               vorschriftenaktuell.
             </p>
-            <Link href="/kontakt" className="btn-accent mt-8">
+            <Link href="/kontakt" className="btn-primary mt-8">
               Termin anfragen
             </Link>
           </div>
@@ -37,14 +38,14 @@ export default function GefahrgutschulungPage() {
               className="object-cover grayscale contrast-125"
               sizes="(max-width:1024px) 100vw, 58vw"
             />
-            <div className="absolute inset-0 bg-[var(--ink)]/40" />
+            <div className="absolute inset-0 bg-[var(--ink)]/55" />
           </div>
         </div>
       </section>
 
-      <section className="border-b border-[var(--ink)]">
+      <section className="border-b border-[var(--line)]">
         <div className="wrap grid gap-0 md:grid-cols-12">
-          <div className="border-b border-[var(--ink)] py-12 md:col-span-4 md:border-b-0 md:border-r md:pr-8">
+          <div className="border-b border-[var(--line)] py-12 md:col-span-4 md:border-b-0 md:border-r md:pr-8">
             <p className="index">Briefing</p>
             <h2 className="font-display mt-3 text-3xl font-black">Sicherheit zuerst</h2>
           </div>
@@ -65,15 +66,12 @@ export default function GefahrgutschulungPage() {
       <section className="wrap py-12">
         <div className="grid gap-0 md:grid-cols-2">
           {trainingTopics.map((topic, i) => (
-            <div
-              key={topic.title}
-              className="border border-[var(--ink)] p-6 md:-mt-px md:-ml-px"
-            >
-              <p className="meta text-[var(--steel)]">{String(i + 1).padStart(2, "0")}</p>
+            <div key={topic.title} className="border border-[var(--line)] p-6 md:-mt-px md:-ml-px">
+              <p className="meta text-[var(--mute)]">{String(i + 1).padStart(2, "0")}</p>
               <h2 className="font-display mt-3 text-2xl font-extrabold">{topic.title}</h2>
               <ul className="mt-4 space-y-2 text-sm text-[var(--steel)]">
                 {topic.items.map((item) => (
-                  <li key={item} className="border-t border-[var(--line-soft)] pt-2">
+                  <li key={item} className="border-t border-[var(--line)] pt-2">
                     {item}
                   </li>
                 ))}
@@ -82,16 +80,16 @@ export default function GefahrgutschulungPage() {
           ))}
         </div>
 
-        <div className="mt-12 border border-[var(--ink)] bg-[var(--signal)] p-8">
+        <div className="mt-12 border border-[var(--line)] bg-[var(--ink-2)] p-8">
           <h2 className="font-display text-3xl font-black">Termin vereinbaren</h2>
-          <p className="mt-3 max-w-xl text-sm text-[var(--ink)]/75">
+          <p className="mt-3 max-w-xl text-sm text-[var(--steel)]">
             Schulung für Sie oder Ihr Team — telefonisch vorab oder direkt Termin.
           </p>
           <div className="mt-6 flex flex-wrap">
             <a href={site.phoneHref} className="btn-primary">
               {site.phone}
             </a>
-            <Link href="/kontakt" className="btn-ghost -ml-px bg-[var(--paper)]">
+            <Link href="/kontakt" className="btn-ghost -ml-px">
               Schreiben
             </Link>
           </div>

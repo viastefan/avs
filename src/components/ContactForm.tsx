@@ -21,33 +21,33 @@ export function ContactForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="meta mb-2 block text-[var(--steel)]">Vorname</span>
+          <span className="meta mb-2 block text-[var(--mute)]">Vorname</span>
           <input className="field" name="firstName" required autoComplete="given-name" />
         </label>
         <label className="block">
-          <span className="meta mb-2 block text-[var(--steel)]">Nachname</span>
+          <span className="meta mb-2 block text-[var(--mute)]">Nachname</span>
           <input className="field" name="lastName" required autoComplete="family-name" />
         </label>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="meta mb-2 block text-[var(--steel)]">E-Mail</span>
+          <span className="meta mb-2 block text-[var(--mute)]">E-Mail</span>
           <input className="field" type="email" name="email" required autoComplete="email" />
         </label>
         <label className="block">
-          <span className="meta mb-2 block text-[var(--steel)]">Unternehmen</span>
+          <span className="meta mb-2 block text-[var(--mute)]">Unternehmen</span>
           <input className="field" name="company" autoComplete="organization" />
         </label>
       </div>
 
       <label className="block">
-        <span className="meta mb-2 block text-[var(--steel)]">Betreff</span>
+        <span className="meta mb-2 block text-[var(--mute)]">Betreff</span>
         <input className="field" name="subject" required />
       </label>
 
       <label className="block">
-        <span className="meta mb-2 block text-[var(--steel)]">Anfrage</span>
+        <span className="meta mb-2 block text-[var(--mute)]">Anfrage</span>
         <textarea
           className="field field-area"
           name="message"
@@ -61,13 +61,16 @@ export function ContactForm() {
       </button>
 
       {state.message ? (
-        <p role="status" className="border border-[var(--ink)] bg-[var(--signal)] px-3 py-2 text-sm text-[var(--ink)]">
+        <p
+          role="status"
+          className="border border-[var(--green)] px-3 py-2 text-sm text-[var(--green)]"
+        >
           {state.message}
         </p>
       ) : null}
 
       {state.error ? (
-        <p role="alert" className="border border-[var(--danger)] bg-[var(--danger)] px-3 py-2 text-sm text-white">
+        <p role="alert" className="border border-[var(--danger)] px-3 py-2 text-sm text-[var(--danger)]">
           {state.error}
         </p>
       ) : null}
