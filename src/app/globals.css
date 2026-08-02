@@ -11,14 +11,14 @@
   --paper: #ecece8;
   --steel: #8a8a84;
   --mute: #5a5a54;
-  --line: #222222;
+  --line: #1e1e1e;
   --green: #2ea672;
   --danger: #c1121f;
   --background: var(--ink);
   --foreground: var(--paper);
-  --header-h: 4rem;
-  --gutter: clamp(1.25rem, 4vw, 3rem);
-  --max: 68rem;
+  --header-h: 3.75rem;
+  --gutter: clamp(1.5rem, 5vw, 3.5rem);
+  --max: 64rem;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -65,8 +65,8 @@ body {
 
 .meta {
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mute);
 }
@@ -81,10 +81,10 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 2.75rem;
-  padding: 0.7rem 1.25rem;
+  min-height: 2.6rem;
+  padding: 0.65rem 1.15rem;
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -116,8 +116,8 @@ body {
 
 .field {
   width: 100%;
-  min-height: 2.85rem;
-  padding: 0.75rem 0.9rem;
+  min-height: 2.75rem;
+  padding: 0.7rem 0.85rem;
   background: transparent;
   border: 1px solid var(--line);
   color: var(--paper);
@@ -130,28 +130,25 @@ body {
 }
 
 .field-area {
-  min-height: 8rem;
+  min-height: 7.5rem;
   resize: vertical;
 }
 
 .fade-in {
-  animation: fade-in 0.9s var(--ease) both;
+  animation: fade-in 1s var(--ease) both;
 }
 
 .fade-in-1 {
-  animation-delay: 0.1s;
+  animation-delay: 0.12s;
 }
 .fade-in-2 {
-  animation-delay: 0.2s;
-}
-.fade-in-3 {
-  animation-delay: 0.3s;
+  animation-delay: 0.24s;
 }
 
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -160,15 +157,15 @@ body {
 }
 
 .hero-media {
-  animation: ken 32s linear infinite alternate;
+  animation: ken 36s linear infinite alternate;
 }
 
 @keyframes ken {
   from {
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
   to {
-    transform: scale(1.08);
+    transform: scale(1.07);
   }
 }
 
@@ -179,8 +176,7 @@ body {
   .hero-media,
   .fade-in,
   .fade-in-1,
-  .fade-in-2,
-  .fade-in-3 {
+  .fade-in-2 {
     animation: none !important;
   }
 }

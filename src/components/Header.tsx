@@ -23,31 +23,32 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-[var(--line)] bg-[var(--ink)]/90 backdrop-blur-md">
+      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] bg-[var(--ink)]/85 backdrop-blur-md">
         <div className="wrap flex h-full items-center justify-between gap-8">
-          <Link href="/" onClick={closeNav} className="font-display text-lg font-bold tracking-tight" aria-label={`${site.name} Startseite`}>
+          <Link
+            href="/"
+            onClick={closeNav}
+            className="font-display text-base font-bold tracking-tight"
+            aria-label={`${site.name} Startseite`}
+          >
             {site.name}
-            <span className="ml-2 text-[var(--mute)]">MUC</span>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex" aria-label="Hauptnavigation">
+          <nav className="hidden items-center gap-9 lg:flex" aria-label="Hauptnavigation">
             {nav.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-[0.8rem] tracking-wide transition-colors ${
-                    active ? "text-[var(--green)]" : "text-[var(--steel)] hover:text-[var(--paper)]"
+                  className={`text-[0.78rem] tracking-[0.04em] transition-colors ${
+                    active ? "text-[var(--paper)]" : "text-[var(--mute)] hover:text-[var(--paper)]"
                   }`}
                 >
                   {item.label}
                 </Link>
               );
             })}
-            <a href={site.phoneHref} className="btn-primary">
-              Anrufen
-            </a>
           </nav>
 
           <button
@@ -71,24 +72,24 @@ export function Header() {
           aria-modal="true"
           aria-label="Navigation"
         >
-          <div className="flex h-[var(--header-h)] items-center justify-between border-b border-[var(--line)] px-[var(--gutter)]">
-            <span className="font-display text-lg font-bold">{site.name}</span>
+          <div className="flex h-[var(--header-h)] items-center justify-between px-[var(--gutter)]">
+            <span className="font-display text-base font-bold">{site.name}</span>
             <button type="button" className="meta" onClick={closeNav} aria-label="Menü schließen">
               Schließen
             </button>
           </div>
-          <nav className="flex flex-col px-[var(--gutter)] py-8" aria-label="Mobile Navigation">
+          <nav className="flex flex-col px-[var(--gutter)] pt-4" aria-label="Mobile Navigation">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={closeNav}
-                className="border-b border-[var(--line)] py-5 text-xl text-[var(--paper)]"
+                className="border-t border-[var(--line)] py-6 text-2xl text-[var(--paper)] last:border-b"
               >
                 {item.label}
               </Link>
             ))}
-            <a href={site.phoneHref} className="btn-primary mt-8 self-start">
+            <a href={site.phoneHref} className="mt-10 text-sm text-[var(--steel)]">
               {site.phone}
             </a>
           </nav>

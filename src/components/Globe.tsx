@@ -32,16 +32,9 @@ const HUB: City = {
 
 const CITIES: City[] = [
   { name: "Frankfurt", code: "FRA", sub: "Deutschland", lat: 50.1109, lon: 8.6821 },
-  { name: "Hamburg", code: "HAM", sub: "Deutschland", lat: 53.5511, lon: 9.9937 },
-  { name: "Berlin", code: "BER", sub: "Deutschland", lat: 52.52, lon: 13.405 },
   { name: "Amsterdam", code: "AMS", sub: "Niederlande", lat: 52.3676, lon: 4.9041 },
   { name: "London", code: "LHR", sub: "Vereinigtes Königreich", lat: 51.5074, lon: -0.1278 },
   { name: "Paris", code: "CDG", sub: "Frankreich", lat: 48.8566, lon: 2.3522 },
-  { name: "Madrid", code: "MAD", sub: "Spanien", lat: 40.4168, lon: -3.7038 },
-  { name: "Mailand", code: "MXP", sub: "Italien", lat: 45.4642, lon: 9.19 },
-  { name: "Wien", code: "VIE", sub: "Österreich", lat: 48.2082, lon: 16.3738 },
-  { name: "Zürich", code: "ZRH", sub: "Schweiz", lat: 47.3769, lon: 8.5417 },
-  { name: "Istanbul", code: "IST", sub: "Türkei", lat: 41.0082, lon: 28.9784 },
   { name: "Dubai", code: "DXB", sub: "VAE", lat: 25.2048, lon: 55.2708 },
   { name: "Singapur", code: "SIN", sub: "Singapur", lat: 1.3521, lon: 103.8198 },
   { name: "Hongkong", code: "HKG", sub: "China", lat: 22.3193, lon: 114.1694 },
@@ -49,7 +42,6 @@ const CITIES: City[] = [
   { name: "New York", code: "JFK", sub: "USA", lat: 40.7128, lon: -74.006 },
   { name: "Los Angeles", code: "LAX", sub: "USA", lat: 34.0522, lon: -118.2437 },
   { name: "São Paulo", code: "GRU", sub: "Brasilien", lat: -23.5505, lon: -46.6333 },
-  { name: "Johannesburg", code: "JNB", sub: "Südafrika", lat: -26.2041, lon: 28.0473 },
   { name: "Sydney", code: "SYD", sub: "Australien", lat: -33.8688, lon: 151.2093 },
 ];
 
@@ -557,13 +549,13 @@ export function Globe({ className = "" }: { className?: string }) {
   return (
     <div
       ref={wrapRef}
-      className={`relative mx-auto flex min-h-[320px] w-full max-w-[640px] items-center justify-center aspect-square ${className}`}
+      className={`relative mx-auto flex min-h-[280px] w-full max-w-[520px] items-center justify-center aspect-square ${className}`}
     >
       <div
-        className="pointer-events-none absolute inset-[12%] rounded-full"
+        className="pointer-events-none absolute inset-[18%] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(46,166,114,0.18) 0%, rgba(46,166,114,0) 70%)",
-          filter: "blur(6px)",
+          background: "radial-gradient(circle, rgba(46,166,114,0.08) 0%, rgba(46,166,114,0) 68%)",
+          filter: "blur(8px)",
         }}
         aria-hidden
       />

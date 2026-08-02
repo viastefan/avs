@@ -10,53 +10,33 @@ export const metadata: Metadata = {
 
 export default function KontaktPage() {
   return (
-    <section className="wrap grid gap-16 py-16 md:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
+    <section className="wrap grid gap-16 py-20 md:py-28 lg:grid-cols-2 lg:gap-24">
       <div>
-        <p className="meta">Kontakt</p>
-        <h1 className="font-display mt-3 text-4xl font-black leading-none md:text-6xl">
-          Schreiben Sie uns
-        </h1>
-        <p className="mt-6 max-w-md text-base leading-relaxed text-[var(--steel)]">
+        <h1 className="font-display text-4xl font-black leading-none md:text-6xl">Kontakt</h1>
+        <p className="mt-6 max-w-sm text-base leading-relaxed text-[var(--steel)]">
           Fragen zu Verpackung, Stauung oder Schulung — wir melden uns zeitnah.
         </p>
 
-        <dl className="mt-12 space-y-6 text-sm">
-          <div>
-            <dt className="meta mb-2">Adresse</dt>
-            <dd className="text-[var(--steel)]">
-              {site.legalName}
-              <br />
-              {site.address.line1}
-              <br />
-              {site.address.city}
-            </dd>
-          </div>
-          <div>
-            <dt className="meta mb-2">Telefon</dt>
-            <dd>
-              <a href={site.phoneHref} className="hover:text-[var(--green)]">
-                {site.phone}
-              </a>
-              <br />
-              <a href="tel:+498997594592" className="hover:text-[var(--green)]">
-                {site.phoneAlt}
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt className="meta mb-2">E-Mail</dt>
-            <dd>
-              <a href={site.emailHref} className="hover:text-[var(--green)]">
-                {site.email}
-              </a>
-            </dd>
-          </div>
-        </dl>
+        <div className="mt-12 space-y-4 text-sm text-[var(--steel)]">
+          <p>
+            {site.address.line1}
+            <br />
+            {site.address.city}
+          </p>
+          <p>
+            <a href={site.phoneHref} className="text-[var(--paper)] hover:text-[var(--green)]">
+              {site.phone}
+            </a>
+          </p>
+          <p>
+            <a href={site.emailHref} className="hover:text-[var(--paper)]">
+              {site.email}
+            </a>
+          </p>
+        </div>
       </div>
 
-      <div>
-        <ContactForm />
-      </div>
+      <ContactForm />
     </section>
   );
 }
