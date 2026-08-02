@@ -7,7 +7,10 @@ import { nav, site } from "@/lib/site";
 
 export function Header() {
   const pathname = usePathname();
+  const heroRoutes = ["/", "/leistungen", "/containerstauung", "/gefahrgutschulung"];
+  const hasHero = heroRoutes.includes(pathname);
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const panelId = useId();
 
   useEffect(() => {
@@ -17,13 +20,33 @@ export function Header() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const sync = () => setScrolled(window.scrollY > 24);
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    return () => window.removeEventListener("scroll", sync);
+  }, [pathname]);
+
   function closeNav() {
     setOpen(false);
   }
 
+  const overHero = hasHero && !scrolled && !open;
+  const text = overHero ? "text-white" : "text-[var(--ink)]";
+  const muted = overHero
+    ? "text-white/75 hover:text-white"
+    : "text-[var(--ink-soft)] hover:text-[var(--accent)]";
+  const active = overHero ? "text-[var(--accent-bright)]" : "text-[var(--accent-deep)]";
+
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[rgba(238,242,239,0.92)] backdrop-blur-md">
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-[background,border-color,backdrop-filter] duration-300 ${
+          overHero
+            ? "border-b border-transparent bg-transparent"
+            : "border-b border-[var(--line)] bg-[rgba(238,242,239,0.92)] backdrop-blur-md"
+        }`}
+      >
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5 md:px-8">
           <Link
             href="/"
@@ -31,7 +54,13 @@ export function Header() {
             className="group flex items-center gap-3"
             aria-label={`${site.name} Startseite`}
           >
-            <span className="flex h-10 w-10 items-center justify-center bg-[var(--ink)] text-[var(--accent-bright)] transition-colors group-hover:bg-[var(--accent-deep)]">
+            <span
+              className={`flex h-10 w-10 items-center justify-center transition-colors ${
+                overHero
+                  ? "bg-white text-[var(--accent-deep)] group-hover:bg-[var(--accent-bright)]"
+                  : "bg-[var(--ink)] text-[var(--accent-bright)] group-hover:bg-[var(--accent-deep)]"
+              }`}
+            >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
                 <path
                   d="M12 3L4 7.5V16.5L12 21L20 16.5V7.5L12 3Z"
@@ -46,10 +75,14 @@ export function Header() {
               </svg>
             </span>
             <span className="leading-tight">
-              <span className="font-display block text-lg font-bold tracking-tight text-[var(--ink)]">
+              <span className={`font-display block text-lg font-bold tracking-tight ${text}`}>
                 {site.name}
               </span>
-              <span className="hidden text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--steel)] sm:block">
+              <span
+                className={`hidden text-[11px] font-medium uppercase tracking-[0.14em] sm:block ${
+                  overHero ? "text-white/65" : "text-[var(--steel)]"
+                }`}
+              >
                 München Flughafen
               </span>
             </span>
@@ -57,16 +90,12 @@ export function Header() {
 
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Hauptnavigation">
             {nav.map((item) => {
-              const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+              const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-sm font-medium transition-colors ${
-                    active
-                      ? "text-[var(--accent-deep)]"
-                      : "text-[var(--ink-soft)] hover:text-[var(--accent)]"
-                  }`}
+                  className={`text-sm font-medium transition-colors ${isActive ? active : muted}`}
                 >
                   {item.label}
                 </Link>
@@ -75,12 +104,21 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <a href={site.phoneHref} className="btn-primary hidden text-sm sm:inline-flex">
+            <a
+              href={site.phoneHref}
+              className={`hidden text-sm sm:inline-flex ${
+                overHero ? "btn-accent" : "btn-primary"
+              }`}
+            >
               Anrufen
             </a>
             <button
               type="button"
-              className="inline-flex h-11 w-11 items-center justify-center border border-[var(--line)] bg-white lg:hidden"
+              className={`inline-flex h-11 w-11 items-center justify-center border lg:hidden ${
+                overHero
+                  ? "border-white/35 bg-white/10 text-white"
+                  : "border-[var(--line)] bg-white text-[var(--ink)]"
+              }`}
               aria-expanded={open}
               aria-controls={panelId}
               aria-label={open ? "Menü schließen" : "Menü öffnen"}
@@ -89,13 +127,13 @@ export function Header() {
               <span className="sr-only">Menü</span>
               <span className="relative block h-3.5 w-4">
                 <span
-                  className={`absolute left-0 top-0 h-0.5 w-4 bg-[var(--ink)] transition ${open ? "translate-y-[6px] rotate-45" : ""}`}
+                  className={`absolute left-0 top-0 h-0.5 w-4 transition ${open ? "translate-y-[6px] rotate-45" : ""} ${overHero ? "bg-white" : "bg-[var(--ink)]"}`}
                 />
                 <span
-                  className={`absolute left-0 top-[6px] h-0.5 w-4 bg-[var(--ink)] transition ${open ? "opacity-0" : ""}`}
+                  className={`absolute left-0 top-[6px] h-0.5 w-4 transition ${open ? "opacity-0" : ""} ${overHero ? "bg-white" : "bg-[var(--ink)]"}`}
                 />
                 <span
-                  className={`absolute left-0 top-[12px] h-0.5 w-4 bg-[var(--ink)] transition ${open ? "-translate-y-[6px] -rotate-45" : ""}`}
+                  className={`absolute left-0 top-[12px] h-0.5 w-4 transition ${open ? "-translate-y-[6px] -rotate-45" : ""} ${overHero ? "bg-white" : "bg-[var(--ink)]"}`}
                 />
               </span>
             </button>

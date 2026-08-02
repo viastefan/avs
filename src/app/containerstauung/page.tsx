@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function ContainerstauungPage() {
   return (
     <>
-      <section className="relative isolate overflow-hidden grain">
+      <section className="relative isolate -mt-[4.5rem] overflow-hidden grain">
         <div className="absolute inset-0 -z-10">
           <Image
             src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=2200&auto=format&fit=crop"
@@ -25,7 +25,7 @@ export default function ContainerstauungPage() {
           />
           <div className="absolute inset-0 bg-[rgba(8,16,13,0.78)]" />
         </div>
-        <div className="mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-32">
+        <div className="mx-auto max-w-6xl px-5 pb-24 pt-32 md:px-8 md:pb-32 md:pt-40">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-bright)]">
             Containerstauung
           </p>

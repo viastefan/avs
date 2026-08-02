@@ -42,7 +42,7 @@ export default function RootLayout({
     <html lang="de" className={`${display.variable} ${body.variable} h-full`}>
       <body className="site-shell flex min-h-full flex-col antialiased">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pt-[4.5rem]">{children}</main>
         <Footer />
       </body>
     </html>

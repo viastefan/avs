@@ -8,66 +8,66 @@ export default function HomePage() {
   return (
     <>
       {/* Hero — one composition, brand first, full-bleed visual */}
-      <section className="relative isolate min-h-[min(92vh,920px)] overflow-hidden grain">
+      <section className="relative isolate -mt-[4.5rem] min-h-[100svh] overflow-hidden grain">
         <div className="absolute inset-0 -z-10">
           <Image
-            src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2400&auto=format&fit=crop"
-            alt="Frachtflugzeug am Himmel — Luftfracht aus München"
+            src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2400&auto=format&fit=crop"
+            alt="Luftfracht und Container am Flughafen"
             fill
             priority
-            className="hero-media object-cover object-center"
+            className="hero-media object-cover object-[center_40%]"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[rgba(8,16,13,0.88)] via-[rgba(8,16,13,0.62)] to-[rgba(8,16,13,0.28)]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,16,13,0.55)] via-transparent to-[rgba(8,16,13,0.2)]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[rgba(6,14,11,0.92)] via-[rgba(6,14,11,0.68)] to-[rgba(6,14,11,0.35)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(6,14,11,0.75)] via-transparent to-[rgba(6,14,11,0.35)]" />
         </div>
 
-        <div className="relative z-[2] mx-auto flex min-h-[min(92vh,920px)] max-w-6xl flex-col justify-end px-5 pb-16 pt-28 md:justify-center md:px-8 md:pb-24 md:pt-20">
-          <p className="font-display reveal text-5xl font-semibold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl">
+        <div className="relative z-[2] mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-5 pb-20 pt-28 md:justify-center md:px-8 md:pb-28 md:pt-24">
+          <p className="reveal text-xs font-semibold uppercase tracking-[0.22em] text-[var(--accent-bright)]">
+            {site.legalName}
+          </p>
+          <p className="font-display reveal reveal-delay-1 mt-4 text-6xl font-semibold tracking-tight text-white sm:text-7xl md:text-8xl lg:text-[7.5rem] lg:leading-[0.95]">
             {site.name}
           </p>
-          <div className="accent-line mt-4 h-0.5 w-24 bg-[var(--accent-bright)]" />
-          <h1 className="reveal reveal-delay-1 font-display mt-7 max-w-2xl text-2xl font-medium leading-snug tracking-tight text-white sm:text-3xl md:text-4xl">
+          <div className="accent-line mt-5 h-0.5 w-28 bg-[var(--accent-bright)]" />
+          <h1 className="reveal reveal-delay-2 font-display mt-8 max-w-2xl text-2xl font-medium leading-snug tracking-tight text-white sm:text-3xl md:text-4xl">
             Verpackungs-Profis am Flughafen München
           </h1>
-          <p className="reveal reveal-delay-2 mt-5 max-w-xl text-base leading-relaxed text-[#d5e6dc] sm:text-lg">
+          <p className="reveal reveal-delay-3 mt-5 max-w-xl text-base leading-relaxed text-[#d5e6dc] sm:text-lg">
             Export, Gefahrgut und Schwergut — präzise verpackt für Luft, See und Straße.
           </p>
-          <div className="reveal reveal-delay-3 mt-9 flex flex-wrap items-center gap-3">
-            <Link href="/kontakt" className="btn-primary bg-[var(--accent-bright)] text-[var(--ink)] hover:bg-white">
+          <div className="reveal reveal-delay-3 mt-10 flex flex-wrap items-center gap-3">
+            <Link href="/kontakt" className="btn-accent">
               Anfrage stellen
             </Link>
-            <Link href="/leistungen" className="btn-ghost border-0 text-white hover:text-[var(--accent-bright)]">
+            <Link href="/leistungen" className="btn-ghost-light">
               Leistungen ansehen →
             </Link>
           </div>
-        </div>
-      </section>
 
-      {/* Trust strip — single purpose */}
-      <section className="border-y border-[var(--line)] bg-white/40">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-6 text-sm text-[var(--steel)] md:flex-row md:items-center md:justify-between md:px-8">
-          <p>
-            Standort: <span className="font-medium text-[var(--ink)]">{site.address.city}</span>
-          </p>
-          <p>
-            Reglementierter Beauftragter:{" "}
-            <span className="font-medium text-[var(--ink)]">{site.approval}</span>
-          </p>
-          <p>
-            Tel.{" "}
-            <a href={site.phoneHref} className="font-medium text-[var(--ink)] hover:text-[var(--accent)]">
+          <div className="reveal reveal-delay-3 mt-14 flex flex-wrap gap-x-8 gap-y-2 text-sm text-white/70">
+            <span>{site.address.city}</span>
+            <span>RA {site.approval}</span>
+            <a href={site.phoneHref} className="text-white/85 transition hover:text-[var(--accent-bright)]">
               {site.phone}
             </a>
-          </p>
+          </div>
         </div>
+
+        <a
+          href="#leistungen"
+          className="absolute bottom-6 left-1/2 z-[2] hidden -translate-x-1/2 flex-col items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55 md:flex"
+        >
+          Scroll
+          <span className="block h-8 w-px origin-top animate-pulse bg-[var(--accent-bright)]" />
+        </a>
       </section>
 
       {/* Intro */}
       <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
         <div className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-            {site.legalName}
+            Standort Flughafen München
           </p>
           <h2 className="font-display mt-4 text-3xl font-semibold tracking-tight text-[var(--ink)] md:text-5xl">
             Spezialisten für Transportverpackung am Münchner Flughafen
@@ -81,7 +81,7 @@ export default function HomePage() {
       </section>
 
       {/* Services overview — one job */}
-      <section className="border-t border-[var(--line)] bg-[rgba(255,255,255,0.35)]">
+      <section id="leistungen" className="border-t border-[var(--line)] bg-[rgba(255,255,255,0.35)]">
         <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
