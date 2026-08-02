@@ -19,7 +19,7 @@ export function PageHero({
   backLabel = "Zurück",
 }: PageHeroProps) {
   return (
-    <section className="page-hero band-dark">
+    <section className="page-hero">
       <div className="page-hero__media">
         <Image
           src={image.src}
@@ -34,16 +34,16 @@ export function PageHero({
 
       <div className="page-hero__content wrap">
         {backHref ? (
-          <Link href={backHref} className="meta text-[var(--steel-on-dark)] hover:text-[var(--green-bright)]">
+          <Link href={backHref} className="text-sm text-[var(--steel-on-dark)] hover:text-[#eef0f2]">
             ← {backLabel}
           </Link>
         ) : null}
-        {eyebrow ? <p className="meta text-[var(--green-bright)]">{eyebrow}</p> : null}
-        <h1 className="font-display mt-4 max-w-3xl text-[clamp(2.25rem,5.5vw,3.75rem)] font-bold leading-[0.98] tracking-tight">
+        {eyebrow ? <p className="meta mt-2 text-[var(--steel-on-dark)]">{eyebrow}</p> : null}
+        <h1 className="font-display mt-3 max-w-3xl text-[clamp(2.1rem,5vw,3.4rem)] font-semibold leading-[1.08]">
           {title}
         </h1>
         {description ? (
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--steel-on-dark)] md:text-lg">
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-[var(--steel-on-dark)] md:text-lg">
             {description}
           </p>
         ) : null}

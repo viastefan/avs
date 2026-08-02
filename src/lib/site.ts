@@ -3,7 +3,7 @@ export const site = {
   legalName: "Airport-Verpackungs-Service GmbH",
   tagline: "Verpackungsservice am Flughafen München",
   description:
-    "Airport-Verpackungs-Service GmbH am Flughafen München — Export-, Gefahrgut- und Schwergutverpackung, Containerstauung und Gefahrgutschulung. IATA, ADR und IMDG konform.",
+    "Airport-Verpackungs-Service GmbH am Flughafen München (Südallee, Frachtzentrum Modul H) — Export-, Gefahrgut- und Schwergutverpackung, Containerstauung und Gefahrgutschulung.",
   phone: "+49 (0)89 975 945 91",
   phoneAlt: "+49 (0)89 975 945 92",
   phoneHref: "tel:+498997594591",

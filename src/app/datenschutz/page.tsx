@@ -9,7 +9,7 @@ export default function DatenschutzPage() {
   return (
     <section className="band-light min-h-[calc(100svh-var(--header-h))]">
       <div className="wrap max-w-2xl py-16 md:py-24">
-        <h1 className="font-display text-4xl font-black">Datenschutz</h1>
+        <h1 className="font-display text-4xl font-semibold">Datenschutz</h1>
         <div className="mt-10 space-y-8 text-sm leading-relaxed text-[var(--steel-on-light)]">
           <div>
             <h2 className="mb-2 font-medium text-[var(--charcoal)]">Verantwortlicher</h2>

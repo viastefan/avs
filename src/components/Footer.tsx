@@ -4,10 +4,10 @@ import { site } from "@/lib/site";
 export function Footer() {
   return (
     <footer className="band-dark border-t border-[var(--line-on-dark)]">
-      <div className="wrap grid gap-12 py-16 md:grid-cols-[1.3fr_1fr_1fr] md:gap-10">
+      <div className="wrap grid gap-12 py-14 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10">
         <div>
-          <p className="font-display font-display-caps text-xl font-bold">{site.name}</p>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-[var(--steel-on-dark)]">
+          <p className="font-display text-xl font-semibold text-[#eef0f2]">{site.name}</p>
+          <p className="mt-2 text-sm leading-relaxed text-[var(--steel-on-dark)]">
             {site.legalName}
             <br />
             Reglementierter Beauftragter {site.approval}
@@ -18,17 +18,17 @@ export function Footer() {
           <p className="meta mb-4">Leistungen</p>
           <ul className="space-y-2.5 text-sm text-[var(--steel-on-dark)]">
             <li>
-              <Link href="/leistungen" className="hover:text-[var(--paper)]">
+              <Link href="/leistungen" className="hover:text-[#eef0f2]">
                 Verpackungsservice
               </Link>
             </li>
             <li>
-              <Link href="/containerstauung" className="hover:text-[var(--paper)]">
+              <Link href="/containerstauung" className="hover:text-[#eef0f2]">
                 Containerstauung
               </Link>
             </li>
             <li>
-              <Link href="/gefahrgutschulung" className="hover:text-[var(--paper)]">
+              <Link href="/gefahrgutschulung" className="hover:text-[#eef0f2]">
                 Gefahrgutschulung
               </Link>
             </li>
@@ -42,12 +42,12 @@ export function Footer() {
             <p>{site.address.line1}</p>
             <p>{site.address.city}</p>
             <p className="pt-3">
-              <a href={site.phoneHref} className="text-[var(--paper)] hover:text-[var(--green-bright)]">
+              <a href={site.phoneHref} className="text-[#eef0f2] hover:text-[var(--green-bright)]">
                 {site.phone}
               </a>
             </p>
             <p>
-              <a href={site.emailHref} className="hover:text-[var(--paper)]">
+              <a href={site.emailHref} className="hover:text-[#eef0f2]">
                 {site.email}
               </a>
             </p>
@@ -57,12 +57,14 @@ export function Footer() {
 
       <div className="border-t border-[var(--line-on-dark)]">
         <div className="wrap flex flex-col gap-3 py-5 text-xs text-[var(--mute-on-dark)] sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} {site.legalName}</p>
+          <p>
+            © {new Date().getFullYear()} {site.legalName}
+          </p>
           <nav className="flex gap-5" aria-label="Rechtliches">
-            <Link href="/impressum" className="hover:text-[var(--paper)]">
+            <Link href="/impressum" className="hover:text-[#eef0f2]">
               Impressum
             </Link>
-            <Link href="/datenschutz" className="hover:text-[var(--paper)]">
+            <Link href="/datenschutz" className="hover:text-[#eef0f2]">
               Datenschutz
             </Link>
           </nav>

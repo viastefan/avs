@@ -5,11 +5,11 @@ import * as THREE from "three";
 import { feature as topoFeature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
-const SIGNAL_HEX = 0x1f7a54;
-const LAND_FILL = "#2a2c2a";
-const LAND_STROKE = "#3a3c3a";
-const OCEAN_FILL = "#121312";
-const GRID_STROKE = "rgba(31,122,84,0.1)";
+const SIGNAL_HEX = 0x0f5c4c;
+const LAND_FILL = "#2a323c";
+const LAND_STROKE = "#3a4450";
+const OCEAN_FILL = "#171c22";
+const GRID_STROKE = "rgba(15,92,76,0.12)";
 const RADIUS = 5.4;
 
 type City = {

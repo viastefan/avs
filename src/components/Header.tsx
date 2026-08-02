@@ -23,46 +23,47 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-[var(--line-on-dark)] bg-[var(--ink)]/92 backdrop-blur-md">
+      <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-[var(--line-on-dark)] bg-[var(--ink)]/95 backdrop-blur-md">
         <div className="wrap flex h-full items-center justify-between gap-6">
           <Link
             href="/"
             onClick={closeNav}
-            className="font-display font-display-caps text-[0.95rem] font-bold tracking-tight"
+            className="flex flex-col leading-none"
             aria-label={`${site.name} Startseite`}
           >
-            {site.name}
-            <span className="ml-2 hidden text-[var(--mute-on-dark)] sm:inline">München</span>
+            <span className="font-display text-[1.15rem] font-semibold tracking-tight text-[#eef0f2]">
+              {site.name}
+            </span>
+            <span className="mt-1 hidden text-[0.68rem] tracking-[0.04em] text-[var(--mute-on-dark)] sm:block">
+              Flughafen München
+            </span>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex" aria-label="Hauptnavigation">
+          <nav className="hidden items-center gap-7 lg:flex" aria-label="Hauptnavigation">
             {nav.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-[0.8rem] tracking-[0.02em] transition-colors ${
+                  className={`text-[0.92rem] transition-colors ${
                     active
-                      ? "text-[var(--paper)]"
-                      : "text-[var(--steel-on-dark)] hover:text-[var(--paper)]"
+                      ? "text-[#eef0f2]"
+                      : "text-[var(--steel-on-dark)] hover:text-[#eef0f2]"
                   }`}
                 >
                   {item.label}
                 </Link>
               );
             })}
-            <a
-              href={site.phoneHref}
-              className="text-[0.8rem] text-[var(--paper)] hover:text-[var(--green-bright)]"
-            >
-              {site.phone}
-            </a>
+            <Link href="/kontakt" className="btn-primary !min-h-9 !px-4 !text-[0.85rem]">
+              Kontakt
+            </Link>
           </nav>
 
           <button
             type="button"
-            className="meta text-[var(--paper)] lg:hidden"
+            className="text-sm text-[#eef0f2] lg:hidden"
             aria-expanded={open}
             aria-controls={panelId}
             aria-label={open ? "Menü schließen" : "Menü öffnen"}
@@ -82,8 +83,8 @@ export function Header() {
           aria-label="Navigation"
         >
           <div className="flex h-[var(--header-h)] items-center justify-between border-b border-[var(--line-on-dark)] px-[var(--gutter)]">
-            <span className="font-display font-display-caps text-[0.95rem] font-bold">{site.name}</span>
-            <button type="button" className="meta text-[var(--paper)]" onClick={closeNav} aria-label="Menü schließen">
+            <span className="font-display text-[1.15rem] font-semibold text-[#eef0f2]">{site.name}</span>
+            <button type="button" className="text-sm text-[#eef0f2]" onClick={closeNav} aria-label="Menü schließen">
               Schließen
             </button>
           </div>
@@ -93,7 +94,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={closeNav}
-                className="border-b border-[var(--line-on-dark)] py-5 text-xl text-[var(--paper)]"
+                className="border-b border-[var(--line-on-dark)] py-5 text-xl text-[#eef0f2]"
               >
                 {item.label}
               </Link>
