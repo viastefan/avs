@@ -120,7 +120,7 @@ export default function HomePage() {
             <p className="muted">
               Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft.
             </p>
-            <Link href="/containerstauung" className="btn btn-dark">
+            <Link href="/containerstauung" className="btn btn-primary">
               Mehr erfahren
             </Link>
           </div>
@@ -150,14 +150,18 @@ export default function HomePage() {
         </article>
       </section>
 
-      <section className="section network">
+      <section className="section section--surface network">
         <div className="wrap grid-2">
           <div className="split-copy">
             <p className="kicker">Netzwerk</p>
-            <h2 className="h2">Von München in die Welt</h2>
+            <h2 className="h2">Hub München</h2>
             <p className="lead">
-              Vom Hub München begleiten wir Sendungen in internationale Frachtnetzwerke.
+              Vom Frachtzentrum München aus verbinden wir Sendungen mit internationalen
+              Luftfracht- und Logistiknetzwerken.
             </p>
+            <Link href="/kontakt" className="link-accent">
+              Route besprechen →
+            </Link>
           </div>
           <Globe />
         </div>

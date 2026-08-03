@@ -9,15 +9,21 @@ export const metadata: Metadata = {
 
 export default function KontaktPage() {
   return (
-    <section className="section">
-      <div className="wrap grid-2" style={{ alignItems: "start" }}>
-        <div className="split-copy">
+    <>
+      <section className="section" style={{ paddingBottom: 0 }}>
+        <div className="wrap" style={{ maxWidth: 720 }}>
           <p className="kicker">Kontakt</p>
-          <h1 className="h2">Anfrage stellen</h1>
-          <p className="lead">
+          <h1 className="h2" style={{ marginTop: 12 }}>
+            Anfrage stellen
+          </h1>
+          <p className="lead" style={{ marginTop: 14, maxWidth: "40ch" }}>
             Verpackung, Containerstauung oder Gefahrgutschulung — wir melden uns zeitnah.
           </p>
-          <div className="contact-aside">
+        </div>
+      </section>
+      <section className="section">
+        <div className="wrap grid-2" style={{ alignItems: "start" }}>
+          <div className="contact-aside" style={{ marginTop: 0 }}>
             <p style={{ margin: 0 }}>
               <strong>{site.legalName}</strong>
             </p>
@@ -39,10 +45,23 @@ export default function KontaktPage() {
             <p style={{ margin: "12px 0 0", fontSize: 13 }}>
               Reglementierter Beauftragter {site.approval}
             </p>
+            <div
+              style={{
+                marginTop: 28,
+                paddingTop: 20,
+                borderTop: "1px solid var(--line)",
+                display: "grid",
+                gap: 8,
+                fontSize: 13,
+              }}
+            >
+              <p style={{ margin: 0, fontWeight: 600, color: "var(--ink)" }}>Direkt erreichbar</p>
+              <p style={{ margin: 0 }}>Mo–Fr während der Betriebszeiten am Frachtzentrum Modul H</p>
+            </div>
           </div>
+          <ContactForm />
         </div>
-        <ContactForm />
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

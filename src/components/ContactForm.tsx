@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { submitContact, type ContactState } from "@/app/actions/kontakt";
 import { inquiryTopics, contactMethods, urgencyOptions } from "@/lib/contact";
 
@@ -8,6 +9,28 @@ const initial: ContactState = { ok: false };
 
 export function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initial);
+
+  if (state.ok) {
+    return (
+      <div className="form-panel form-success" role="status">
+        <p className="kicker">Gesendet</p>
+        <h2 className="h3" style={{ marginTop: 10 }}>
+          Vielen Dank
+        </h2>
+        <p className="muted" style={{ marginTop: 12, maxWidth: "36ch" }}>
+          {state.message ?? "Ihr Anliegen wird schnellstmöglich bearbeitet."}
+        </p>
+        <div className="form-actions" style={{ marginTop: 24 }}>
+          <Link href="/" className="btn btn-outline">
+            Zur Startseite
+          </Link>
+          <Link href="/leistungen" className="btn btn-primary">
+            Leistungen ansehen
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form action={action} noValidate className="form-panel">
@@ -38,7 +61,13 @@ export function ContactForm() {
         </label>
         <label className="form-label">
           <span>Telefon</span>
-          <input className="field" name="phone" type="tel" autoComplete="tel" />
+          <input
+            className="field"
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            placeholder="+49 …"
+          />
         </label>
       </div>
 
@@ -90,7 +119,6 @@ export function ContactForm() {
           name="subject"
           required
           placeholder="z. B. Anfrage Exportverpackung"
-          defaultValue=""
         />
       </label>
 
@@ -108,16 +136,11 @@ export function ContactForm() {
         <button type="submit" className="btn btn-primary" disabled={pending}>
           {pending ? "Senden…" : "Anfrage senden"}
         </button>
-        <p className="form-hint">* Pflichtfelder</p>
+        <p className="form-hint">* Pflichtfelder · Antwort i. d. R. in 1–2 Werktagen</p>
       </div>
 
-      {state.message ? (
-        <p role="status" style={{ margin: 0, color: "var(--green)", fontSize: 14 }}>
-          {state.message}
-        </p>
-      ) : null}
       {state.error ? (
-        <p role="alert" style={{ margin: 0, color: "var(--danger)", fontSize: 14 }}>
+        <p role="alert" className="form-error">
           {state.error}
         </p>
       ) : null}

@@ -221,6 +221,18 @@ a {
   cursor: not-allowed;
 }
 
+.btn:focus-visible,
+.nav-link:focus-visible,
+.menu-toggle:focus-visible,
+.link-accent:focus-visible,
+.section-head__link:focus-visible,
+.list a:focus-visible,
+.choice:focus-within,
+.site-footer a:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
 .field {
   width: 100%;
   min-height: 48px;
@@ -281,10 +293,20 @@ select.field {
 }
 
 .site-header--solid {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(16px) saturate(1.1);
   color: var(--ink);
+}
+
+.site-header--solid .nav-link {
+  opacity: 0.78;
+}
+
+.site-header--solid .nav-link:hover {
+  opacity: 1;
+  background: var(--green-soft);
+  color: var(--green-deep);
 }
 
 .brand-mark {
@@ -405,6 +427,16 @@ select.field {
   letter-spacing: -0.03em;
 }
 
+.mobile-nav__cta {
+  margin-top: auto;
+  padding: 20px var(--gutter) calc(20px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+}
+
+.mobile-nav__cta .btn {
+  width: 100%;
+}
+
 /* ——— Hero ——— */
 .hero {
   position: relative;
@@ -428,7 +460,7 @@ select.field {
   object-fit: cover;
   object-position: center 40%;
   transform: scale(1.04);
-  filter: saturate(1.05) contrast(1.02) brightness(1.05);
+  filter: saturate(1.04) contrast(1.02) brightness(1.1);
   animation: hero-pan 50s var(--ease-out) infinite alternate;
 }
 
@@ -436,8 +468,8 @@ select.field {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(100deg, rgba(20, 24, 22, 0.62) 0%, rgba(20, 24, 22, 0.28) 48%, rgba(20, 24, 22, 0.12) 100%),
-    linear-gradient(to top, rgba(20, 24, 22, 0.7) 0%, rgba(20, 24, 22, 0.12) 55%, rgba(20, 24, 22, 0.2) 100%);
+    linear-gradient(100deg, rgba(20, 24, 22, 0.52) 0%, rgba(20, 24, 22, 0.22) 50%, rgba(20, 24, 22, 0.08) 100%),
+    linear-gradient(to top, rgba(20, 24, 22, 0.58) 0%, rgba(20, 24, 22, 0.1) 58%, rgba(20, 24, 22, 0.16) 100%);
 }
 
 .hero__inner {
@@ -475,7 +507,7 @@ select.field {
 .page-hero {
   position: relative;
   margin-top: calc(-1 * var(--header-h));
-  min-height: min(42svh, 380px);
+  min-height: min(40svh, 360px);
   display: grid;
   align-items: end;
   overflow: hidden;
@@ -492,13 +524,18 @@ select.field {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(1.04) brightness(1.04);
+  filter: saturate(1.02) brightness(1.08);
 }
 
 .page-hero__shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(20, 24, 22, 0.72) 0%, rgba(20, 24, 22, 0.25) 70%, rgba(20, 24, 22, 0.3) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(20, 24, 22, 0.58) 0%,
+    rgba(20, 24, 22, 0.18) 68%,
+    rgba(20, 24, 22, 0.22) 100%
+  );
 }
 
 .page-hero__inner {
@@ -642,6 +679,11 @@ select.field {
   font-weight: 600;
   color: var(--green);
   white-space: nowrap;
+  transition: color 0.15s var(--ease);
+}
+
+.section-head__link:hover {
+  color: var(--green-deep);
 }
 
 .list {
@@ -906,6 +948,11 @@ select.field {
   transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
 }
 
+.choice:hover {
+  border-color: var(--green-mist);
+  background: var(--surface);
+}
+
 .choice:has(input:checked) {
   border-color: var(--green);
   background: var(--green-soft);
@@ -932,6 +979,17 @@ select.field {
   align-items: center;
   gap: 14px;
   margin-top: 4px;
+}
+
+.form-error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 14px;
+}
+
+.form-success {
+  min-height: 280px;
+  align-content: start;
 }
 
 /* ——— Footer (light) ——— */
