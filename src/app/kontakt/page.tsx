@@ -13,12 +13,14 @@ export default function KontaktPage() {
       <div className="wrap grid-2" style={{ alignItems: "start" }}>
         <div className="split-copy">
           <p className="kicker">Kontakt</p>
-          <h1 className="h2">Schreiben Sie uns</h1>
+          <h1 className="h2">Anfrage stellen</h1>
           <p className="lead">
-            Anfragen zu Verpackung, Containerstauung oder Gefahrgutschulung.
+            Verpackung, Containerstauung oder Gefahrgutschulung — wir melden uns zeitnah.
           </p>
-          <div className="muted" style={{ marginTop: 36, fontSize: 14, display: "grid", gap: 8 }}>
-            <p style={{ margin: 0, fontWeight: 600, color: "var(--ink)" }}>{site.legalName}</p>
+          <div className="contact-aside">
+            <p style={{ margin: 0 }}>
+              <strong>{site.legalName}</strong>
+            </p>
             <p style={{ margin: 0 }}>
               {site.address.line2}
               <br />
@@ -26,13 +28,16 @@ export default function KontaktPage() {
               <br />
               {site.address.city}
             </p>
-            <p style={{ margin: "10px 0 0" }}>
+            <p style={{ margin: "8px 0 0" }}>
               <a href={site.phoneHref} style={{ color: "var(--green)", fontWeight: 600 }}>
                 {site.phone}
               </a>
             </p>
             <p style={{ margin: 0 }}>
               <a href={site.emailHref}>{site.email}</a>
+            </p>
+            <p style={{ margin: "12px 0 0", fontSize: 13 }}>
+              Reglementierter Beauftragter {site.approval}
             </p>
           </div>
         </div>

@@ -7,7 +7,7 @@ export function Footer() {
       <div className="wrap site-footer__grid">
         <div>
           <p className="site-footer__brand">{site.name}</p>
-          <p style={{ margin: "14px 0 0", fontSize: 14, maxWidth: 280, lineHeight: 1.55 }}>
+          <p style={{ margin: "12px 0 0", fontSize: 14, maxWidth: 280, lineHeight: 1.55 }}>
             {site.legalName}
             <br />
             {site.address.line2}
@@ -24,7 +24,7 @@ export function Footer() {
               padding: 0,
               display: "flex",
               flexDirection: "column",
-              gap: 12,
+              gap: 10,
             }}
           >
             <li>
@@ -47,14 +47,11 @@ export function Footer() {
         <div>
           <p className="kicker">Kontakt</p>
           <p style={{ margin: 0 }}>
-            <a
-              href={site.phoneHref}
-              style={{ fontSize: 15, fontWeight: 600, color: "var(--green-mist)" }}
-            >
+            <a href={site.phoneHref} className="site-footer__phone">
               {site.phone}
             </a>
           </p>
-          <p style={{ margin: "10px 0 0" }}>
+          <p style={{ margin: "8px 0 0" }}>
             <a href={site.emailHref} style={{ fontSize: 14 }}>
               {site.email}
             </a>

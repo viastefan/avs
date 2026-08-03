@@ -1,5 +1,11 @@
 "use server";
 
+import {
+  contactMethods,
+  inquiryTopics,
+  urgencyOptions,
+} from "@/lib/contact";
+
 export type ContactState = {
   ok: boolean;
   error?: string;
@@ -10,11 +16,14 @@ function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+const topicLabels = Object.fromEntries(inquiryTopics.map((t) => [t.value, t.label]));
+const methodLabels = Object.fromEntries(contactMethods.map((m) => [m.value, m.label]));
+const urgencyLabels = Object.fromEntries(urgencyOptions.map((u) => [u.value, u.label]));
+
 export async function submitContact(
   _prev: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
-  // Honeypot
   if (String(formData.get("website") || "")) {
     return { ok: true, message: "Vielen Dank! Ihr Anliegen wird schnellstmöglich bearbeitet." };
   }
@@ -22,9 +31,16 @@ export async function submitContact(
   const firstName = String(formData.get("firstName") || "").trim();
   const lastName = String(formData.get("lastName") || "").trim();
   const email = String(formData.get("email") || "").trim();
+  const phone = String(formData.get("phone") || "").trim();
   const company = String(formData.get("company") || "").trim();
   const subject = String(formData.get("subject") || "").trim();
   const message = String(formData.get("message") || "").trim();
+  const contactMethod = String(formData.get("contactMethod") || "email").trim();
+  const urgency = String(formData.get("urgency") || "normal").trim();
+  const topics = formData
+    .getAll("topics")
+    .map((t) => String(t))
+    .filter((t) => t in topicLabels);
 
   if (!firstName || !lastName || !email || !subject || !message) {
     return { ok: false, error: "Bitte füllen Sie alle Pflichtfelder aus." };
@@ -34,13 +50,24 @@ export async function submitContact(
     return { ok: false, error: "Bitte eine gültige E-Mail angeben." };
   }
 
+  if (contactMethod === "phone" && !phone) {
+    return { ok: false, error: "Bitte eine Telefonnummer angeben oder E-Mail als Kontakt wählen." };
+  }
+
+  const topicText =
+    topics.length > 0 ? topics.map((t) => topicLabels[t] ?? t).join(", ") : "—";
+
   const inquiry = {
     firstName,
     lastName,
     email,
+    phone,
     company,
     subject,
     message,
+    topics,
+    contactMethod,
+    urgency,
     receivedAt: new Date().toISOString(),
   };
 
@@ -64,7 +91,11 @@ export async function submitContact(
           text: [
             `Name: ${firstName} ${lastName}`,
             `E-Mail: ${email}`,
+            `Telefon: ${phone || "—"}`,
             `Unternehmen: ${company || "—"}`,
+            `Leistungen: ${topicText}`,
+            `Kontaktweg: ${methodLabels[contactMethod] ?? contactMethod}`,
+            `Zeitrahmen: ${urgencyLabels[urgency] ?? urgency}`,
             `Betreff: ${subject}`,
             "",
             message,

@@ -18,7 +18,7 @@ export default function HomePage() {
             fill
             priority
             sizes="100vw"
-            style={{ objectFit: "cover", objectPosition: "center 36%" }}
+            style={{ objectFit: "cover", objectPosition: "center 40%" }}
           />
         </div>
         <div className="hero__shade" aria-hidden />
@@ -27,7 +27,7 @@ export default function HomePage() {
             <p className="kicker fade-up">Flughafen München · Modul H</p>
             <h1 className="display fade-up fade-up-1">{site.name}</h1>
             <p className="lead fade-up fade-up-2">
-              Verpackung, Containerstauung und Gefahrgutschulung — präzise am Frachtzentrum.
+              Verpackung, Containerstauung und Gefahrgutschulung am Frachtzentrum.
             </p>
             <div className="hero__actions fade-up fade-up-3">
               <Link href="/kontakt" className="btn btn-primary">
@@ -80,7 +80,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }} id="leistungen">
+      <section className="section section--surface" style={{ borderTop: "none" }} id="leistungen">
         <div className="wrap">
           <div className="section-head">
             <div>
@@ -120,7 +120,7 @@ export default function HomePage() {
             <p className="muted">
               Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft.
             </p>
-            <Link href="/containerstauung" className="btn btn-secondary">
+            <Link href="/containerstauung" className="btn btn-dark">
               Mehr erfahren
             </Link>
           </div>
