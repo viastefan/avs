@@ -1,40 +1,79 @@
-/** Curated logistics imagery — freight, packaging, containers, air cargo */
+/** Local logistics imagery — packaging, freight, containers */
+
+export type SiteImage = {
+  src: string;
+  alt: string;
+};
 
 export const images = {
   hero: {
-    src: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2400&auto=format&fit=crop",
-    alt: "Luftfracht auf dem Vorfeld",
+    src: "/images/hero.jpg",
+    alt: "Gabelstapler mit stretchfolierter Frachtpalette im Logistiklager",
   },
   warehouse: {
-    src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1800&auto=format&fit=crop",
-    alt: "Frachtlager mit Paletten und Regalen",
+    src: "/images/warehouse.jpg",
+    alt: "Frachtlager mit stretchfolierten Paletten in Hochregalen",
   },
   packaging: {
-    src: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?q=80&w=1600&auto=format&fit=crop",
-    alt: "Versandkartons und Verpackungsmaterial",
+    src: "/images/packaging.jpg",
+    alt: "Karton wird fachgerecht mit Packband verschlossen",
   },
   containers: {
-    src: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=2000&auto=format&fit=crop",
-    alt: "Container im Hafen",
+    src: "/images/containers.jpg",
+    alt: "Containerschiff mit Verladekränen im Hafen",
   },
   containerYard: {
-    src: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=2000&auto=format&fit=crop",
-    alt: "Containerstauung und Umschlag",
+    src: "/images/container-yard.jpg",
+    alt: "Gestapelte Frachtcontainer im Umschlagterminal",
   },
   training: {
-    src: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2000&auto=format&fit=crop",
-    alt: "Technische Arbeit und Schulung im Industriebetrieb",
+    src: "/images/training.jpg",
+    alt: "Teamabstimmung und Unterweisung im Lagerbetrieb",
   },
   airport: {
-    src: "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?q=80&w=1800&auto=format&fit=crop",
-    alt: "Flughafen und Flugverkehr",
+    src: "/images/airport.jpg",
+    alt: "Moderne Frachtumschlaghalle mit Laderampen",
   },
   cargoPlane: {
-    src: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=1800&auto=format&fit=crop",
-    alt: "Flugzeug bereit zum Abflug",
+    src: "/images/hero.jpg",
+    alt: "Luft- und Landfrachtbereitstellung im Umschlaglager",
   },
   trucks: {
-    src: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=1600&auto=format&fit=crop",
-    alt: "LKW-Transportflotte",
+    src: "/images/vor-ort-verpackung.jpg",
+    alt: "Beladung verpackter Sendungen am Fahrzeug",
   },
-} as const;
+} as const satisfies Record<string, SiteImage>;
+
+/** Per-service packaging imagery for Leistung detail pages */
+export const serviceImages = {
+  exportverpackung: {
+    src: "/images/exportverpackung.jpg",
+    alt: "Holzpaletten für exportfähige Verpackung und Ladungsträger",
+  },
+  gefahrgutverpackung: {
+    src: "/images/gefahrgutverpackung.jpg",
+    alt: "Gebinde und Kartonumschlag für sensibel gekennzeichnete Güter",
+  },
+  schwergutverpackung: {
+    src: "/images/schwergutverpackung.jpg",
+    alt: "Schweres Palettengut in Hochregalen — bereit für Umschlag",
+  },
+  spezialverpackung: {
+    src: "/images/spezialverpackung.jpg",
+    alt: "Präzises Verschließen und Schutzverpackung von Spezialgütern",
+  },
+  verpackungsberatung: {
+    src: "/images/verpackungsberatung.jpg",
+    alt: "Beratung und Kontrolle im Verpackungs- und Lagerprozess",
+  },
+  "vor-ort-verpackung": {
+    src: "/images/vor-ort-verpackung.jpg",
+    alt: "Vor-Ort-Verpackung und Beladung am Kundenstandort",
+  },
+} as const satisfies Record<string, SiteImage>;
+
+export function getServiceImage(slug: string): SiteImage {
+  return (
+    serviceImages[slug as keyof typeof serviceImages] ?? images.packaging
+  );
+}
