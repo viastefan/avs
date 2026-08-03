@@ -3,38 +3,70 @@ import { site } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer style={{ borderTop: "1px solid var(--line)", background: "var(--surface)" }}>
-      <div className="wrap" style={{ display: "grid", gap: 40, padding: "56px 0", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+    <footer className="site-footer">
+      <div className="wrap site-footer__grid">
         <div>
-          <p style={{ margin: 0, fontWeight: 700, fontSize: 22, letterSpacing: "-0.02em" }}>{site.name}</p>
-          <p className="muted" style={{ margin: "12px 0 0", fontSize: 14, maxWidth: 280 }}>
+          <p className="site-footer__brand">{site.name}</p>
+          <p style={{ margin: "14px 0 0", fontSize: 14, maxWidth: 280, lineHeight: 1.55 }}>
             {site.legalName}
             <br />
-            {site.address.line2}, {site.address.city}
+            {site.address.line2}
+            <br />
+            {site.address.city}
           </p>
         </div>
         <div>
-          <p className="kicker" style={{ marginBottom: 14 }}>Leistungen</p>
-          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-            <li><Link href="/leistungen" className="muted" style={{ fontSize: 14 }}>Verpackungsservice</Link></li>
-            <li><Link href="/containerstauung" className="muted" style={{ fontSize: 14 }}>Containerstauung</Link></li>
-            <li><Link href="/gefahrgutschulung" className="muted" style={{ fontSize: 14 }}>Gefahrgutschulung</Link></li>
+          <p className="kicker">Leistungen</p>
+          <ul
+            style={{
+              listStyle: "none",
+              margin: 0,
+              padding: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+            }}
+          >
+            <li>
+              <Link href="/leistungen" style={{ fontSize: 14 }}>
+                Verpackungsservice
+              </Link>
+            </li>
+            <li>
+              <Link href="/containerstauung" style={{ fontSize: 14 }}>
+                Containerstauung
+              </Link>
+            </li>
+            <li>
+              <Link href="/gefahrgutschulung" style={{ fontSize: 14 }}>
+                Gefahrgutschulung
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
-          <p className="kicker" style={{ marginBottom: 14 }}>Kontakt</p>
+          <p className="kicker">Kontakt</p>
           <p style={{ margin: 0 }}>
-            <a href={site.phoneHref} style={{ fontSize: 14, fontWeight: 600, color: "var(--blue)" }}>{site.phone}</a>
+            <a
+              href={site.phoneHref}
+              style={{ fontSize: 15, fontWeight: 600, color: "var(--green-mist)" }}
+            >
+              {site.phone}
+            </a>
           </p>
-          <p style={{ margin: "8px 0 0" }}>
-            <a href={site.emailHref} className="muted" style={{ fontSize: 14 }}>{site.email}</a>
+          <p style={{ margin: "10px 0 0" }}>
+            <a href={site.emailHref} style={{ fontSize: 14 }}>
+              {site.email}
+            </a>
           </p>
         </div>
       </div>
-      <div style={{ borderTop: "1px solid var(--line)" }}>
-        <div className="wrap" style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", padding: "18px 0", fontSize: 12, color: "var(--muted)" }}>
-          <p style={{ margin: 0 }}>© {new Date().getFullYear()} {site.legalName}</p>
-          <nav style={{ display: "flex", gap: 18 }}>
+      <div className="site-footer__bottom">
+        <div className="wrap site-footer__bottom-inner">
+          <p style={{ margin: 0 }}>
+            © {new Date().getFullYear()} {site.legalName}
+          </p>
+          <nav className="site-footer__legal">
             <Link href="/impressum">Impressum</Link>
             <Link href="/datenschutz">Datenschutz</Link>
           </nav>

@@ -21,18 +21,29 @@ export function PageHero({
   return (
     <section className="page-hero">
       <div className="page-hero__media">
-        <Image src={image.src} alt={image.alt} fill priority sizes="100vw" style={{ objectFit: "cover" }} />
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          priority
+          sizes="100vw"
+          style={{ objectFit: "cover" }}
+        />
       </div>
       <div className="page-hero__shade" aria-hidden />
       <div className="wrap">
         <div className="page-hero__inner">
           {backHref ? (
-            <Link href={backHref} style={{ color: "rgba(255,255,255,0.7)", fontSize: 14 }}>
+            <Link href={backHref} className="page-hero__back">
               ← {backLabel}
             </Link>
           ) : null}
-          {eyebrow ? <p className="kicker" style={{ marginTop: backHref ? 16 : 0 }}>{eyebrow}</p> : null}
-          <h1 className="h1" style={{ marginTop: 12, fontSize: "var(--fs-3xl)" }}>{title}</h1>
+          {eyebrow ? (
+            <p className="kicker" style={{ marginTop: backHref ? 18 : 0 }}>
+              {eyebrow}
+            </p>
+          ) : null}
+          <h1 className="h1">{title}</h1>
           {description ? <p className="lead">{description}</p> : null}
         </div>
       </div>

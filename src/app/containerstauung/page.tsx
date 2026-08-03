@@ -19,16 +19,18 @@ export default function ContainerstauungPage() {
         eyebrow="Stauung & Sicherung"
       />
       <section className="section">
-        <div className="wrap" style={{ maxWidth: 680 }}>
+        <div className="wrap prose-narrow">
           <div className="list">
             {containerFeatures.map((feature) => (
               <div key={feature.title} className="list-item">
                 <h2 className="list__title">{feature.title}</h2>
-                <p className="list__text" style={{ margin: 0 }}>{feature.text}</p>
+                <p className="list__text" style={{ margin: 0 }}>
+                  {feature.text}
+                </p>
               </div>
             ))}
           </div>
-          <Link href="/kontakt" className="btn btn-primary" style={{ marginTop: 36 }}>
+          <Link href="/kontakt" className="btn btn-primary" style={{ marginTop: 40 }}>
             Anfrage senden
           </Link>
         </div>

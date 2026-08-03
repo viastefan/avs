@@ -19,16 +19,18 @@ export default function GefahrgutschulungPage() {
         eyebrow="Qualifikation"
       />
       <section className="section">
-        <div className="wrap" style={{ maxWidth: 680 }}>
+        <div className="wrap prose-narrow">
           <div className="list">
             {trainingTopics.map((topic) => (
               <div key={topic.title} className="list-item">
                 <h2 className="list__title">{topic.title}</h2>
-                <p className="list__text" style={{ margin: 0 }}>{topic.items.join(" · ")}</p>
+                <p className="list__text" style={{ margin: 0 }}>
+                  {topic.items.join(" · ")}
+                </p>
               </div>
             ))}
           </div>
-          <Link href="/kontakt" className="btn btn-primary" style={{ marginTop: 36 }}>
+          <Link href="/kontakt" className="btn btn-primary" style={{ marginTop: 40 }}>
             Termin anfragen
           </Link>
         </div>
