@@ -3,18 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
 import { getService, services } from "@/lib/content";
-import { images } from "@/lib/images";
+import { getServiceImage } from "@/lib/images";
 
 type Props = { params: Promise<{ slug: string }> };
-
-const serviceImages: Record<string, { src: string; alt: string }> = {
-  exportverpackung: images.packaging,
-  gefahrgutverpackung: images.warehouse,
-  schwergutverpackung: images.trucks,
-  spezialverpackung: images.airport,
-  verpackungsberatung: images.cargoPlane,
-  "vor-ort-verpackung": images.warehouse,
-};
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -31,7 +22,7 @@ export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
   const service = getService(slug);
   if (!service) notFound();
-  const image = serviceImages[slug] ?? images.warehouse;
+  const image = getServiceImage(slug);
 
   return (
     <>
