@@ -9,16 +9,24 @@ export const metadata: Metadata = {
 
 export default function KontaktPage() {
   return (
-    <section className="section">
-      <div className="wrap grid-2" style={{ alignItems: "start" }}>
-        <div className="split-copy">
+    <>
+      <section className="section" style={{ paddingBottom: 0 }}>
+        <div className="wrap" style={{ maxWidth: 720 }}>
           <p className="kicker">Kontakt</p>
-          <h1 className="h2">Schreiben Sie uns</h1>
-          <p className="lead">
-            Anfragen zu Verpackung, Containerstauung oder Gefahrgutschulung.
+          <h1 className="h2" style={{ marginTop: 12 }}>
+            Anfrage stellen
+          </h1>
+          <p className="lead" style={{ marginTop: 14, maxWidth: "40ch" }}>
+            Verpackung, Containerstauung oder Gefahrgutschulung — wir melden uns zeitnah.
           </p>
-          <div className="muted" style={{ marginTop: 36, fontSize: 14, display: "grid", gap: 8 }}>
-            <p style={{ margin: 0, fontWeight: 600, color: "var(--ink)" }}>{site.legalName}</p>
+        </div>
+      </section>
+      <section className="section">
+        <div className="wrap grid-2" style={{ alignItems: "start" }}>
+          <div className="contact-aside" style={{ marginTop: 0 }}>
+            <p style={{ margin: 0 }}>
+              <strong>{site.legalName}</strong>
+            </p>
             <p style={{ margin: 0 }}>
               {site.address.line2}
               <br />
@@ -26,7 +34,7 @@ export default function KontaktPage() {
               <br />
               {site.address.city}
             </p>
-            <p style={{ margin: "10px 0 0" }}>
+            <p style={{ margin: "8px 0 0" }}>
               <a href={site.phoneHref} style={{ color: "var(--green)", fontWeight: 600 }}>
                 {site.phone}
               </a>
@@ -34,10 +42,26 @@ export default function KontaktPage() {
             <p style={{ margin: 0 }}>
               <a href={site.emailHref}>{site.email}</a>
             </p>
+            <p style={{ margin: "12px 0 0", fontSize: 13 }}>
+              Reglementierter Beauftragter {site.approval}
+            </p>
+            <div
+              style={{
+                marginTop: 28,
+                paddingTop: 20,
+                borderTop: "1px solid var(--line)",
+                display: "grid",
+                gap: 8,
+                fontSize: 13,
+              }}
+            >
+              <p style={{ margin: 0, fontWeight: 600, color: "var(--ink)" }}>Direkt erreichbar</p>
+              <p style={{ margin: 0 }}>Mo–Fr während der Betriebszeiten am Frachtzentrum Modul H</p>
+            </div>
           </div>
+          <ContactForm />
         </div>
-        <ContactForm />
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

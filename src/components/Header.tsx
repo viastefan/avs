@@ -6,11 +6,26 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import { nav, site } from "@/lib/site";
 
+const HERO_ROUTES = [
+  "/",
+  "/leistungen",
+  "/containerstauung",
+  "/gefahrgutschulung",
+] as const;
+
+function routeHasHero(pathname: string) {
+  if (HERO_ROUTES.includes(pathname as (typeof HERO_ROUTES)[number])) return true;
+  if (pathname.startsWith("/leistungen/")) return true;
+  return false;
+}
+
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [solid, setSolid] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const panelId = useId();
+  const hasHero = routeHasHero(pathname);
+  const solid = open || !hasHero || scrolled;
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -20,7 +35,11 @@ export function Header() {
   }, [open]);
 
   useEffect(() => {
-    const onScroll = () => setSolid(window.scrollY > 24);
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -28,9 +47,7 @@ export function Header() {
 
   return (
     <>
-      <header
-        className={`site-header ${solid || open ? "site-header--solid" : "site-header--clear"}`}
-      >
+      <header className={`site-header ${solid ? "site-header--solid" : "site-header--clear"}`}>
         <div className="wrap site-header__inner">
           <Link
             href="/"
@@ -38,7 +55,7 @@ export function Header() {
             aria-label={`${site.name} Startseite`}
             className="brand-mark"
           >
-            <Image src="/brand/avs-logo.png" alt="" width={34} height={32} priority />
+            <Image src="/brand/avs-logo.png" alt="" width={32} height={30} priority />
             <span className="brand-mark__text">{site.name}</span>
           </Link>
 
@@ -77,7 +94,7 @@ export function Header() {
         <div id={panelId} role="dialog" aria-modal="true" className="mobile-nav">
           <div className="mobile-nav__top">
             <span className="brand-mark">
-              <Image src="/brand/avs-logo.png" alt="" width={34} height={32} />
+              <Image src="/brand/avs-logo.png" alt="" width={32} height={30} />
               <span className="brand-mark__text">{site.name}</span>
             </span>
             <button type="button" className="menu-toggle" onClick={() => setOpen(false)}>
@@ -91,6 +108,11 @@ export function Header() {
               </Link>
             ))}
           </nav>
+          <div className="mobile-nav__cta">
+            <Link href="/kontakt" className="btn btn-primary" onClick={() => setOpen(false)}>
+              Anfrage senden
+            </Link>
+          </div>
         </div>
       ) : null}
     </>

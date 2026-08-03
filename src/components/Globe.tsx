@@ -5,11 +5,11 @@ import * as THREE from "three";
 import { feature as topoFeature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
-const SIGNAL_HEX = 0x308028;
-const LAND_FILL = "#1c2820";
-const LAND_STROKE = "#334438";
-const OCEAN_FILL = "#0b0f0c";
-const GRID_STROKE = "rgba(48,128,40,0.16)";
+const SIGNAL_HEX = 0x2f7a2a;
+const LAND_FILL = "#d7e0d8";
+const LAND_STROKE = "#a8b8aa";
+const OCEAN_FILL = "#f4f6f4";
+const GRID_STROKE = "rgba(47,122,42,0.14)";
 const RADIUS = 5.4;
 
 type City = {
@@ -255,7 +255,7 @@ export function Globe({ className = "" }: { className?: string }) {
       const isHub = !!city.isHub;
       const core = new THREE.Mesh(
         new THREE.SphereGeometry(isHub ? 0.1 : 0.04, 12, 12),
-        new THREE.MeshBasicMaterial({ color: isHub ? SIGNAL_HEX : 0x0a0a0a }),
+        new THREE.MeshBasicMaterial({ color: isHub ? SIGNAL_HEX : 0x6a7a6c }),
       );
       pivot.add(core);
 
@@ -567,21 +567,21 @@ export function Globe({ className = "" }: { className?: string }) {
       />
       <div
         ref={tooltipRef}
-        className="pointer-events-none fixed z-20 bg-[#111] px-3.5 py-2 text-[12.5px] text-white opacity-0 transition-opacity"
+        className="pointer-events-none fixed z-20 rounded-md border border-[#e6eae6] bg-white px-3.5 py-2 text-[12.5px] text-[#141816] opacity-0 shadow-sm transition-opacity"
         style={{ transform: "translate(-9999px,-9999px)" }}
       >
         <strong data-city className="block text-[13px]" />
-        <span data-sub className="text-[11.5px] text-[#a6a6a3]" />
+        <span data-sub className="text-[11.5px] text-[#667066]" />
       </div>
       <div
         ref={hubLabelRef}
         className="pointer-events-none fixed z-[15] text-center opacity-0 transition-opacity"
         style={{ transform: "translate(-9999px,-9999px)" }}
       >
-        <span className="inline-block whitespace-nowrap border border-[#2a3830] bg-[#0b0f0c] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f5f7fa]">
+        <span className="inline-block whitespace-nowrap rounded-md border border-[#d7ead4] bg-white px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#1f5f1c] shadow-sm">
           München · MUC
         </span>
-        <div className="mx-auto mt-1.5 h-3 w-px bg-[#3d9a34]/70" />
+        <div className="mx-auto mt-1.5 h-3 w-px bg-[#2f7a2a]/70" />
       </div>
     </div>
   );
