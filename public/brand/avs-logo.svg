@@ -1,12 +1,33 @@
-<svg viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
-  <!-- Outer hexagonal shape (black border) with rounded corners -->
-  <path d="M100 6 Q108 6 115 10 L185 50 Q193 55 193 64 L193 166 Q193 175 185 180 L115 220 Q108 224 100 224 Q92 224 85 220 L15 180 Q7 175 7 166 L7 64 Q7 55 15 50 L85 10 Q92 6 100 6 Z" fill="#0a0a0a"/>
+<svg viewBox="0 0 240 270" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="topFace" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3a3a3a"/>
+      <stop offset="100%" stop-color="#252525"/>
+    </linearGradient>
+    <linearGradient id="leftFace" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#222222"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="rightFace" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c8c8c8"/>
+      <stop offset="100%" stop-color="#a8a8a8"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Outer hexagonal shape with rounded corners -->
+  <path d="M120 8 C128 8 135 12 140 16 L216 60 C224 65 228 73 228 82 L228 188 C228 197 224 205 216 210 L140 254 C135 258 128 262 120 262 C112 262 105 258 100 254 L24 210 C16 205 12 197 12 188 L12 82 C12 73 16 65 24 60 L100 16 C105 12 112 8 120 8 Z" fill="#0a0a0a" filter="url(#shadow)"/>
   <!-- White inner border -->
-  <path d="M100 20 Q105 20 110 23 L174 59 Q179 62 179 68 L179 162 Q179 168 174 171 L110 207 Q105 210 100 210 Q95 210 90 207 L26 171 Q21 168 21 162 L21 68 Q21 62 26 59 L90 23 Q95 20 100 20 Z" fill="#ffffff"/>
-  <!-- Top face - dark charcoal -->
-  <path d="M100 36 L168 75 L100 110 L32 75 Z" fill="#3a3a3a"/>
-  <!-- Left face - near black -->
-  <path d="M32 75 L100 110 L100 196 L32 157 Z" fill="#1a1a1a"/>
-  <!-- Right face - light gray -->
-  <path d="M100 110 L168 75 L168 157 L100 196 Z" fill="#b0b0b0"/>
+  <path d="M120 26 C126 26 131 28 135 31 L203 70 C209 74 212 80 212 87 L212 183 C212 190 209 196 203 200 L135 239 C131 242 126 244 120 244 C114 244 109 242 105 239 L37 200 C31 196 28 190 28 183 L28 87 C28 80 31 74 37 70 L105 31 C109 28 114 26 120 26 Z" fill="#ffffff"/>
+  <!-- Top face -->
+  <path d="M120 44 L200 90 L120 132 L40 90 Z" fill="url(#topFace)"/>
+  <!-- Left face -->
+  <path d="M40 90 L120 132 L120 226 L40 180 Z" fill="url(#leftFace)"/>
+  <!-- Right face -->
+  <path d="M120 132 L200 90 L200 180 L120 226 Z" fill="url(#rightFace)"/>
+  <!-- Subtle edge highlights -->
+  <path d="M120 132 L120 226" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" fill="none"/>
+  <path d="M120 132 L40 90" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
+  <path d="M120 132 L200 90" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="none"/>
 </svg>
