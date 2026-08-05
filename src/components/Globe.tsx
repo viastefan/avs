@@ -5,11 +5,11 @@ import * as THREE from "three";
 import { feature as topoFeature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
-const SIGNAL_HEX = 0x308028;
-const LAND_FILL = "#1c2820";
-const LAND_STROKE = "#334438";
-const OCEAN_FILL = "#0b0f0c";
-const GRID_STROKE = "rgba(48,128,40,0.16)";
+const SIGNAL_HEX = 0xd4d4d4;
+const LAND_FILL = "#1c1c1c";
+const LAND_STROKE = "#333333";
+const OCEAN_FILL = "#0a0a0a";
+const GRID_STROKE = "rgba(255,255,255,0.06)";
 const RADIUS = 5.4;
 
 type City = {
@@ -90,7 +90,7 @@ export function Globe({ className = "" }: { className?: string }) {
     } catch (error) {
       console.error("[AVS Globe] WebGL init failed", error);
       canvas.style.background =
-        "radial-gradient(circle at 35% 30%, #cfeeda 0%, #a9dfc3 45%, #7fcaa4 100%)";
+        "radial-gradient(circle at 35% 30%, #404040 0%, #2d2d2d 45%, #1c1c1c 100%)";
       canvas.style.borderRadius = "50%";
       return;
     }
@@ -104,7 +104,7 @@ export function Globe({ className = "" }: { className?: string }) {
     const key = new THREE.DirectionalLight(0xffffff, 0.85);
     key.position.set(-6, 5, 8);
     scene.add(key);
-    const fill = new THREE.DirectionalLight(0xdff5e9, 0.25);
+    const fill = new THREE.DirectionalLight(0xe0e0e0, 0.25);
     fill.position.set(6, -3, -4);
     scene.add(fill);
 
@@ -195,7 +195,7 @@ export function Globe({ className = "" }: { className?: string }) {
       });
 
       ctx.save();
-      ctx.strokeStyle = "rgba(255,255,255,0.55)";
+      ctx.strokeStyle = "rgba(255,255,255,0.25)";
       ctx.lineWidth = 1.1;
       ctx.translate(-1.4, -1.4);
       forEachRing((ring) => {
@@ -262,7 +262,7 @@ export function Globe({ className = "" }: { className?: string }) {
       if (isHub) {
         const glow = new THREE.Sprite(
           new THREE.SpriteMaterial({
-            map: makeGlowTexture("#308028"),
+            map: makeGlowTexture("#d4d4d4"),
             transparent: true,
             depthWrite: false,
             blending: THREE.AdditiveBlending,
@@ -555,7 +555,7 @@ export function Globe({ className = "" }: { className?: string }) {
       <div
         className="pointer-events-none absolute inset-[22%] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(48,128,40,0.2) 0%, rgba(48,128,40,0) 70%)",
+          background: "radial-gradient(circle, rgba(212,212,212,0.1) 0%, rgba(212,212,212,0) 70%)",
           filter: "blur(10px)",
         }}
         aria-hidden
@@ -571,17 +571,17 @@ export function Globe({ className = "" }: { className?: string }) {
         style={{ transform: "translate(-9999px,-9999px)" }}
       >
         <strong data-city className="block text-[13px]" />
-        <span data-sub className="text-[11.5px] text-[#a6a6a3]" />
+        <span data-sub className="text-[11.5px] text-[#737373]" />
       </div>
       <div
         ref={hubLabelRef}
         className="pointer-events-none fixed z-[15] text-center opacity-0 transition-opacity"
         style={{ transform: "translate(-9999px,-9999px)" }}
       >
-        <span className="inline-block whitespace-nowrap border border-[#2a3830] bg-[#0b0f0c] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f5f7fa]">
+        <span className="inline-block whitespace-nowrap border border-[#333] bg-[#0a0a0a] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f5f5f5]">
           München · MUC
         </span>
-        <div className="mx-auto mt-1.5 h-3 w-px bg-[#3d9a34]/70" />
+        <div className="mx-auto mt-1.5 h-3 w-px bg-[#d4d4d4]/70" />
       </div>
     </div>
   );

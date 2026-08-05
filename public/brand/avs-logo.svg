@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer hexagonal shape (black border) with rounded corners -->
+  <path d="M100 6 Q108 6 115 10 L185 50 Q193 55 193 64 L193 166 Q193 175 185 180 L115 220 Q108 224 100 224 Q92 224 85 220 L15 180 Q7 175 7 166 L7 64 Q7 55 15 50 L85 10 Q92 6 100 6 Z" fill="#0a0a0a"/>
+  <!-- White inner border -->
+  <path d="M100 20 Q105 20 110 23 L174 59 Q179 62 179 68 L179 162 Q179 168 174 171 L110 207 Q105 210 100 210 Q95 210 90 207 L26 171 Q21 168 21 162 L21 68 Q21 62 26 59 L90 23 Q95 20 100 20 Z" fill="#ffffff"/>
+  <!-- Top face - dark charcoal -->
+  <path d="M100 36 L168 75 L100 110 L32 75 Z" fill="#3a3a3a"/>
+  <!-- Left face - near black -->
+  <path d="M32 75 L100 110 L100 196 L32 157 Z" fill="#1a1a1a"/>
+  <!-- Right face - light gray -->
+  <path d="M100 110 L168 75 L168 157 L100 196 Z" fill="#b0b0b0"/>
+</svg>

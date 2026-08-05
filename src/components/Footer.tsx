@@ -6,7 +6,11 @@ export function Footer() {
     <footer className="site-footer">
       <div className="wrap site-footer__grid">
         <div>
-          <p className="site-footer__brand">{site.name}</p>
+          <div className="site-footer__brand">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/avs-logo.svg" alt="" width={32} height={32} />
+            <span className="site-footer__brand-text">{site.name}</span>
+          </div>
           <p style={{ margin: "14px 0 0", fontSize: 14, maxWidth: 280, lineHeight: 1.55 }}>
             {site.legalName}
             <br />
@@ -49,7 +53,7 @@ export function Footer() {
           <p style={{ margin: 0 }}>
             <a
               href={site.phoneHref}
-              style={{ fontSize: 15, fontWeight: 600, color: "var(--green-mist)" }}
+              style={{ fontSize: 15, fontWeight: 600, color: "#fff" }}
             >
               {site.phone}
             </a>

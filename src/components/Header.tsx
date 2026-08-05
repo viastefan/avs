@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
@@ -38,7 +37,8 @@ export function Header() {
             aria-label={`${site.name} Startseite`}
             className="brand-mark"
           >
-            <Image src="/brand/avs-logo.png" alt="" width={34} height={32} priority />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/avs-logo.svg" alt="" width={36} height={36} />
             <span className="brand-mark__text">{site.name}</span>
           </Link>
 
@@ -56,7 +56,7 @@ export function Header() {
                 </Link>
               );
             })}
-            <Link href="/kontakt" className="btn btn-primary nav-cta">
+            <Link href="/kontakt" className="btn nav-cta">
               Anfrage
             </Link>
           </nav>
@@ -77,7 +77,8 @@ export function Header() {
         <div id={panelId} role="dialog" aria-modal="true" className="mobile-nav">
           <div className="mobile-nav__top">
             <span className="brand-mark">
-              <Image src="/brand/avs-logo.png" alt="" width={34} height={32} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/avs-logo.svg" alt="" width={36} height={36} />
               <span className="brand-mark__text">{site.name}</span>
             </span>
             <button type="button" className="menu-toggle" onClick={() => setOpen(false)}>
