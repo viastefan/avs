@@ -12,54 +12,33 @@ export default function HomePage() {
   return (
     <>
       <section className="hero">
-        <div className="wrap">
-          <div className="hero__grid">
-            <div className="hero__col">
-              <p className="hero__eyebrow fade-up">
-                Flughafen München · Frachtzentrum Modul H
-              </p>
-              <h1 className="hero__title fade-up fade-up-1">
-                Verpackung und Gefahrgutlogistik für die Luftfracht
-              </h1>
-              <p className="hero__lead fade-up fade-up-2">
-                Die {site.legalName} verpackt Transport- und Gefahrgüter für Luft-, See- und
-                Straßenfracht — normkonform, vollständig dokumentiert und termintreu. Als
-                reglementierter Beauftragter arbeiten wir direkt am Frachtzentrum.
-              </p>
-              <div className="hero__actions fade-up fade-up-3">
-                <Link href="/kontakt" className="btn btn-primary">
-                  Anfrage senden
-                </Link>
-                <Link href="/leistungen" className="btn btn-outline">
-                  Leistungen ansehen
-                </Link>
-              </div>
-              <dl className="hero__facts fade-up fade-up-3">
-                <div className="hero__fact">
-                  <dt>Vorschriften</dt>
-                  <dd>HPE · IATA · IMDG · ADR</dd>
-                </div>
-                <div className="hero__fact">
-                  <dt>Zulassung</dt>
-                  <dd>{site.approval}</dd>
-                </div>
-                <div className="hero__fact">
-                  <dt>Standort</dt>
-                  <dd>{site.address.line2}</dd>
-                </div>
-              </dl>
-            </div>
-            <div className="hero__media">
-              <Image
-                src={images.warehouse.src}
-                alt={images.warehouse.alt}
-                fill
-                priority
-                sizes="(max-width: 960px) 100vw, 50vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
+        <div className="wrap hero__inner">
+          <p className="hero__eyebrow fade-up">{site.name}</p>
+          <h1 className="hero__title fade-up fade-up-1">
+            Verpackung für die Luftfracht.
+          </h1>
+          <p className="hero__sub fade-up fade-up-2">
+            Normkonform, vollständig dokumentiert und termintreu — direkt am Frachtzentrum
+            des Flughafens München.
+          </p>
+          <div className="hero__links fade-up fade-up-3">
+            <Link href="/kontakt" className="hero__link">
+              Anfrage senden
+            </Link>
+            <Link href="/leistungen" className="hero__link">
+              Leistungen ansehen
+            </Link>
           </div>
+        </div>
+        <div className="hero__stage fade-up fade-up-3">
+          <Image
+            src={images.hero.src}
+            alt={images.hero.alt}
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: "cover" }}
+          />
         </div>
       </section>
 
