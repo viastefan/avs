@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { services } from "@/lib/content";
+import { processSteps, services } from "@/lib/content";
 import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -95,6 +95,31 @@ export default function LeistungenPage() {
               </ScrollReveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <ScrollReveal>
+            <div className="sec-intro">
+              <p className="kicker">Ablauf</p>
+              <h2>So läuft eine Anfrage bei uns</h2>
+              <p>
+                Vier Schritte von der ersten Rückfrage bis zur abfertigungsbereiten Sendung.
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal>
+            <div className="steps">
+              {processSteps.map((s, i) => (
+                <div key={s.title} className="step">
+                  <div className="step__num">{String(i + 1).padStart(2, "0")}</div>
+                  <h3 className="step__title">{s.title}</h3>
+                  <p className="step__text">{s.text}</p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 

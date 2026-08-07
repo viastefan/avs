@@ -20,7 +20,18 @@ export function PageHero({
 }: PageHeroProps) {
   return (
     <section className="page-hero">
-      <div className="page-hero__media">
+      <div className="page-hero__dots" aria-hidden />
+      <div className="wrap page-hero__inner">
+        {backHref ? (
+          <Link href={backHref} className="page-hero__back">
+            ← {backLabel}
+          </Link>
+        ) : null}
+        {eyebrow ? <p className="page-hero__eyebrow">{eyebrow}</p> : null}
+        <h1 className="page-hero__title">{title}</h1>
+        {description ? <p className="page-hero__sub">{description}</p> : null}
+      </div>
+      <div className="page-hero__stage">
         <Image
           src={image.src}
           alt={image.alt}
@@ -29,23 +40,6 @@ export function PageHero({
           sizes="100vw"
           style={{ objectFit: "cover" }}
         />
-      </div>
-      <div className="page-hero__shade" aria-hidden />
-      <div className="wrap">
-        <div className="page-hero__inner">
-          {backHref ? (
-            <Link href={backHref} className="page-hero__back">
-              ← {backLabel}
-            </Link>
-          ) : null}
-          {eyebrow ? (
-            <p className="kicker" style={{ marginTop: backHref ? 18 : 0 }}>
-              {eyebrow}
-            </p>
-          ) : null}
-          <h1 className="h1">{title}</h1>
-          {description ? <p className="lead">{description}</p> : null}
-        </div>
       </div>
     </section>
   );

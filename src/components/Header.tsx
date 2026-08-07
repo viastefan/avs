@@ -40,7 +40,6 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
-  const [hasHero, setHasHero] = useState(true);
   const panelId = useId();
 
   useEffect(() => {
@@ -67,13 +66,12 @@ export function Header() {
 
   useEffect(() => {
     if (open) setOpen(false);
-    setHasHero(!!document.querySelector(".page-hero"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return (
     <>
-      <header className={`site-header ${solid || open || !hasHero ? "site-header--solid" : "site-header--clear"}`}>
+      <header className={`site-header site-header--solid${solid ? " site-header--scrolled" : ""}`}>
         <div className="wrap site-header__inner">
           <Link href="/" onClick={() => setOpen(false)} aria-label={`${site.name} Startseite`} className="brand-mark">
             <span className="brand-logo" aria-hidden="true" />

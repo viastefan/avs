@@ -1,41 +1,47 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { containerFeatures } from "@/lib/content";
+import { containerFeatures, containerIntro } from "@/lib/content";
 import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Containerstauung",
-  description: "Effiziente Containerstauung am Flughafen München.",
+  description:
+    "Containerstauung, Ladungssicherung und Palettisierung am Frachtzentrum Flughafen München — für Land, See und Luft.",
 };
 
 export default function ContainerstauungPage() {
   return (
     <>
       <PageHero
-        title="Containerstauung"
-        description="Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft."
+        title="Containerstauung und Ladungssicherung"
+        description="Optimale Raumnutzung, sichere Fixierung und kontrollierte Gewichtsverteilung — für Land, See und Luft."
         image={images.containers}
         eyebrow="Stauung & Sicherung"
       />
 
       <section className="section">
-        <div className="wrap grid-2">
+        <div className="wrap split">
           <ScrollReveal>
-            <div className="split-copy">
+            <div className="split__body">
               <p className="kicker">Ansatz</p>
-              <h2 className="h2">Jeder Zentimeter zählt</h2>
-              <p className="lead">
-                Wir planen und stauen Ihre Container so, dass der verfügbare Raum optimal genutzt und
-                die Ladung sicher fixiert ist — für einen bruchfreien Transport auf jedem Verkehrsweg.
-              </p>
+              <h2>Jeder Zentimeter zählt — und jede Sicherung</h2>
+              {containerIntro.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <div className="figure">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={images.containerYard.src} alt={images.containerYard.alt} loading="lazy" />
+            <div className="split__media">
+              <Image
+                src={images.containerYard.src}
+                alt={images.containerYard.alt}
+                fill
+                sizes="(max-width: 900px) 100vw, 560px"
+                style={{ objectFit: "cover" }}
+              />
             </div>
           </ScrollReveal>
         </div>
@@ -44,11 +50,13 @@ export default function ContainerstauungPage() {
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <ScrollReveal>
-            <div className="section-head">
-              <div>
-                <p className="kicker">Leistungsumfang</p>
-                <h2 className="h2">Von der Planung bis zur Sicherung</h2>
-              </div>
+            <div className="sec-intro">
+              <p className="kicker">Leistungsumfang</p>
+              <h2>Von der Planung bis zur Sicherung</h2>
+              <p>
+                Wir übernehmen die komplette Vorbereitung Ihrer Ladeeinheit — damit am Terminal
+                nichts nachgearbeitet werden muss.
+              </p>
             </div>
           </ScrollReveal>
           <div className="bento">
@@ -62,6 +70,37 @@ export default function ContainerstauungPage() {
               </ScrollReveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap split split--flip">
+          <ScrollReveal>
+            <div className="split__body">
+              <p className="kicker">Verkehrsträger</p>
+              <h2>See, Straße und Luft — jeweils andere Regeln</h2>
+              <p>
+                Ein Seecontainer erlebt Schräglagen und Dauerschwingungen, ein Lkw abrupte
+                Bremsvorgänge, eine Luftfrachtpalette Höhen- und Druckwechsel. Wir stauen und
+                sichern deshalb nicht nach Schema F, sondern nach dem tatsächlichen Transportweg.
+              </p>
+              <p>
+                Auf Wunsch dokumentieren wir die Ladungssicherung und stimmen die Gewichtsverteilung
+                mit Ihrem Spediteur oder dem Handling am Frachtzentrum ab.
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <div className="split__media">
+              <Image
+                src={images.trucks.src}
+                alt={images.trucks.alt}
+                fill
+                sizes="(max-width: 900px) 100vw, 560px"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 

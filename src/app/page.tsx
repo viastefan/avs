@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
 import { Faq } from "@/components/Faq";
 import { Globe } from "@/components/Globe";
+import { HeroStage } from "@/components/HeroStage";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { services, stats, whyPoints } from "@/lib/content";
 import { images } from "@/lib/images";
@@ -12,6 +13,7 @@ export default function HomePage() {
   return (
     <>
       <section className="hero">
+        <div className="hero__dots" aria-hidden />
         <div className="wrap hero__inner">
           <p className="hero__eyebrow fade-up">{site.name}</p>
           <h1 className="hero__title fade-up fade-up-1">
@@ -30,16 +32,7 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-        <div className="hero__stage fade-up fade-up-3">
-          <Image
-            src={images.hero.src}
-            alt={images.hero.alt}
-            fill
-            priority
-            sizes="100vw"
-            style={{ objectFit: "cover" }}
-          />
-        </div>
+        <HeroStage src={images.hero.src} alt={images.hero.alt} />
       </section>
 
       <div className="rail">

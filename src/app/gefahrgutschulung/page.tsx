@@ -1,36 +1,47 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { trainingTopics } from "@/lib/content";
+import { trainingFormats, trainingIntro, trainingTopics } from "@/lib/content";
 import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Gefahrgutschulung",
-  description: "Professionelle Gefahrgutschulung am Flughafen München.",
+  description:
+    "Praxisnahe Gefahrgutschulung zu IATA, ADR und IMDG am Flughafen München — Verpacken, Kennzeichnen, Dokumentieren.",
 };
 
 export default function GefahrgutschulungPage() {
   return (
     <>
       <PageHero
-        title="Gefahrgutschulung"
-        description="IATA, ADR und IMDG — praxisnah für Verpacken, Kennzeichnen und Dokumentieren."
+        title="Gefahrgutschulung für Ihr Team"
+        description="IATA, ADR und IMDG — praxisnah vermittelt für Verpacken, Kennzeichnen und Dokumentieren."
         image={images.training}
         eyebrow="Qualifikation"
       />
 
       <section className="section">
-        <div className="wrap prose-narrow">
+        <div className="wrap split">
           <ScrollReveal>
-            <div className="split-copy">
+            <div className="split__body">
               <p className="kicker">Warum schulen</p>
-              <h2 className="h2">Sicherheit beginnt mit Wissen</h2>
-              <p className="lead">
-                Wer Gefahrgut verpackt, kennzeichnet oder versendet, trägt Verantwortung für Mensch
-                und Umwelt. In unseren praxisnahen Schulungen vermitteln wir die aktuellen Vorschriften
-                für Straße, See und Luft — verständlich und direkt anwendbar.
-              </p>
+              <h2>Sicherheit beginnt mit Wissen</h2>
+              {trainingIntro.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <div className="split__media">
+              <Image
+                src={images.workshop.src}
+                alt={images.workshop.alt}
+                fill
+                sizes="(max-width: 900px) 100vw, 560px"
+                style={{ objectFit: "cover" }}
+              />
             </div>
           </ScrollReveal>
         </div>
@@ -39,11 +50,13 @@ export default function GefahrgutschulungPage() {
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <ScrollReveal>
-            <div className="section-head">
-              <div>
-                <p className="kicker">Schulungsinhalte</p>
-                <h2 className="h2">Das lernen Sie bei uns</h2>
-              </div>
+            <div className="sec-intro">
+              <p className="kicker">Schulungsinhalte</p>
+              <h2>Das lernen Sie bei uns</h2>
+              <p>
+                Vier Themenblöcke, die den gesamten Weg eines Gefahrgut-Packstücks abdecken — von
+                der Vorschrift bis zum fertigen Dokument.
+              </p>
             </div>
           </ScrollReveal>
           <div className="bento">
@@ -52,7 +65,17 @@ export default function GefahrgutschulungPage() {
                 <div className="bento-card">
                   <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
                   <h3 className="bento-card__title">{topic.title}</h3>
-                  <ul style={{ margin: "12px 0 0", padding: "0 0 0 16px", display: "grid", gap: 5, fontSize: 13, color: "var(--muted)", lineHeight: 1.55 }}>
+                  <ul
+                    style={{
+                      margin: "12px 0 0",
+                      padding: "0 0 0 16px",
+                      display: "grid",
+                      gap: 5,
+                      fontSize: 13,
+                      color: "var(--muted)",
+                      lineHeight: 1.55,
+                    }}
+                  >
                     {topic.items.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
@@ -64,10 +87,32 @@ export default function GefahrgutschulungPage() {
         </div>
       </section>
 
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <ScrollReveal>
+            <div className="sec-intro">
+              <p className="kicker">Formate</p>
+              <h2>Wo und wie wir schulen</h2>
+            </div>
+          </ScrollReveal>
+          <div className="why-grid">
+            {trainingFormats.map((f, i) => (
+              <ScrollReveal key={f.title} delay={i * 60}>
+                <div className="why-card">
+                  <div className="why-card__num">{String(i + 1).padStart(2, "0")}</div>
+                  <h3 className="why-card__title">{f.title}</h3>
+                  <p className="why-card__text">{f.text}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <CtaBand
         kicker="Gefahrgutschulung"
         title="Schulung für Ihr Team anfragen"
-        text="Wir stimmen Inhalt und Termin auf Ihren Betrieb ab — vor Ort oder bei uns."
+        text="Wir stimmen Inhalt, Umfang und Termin auf Ihren Betrieb ab — vor Ort oder bei uns."
       />
     </>
   );

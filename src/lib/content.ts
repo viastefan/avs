@@ -197,3 +197,38 @@ export const trainingTopics = [
     ],
   },
 ];
+
+export const processSteps = [
+  {
+    title: "Anfrage & Beratung",
+    text: "Sie schildern uns Gut, Zielort und Verkehrsträger. Wir klären Vorschriften, Materialbedarf und Termin — telefonisch oder per E-Mail.",
+  },
+  {
+    title: "Prüfung & Konzept",
+    text: "Wir bestimmen die passende Verpackungsart, Klassifizierung und Sicherung — HPE, IATA, IMDG oder ADR, je nach Sendung.",
+  },
+  {
+    title: "Verpackung & Kennzeichnung",
+    text: "Fachgerechte Ausführung im Frachtzentrum oder bei Ihnen vor Ort, inklusive Labeln, Packstückkennzeichen und Ladungssicherung.",
+  },
+  {
+    title: "Dokumente & Übergabe",
+    text: "Wir erstellen die Begleitpapiere und übergeben die Sendung abfertigungsbereit an Ihren Spediteur oder das Handling.",
+  },
+];
+
+export const containerIntro = [
+  "Eine Sendung ist nur so sicher wie ihre Stauung. Wir planen die Beladung vorab, nutzen den verfügbaren Raum optimal aus und sichern die Ladung so, dass sie Erschütterungen, Schräglagen und Umschlag unbeschadet übersteht.",
+  "Dabei berücksichtigen wir Gewichtsverteilung, Stapelfähigkeit und die Anforderungen des jeweiligen Verkehrsträgers — vom Seecontainer über den Lkw-Auflieger bis zur Luftfrachtpalette.",
+];
+
+export const trainingIntro = [
+  "Wer Gefahrgut verpackt, kennzeichnet oder versendet, trägt Verantwortung für Mensch, Umwelt und die eigene Betriebssicherheit. Fehler in Klassifizierung oder Dokumentation führen schnell zu Zurückweisungen, Verzögerungen und Bußgeldern.",
+  "In unseren Schulungen vermitteln wir die aktuellen Vorschriften praxisnah und direkt anwendbar — mit echten Packstücken, echten Labels und echten Dokumenten aus dem Tagesgeschäft am Frachtzentrum.",
+];
+
+export const trainingFormats = [
+  { title: "Inhouse bei Ihnen", text: "Wir kommen in Ihren Betrieb und schulen am eigenen Material und an Ihren typischen Sendungen." },
+  { title: "Bei uns am Standort", text: "Schulung im Frachtzentrum München — mit direktem Bezug zur Luftfrachtabfertigung." },
+  { title: "Auffrischung", text: "Kompakte Updates, wenn sich Vorschriften ändern oder Zertifikate auslaufen." },
+];
