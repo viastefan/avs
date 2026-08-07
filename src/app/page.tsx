@@ -12,31 +12,52 @@ export default function HomePage() {
   return (
     <>
       <section className="hero">
-        <div className="hero__glow" aria-hidden />
-        <div className="hero__grid" aria-hidden />
-        <div className="wrap hero__inner">
-          <div className="hero__stack">
-            <p className="kicker fade-up">Flughafen München · Frachtzentrum Modul H</p>
-            <h1 className="display fade-up fade-up-1">
-              Verpackung für die <span className="hero__accent">Luftfracht</span>.
-            </h1>
-            <p className="lead fade-up fade-up-2">
-              Die {site.legalName} verpackt Transport- und Gefahrgüter für Luft-, See- und
-              Straßenfracht — normkonform, dokumentiert und termintreu, direkt am Frachtzentrum
-              des Flughafens München.
-            </p>
-            <div className="hero__actions fade-up fade-up-3">
-              <Link href="/kontakt" className="btn btn-primary">
-                Anfrage senden
-              </Link>
-              <Link href="/leistungen" className="btn btn-outline">
-                Leistungen ansehen
-              </Link>
+        <div className="wrap">
+          <div className="hero__grid">
+            <div className="hero__col">
+              <p className="hero__eyebrow fade-up">
+                Flughafen München · Frachtzentrum Modul H
+              </p>
+              <h1 className="hero__title fade-up fade-up-1">
+                Verpackung und Gefahrgutlogistik für die Luftfracht
+              </h1>
+              <p className="hero__lead fade-up fade-up-2">
+                Die {site.legalName} verpackt Transport- und Gefahrgüter für Luft-, See- und
+                Straßenfracht — normkonform, vollständig dokumentiert und termintreu. Als
+                reglementierter Beauftragter arbeiten wir direkt am Frachtzentrum.
+              </p>
+              <div className="hero__actions fade-up fade-up-3">
+                <Link href="/kontakt" className="btn btn-primary">
+                  Anfrage senden
+                </Link>
+                <Link href="/leistungen" className="btn btn-outline">
+                  Leistungen ansehen
+                </Link>
+              </div>
+              <dl className="hero__facts fade-up fade-up-3">
+                <div className="hero__fact">
+                  <dt>Vorschriften</dt>
+                  <dd>HPE · IATA · IMDG · ADR</dd>
+                </div>
+                <div className="hero__fact">
+                  <dt>Zulassung</dt>
+                  <dd>{site.approval}</dd>
+                </div>
+                <div className="hero__fact">
+                  <dt>Standort</dt>
+                  <dd>{site.address.line2}</dd>
+                </div>
+              </dl>
             </div>
-            <div className="hero__meta fade-up fade-up-3">
-              <span>HPE · IATA · IMDG · ADR</span>
-              <span>Reglementierter Beauftragter {site.approval}</span>
-              <span>{site.address.line2}</span>
+            <div className="hero__media">
+              <Image
+                src={images.warehouse.src}
+                alt={images.warehouse.alt}
+                fill
+                priority
+                sizes="(max-width: 960px) 100vw, 50vw"
+                style={{ objectFit: "cover" }}
+              />
             </div>
           </div>
         </div>
@@ -79,8 +100,8 @@ export default function HomePage() {
           <ScrollReveal delay={100}>
             <div className="figure">
               <Image
-                src={images.warehouse.src}
-                alt={images.warehouse.alt}
+                src={images.packaging.src}
+                alt={images.packaging.alt}
                 fill
                 sizes="(max-width: 900px) 100vw, 540px"
                 style={{ objectFit: "cover" }}
