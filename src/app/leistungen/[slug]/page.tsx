@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { getService, services } from "@/lib/content";
 import { images } from "@/lib/images";
 
 type Props = { params: Promise<{ slug: string }> };
 
 const serviceImages: Record<string, { src: string; alt: string }> = {
-  exportverpackung: images.packaging,
+  exportverpackung: images.containerYard,
   gefahrgutverpackung: images.warehouse,
-  schwergutverpackung: images.trucks,
-  spezialverpackung: images.airport,
-  verpackungsberatung: images.cargoPlane,
-  "vor-ort-verpackung": images.warehouse,
+  schwergutverpackung: images.welding,
+  spezialverpackung: images.packaging,
+  verpackungsberatung: images.handshake,
+  "vor-ort-verpackung": images.workshop,
 };
 
 export function generateStaticParams() {
@@ -48,7 +50,14 @@ export default async function ServiceDetailPage({ params }: Props) {
 
       <section className="section">
         <div className="wrap" style={{ display: "grid", gap: "clamp(40px, 6vw, 80px)", gridTemplateColumns: "minmax(0, 1fr)" }}>
+          <ScrollReveal>
+            <div className="detail-figure">
+              <Image src={image.src} alt={image.alt} fill sizes="(max-width: 900px) 100vw, 1100px" style={{ objectFit: "cover" }} />
+            </div>
+          </ScrollReveal>
+
           <div className="prose-narrow">
+            <p className="lead" style={{ marginBottom: 24 }}>{service.summary}</p>
             <div className="prose-body">
               {service.body.map((p) => (
                 <p key={p}>{p}</p>

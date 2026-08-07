@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { CtaBand } from "@/components/CtaBand";
+import { Faq } from "@/components/Faq";
 import { Globe } from "@/components/Globe";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { services } from "@/lib/content";
+import { services, stats, whyPoints } from "@/lib/content";
 import { images } from "@/lib/images";
 import { site } from "@/lib/site";
 
@@ -10,31 +12,31 @@ export default function HomePage() {
   return (
     <>
       <section className="hero">
-        <div className="hero__media">
-          <Image
-            src={images.hero.src}
-            alt={images.hero.alt}
-            fill
-            priority
-            sizes="100vw"
-            style={{ objectFit: "cover", objectPosition: "center 36%" }}
-          />
-        </div>
-        <div className="hero__shade" aria-hidden />
+        <div className="hero__glow" aria-hidden />
+        <div className="hero__grid" aria-hidden />
         <div className="wrap hero__inner">
           <div className="hero__stack">
-            <p className="kicker fade-up">Flughafen München · Modul H</p>
-            <h1 className="display fade-up fade-up-1">{site.name}</h1>
+            <p className="kicker fade-up">Flughafen München · Frachtzentrum Modul H</p>
+            <h1 className="display fade-up fade-up-1">
+              Verpackung für die <span className="hero__accent">Luftfracht</span>.
+            </h1>
             <p className="lead fade-up fade-up-2">
-              Verpackung, Containerstauung und Gefahrgutschulung — präzise am Frachtzentrum.
+              Die {site.legalName} verpackt Transport- und Gefahrgüter für Luft-, See- und
+              Straßenfracht — normkonform, dokumentiert und termintreu, direkt am Frachtzentrum
+              des Flughafens München.
             </p>
             <div className="hero__actions fade-up fade-up-3">
               <Link href="/kontakt" className="btn btn-primary">
                 Anfrage senden
               </Link>
-              <Link href="/leistungen" className="btn btn-secondary">
-                Leistungen
+              <Link href="/leistungen" className="btn btn-outline">
+                Leistungen ansehen
               </Link>
+            </div>
+            <div className="hero__meta fade-up fade-up-3">
+              <span>HPE · IATA · IMDG · ADR</span>
+              <span>Reglementierter Beauftragter {site.approval}</span>
+              <span>{site.address.line2}</span>
             </div>
           </div>
         </div>
@@ -58,11 +60,16 @@ export default function HomePage() {
         <div className="wrap grid-2">
           <ScrollReveal>
             <div className="split-copy">
-              <p className="kicker">Standort</p>
-              <h2 className="h2">Direkt am Frachtzentrum</h2>
+              <p className="kicker">Über uns</p>
+              <h2 className="h2">Verpackung mit System — direkt am Frachtzentrum</h2>
               <p className="lead">
-                Fachgerechte Verpackung und Dokumentation für Luft-, See- und Straßenfracht —
-                IATA-, ADR- und IMDG-konform.
+                Die Airport-Verpackungs-Service GmbH verpackt Transport- und Gefahrgüter für Luft-,
+                See- und Straßenfracht. Ob einzelnes Packstück, sensible Spezialware oder tonnenschwere
+                Maschine — wir liefern die normkonforme Lösung, inklusive Dokumentation und Beratung.
+              </p>
+              <p className="muted" style={{ marginTop: 16, fontSize: 15, lineHeight: 1.7 }}>
+                Als reglementierter Beauftragter arbeiten wir nach HPE, IATA/ICAO, IMDG und ADR —
+                zuverlässig, termintreu und direkt dort, wo Ihre Sendung umgeschlagen wird.
               </p>
               <a href={site.phoneHref} className="link-accent">
                 {site.phone} →
@@ -78,6 +85,21 @@ export default function HomePage() {
                 sizes="(max-width: 900px) 100vw, 540px"
                 style={{ objectFit: "cover" }}
               />
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <ScrollReveal>
+            <div className="stats">
+              {stats.map((s) => (
+                <div key={s.label} className="stat">
+                  <div className="stat__value">{s.value}</div>
+                  <div className="stat__label">{s.label}</div>
+                </div>
+              ))}
             </div>
           </ScrollReveal>
         </div>
@@ -108,6 +130,30 @@ export default function HomePage() {
                     <svg viewBox="0 0 16 16"><path d="M4 12 L12 4 M12 4 L5 4 M12 4 L12 11" /></svg>
                   </span>
                 </Link>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <ScrollReveal>
+            <div className="section-head">
+              <div>
+                <p className="kicker">Warum AVS</p>
+                <h2 className="h2">Darauf können Sie sich verlassen</h2>
+              </div>
+            </div>
+          </ScrollReveal>
+          <div className="why-grid">
+            {whyPoints.map((point, i) => (
+              <ScrollReveal key={point.title} delay={i * 60}>
+                <div className="why-card">
+                  <div className="why-card__num">{String(i + 1).padStart(2, "0")}</div>
+                  <h3 className="why-card__title">{point.title}</h3>
+                  <p className="why-card__text">{point.text}</p>
+                </div>
               </ScrollReveal>
             ))}
           </div>
@@ -182,27 +228,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="cta-band">
-        <div className="wrap cta-band__row">
+      <section className="section">
+        <div className="wrap prose-narrow">
           <ScrollReveal>
-            <div>
-              <p className="kicker">Nächster Schritt</p>
-              <h2 className="h2">Wie können wir helfen?</h2>
-              <p className="muted">Anfrage senden oder anrufen — {site.address.line2}</p>
+            <div className="section-head" style={{ marginBottom: 8 }}>
+              <div>
+                <p className="kicker">Häufige Fragen</p>
+                <h2 className="h2">Gut zu wissen</h2>
+              </div>
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={100}>
-            <div className="cta__actions">
-              <Link href="/kontakt" className="btn btn-primary">
-                Kontakt
-              </Link>
-              <a href={site.phoneHref} className="btn btn-outline">
-                {site.phone}
-              </a>
-            </div>
+          <ScrollReveal>
+            <Faq />
           </ScrollReveal>
         </div>
       </section>
+
+      <CtaBand />
     </>
   );
 }

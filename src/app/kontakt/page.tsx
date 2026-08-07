@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
 import { images } from "@/lib/images";
@@ -56,6 +55,33 @@ export default function KontaktPage() {
             </div>
           </div>
           <ContactForm />
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <div className="section-head" style={{ marginBottom: 24 }}>
+            <div>
+              <p className="kicker">Standort</p>
+              <h2 className="h2">Frachtzentrum Flughafen München</h2>
+            </div>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Frachtzentrum+Flughafen+M%C3%BCnchen+S%C3%BCdallee"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="section-head__link"
+            >
+              In Google Maps öffnen →
+            </a>
+          </div>
+          <div className="map-frame">
+            <iframe
+              title="Standort AVS am Frachtzentrum Flughafen München"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=Frachtzentrum%20Flughafen%20M%C3%BCnchen%20S%C3%BCdallee&z=14&output=embed"
+            />
+          </div>
         </div>
       </section>
     </>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Plus_Jakarta_Sans } from "next/font/google";
+import { ContactModal } from "@/components/ContactModal";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { site } from "@/lib/site";
@@ -54,6 +55,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1 pt-[var(--header-h)]">{children}</main>
         <Footer />
+        <ContactModal />
       </body>
     </html>
   );
