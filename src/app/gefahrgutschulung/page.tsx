@@ -19,20 +19,24 @@ export default function GefahrgutschulungPage() {
         eyebrow="Qualifikation"
       />
       <section className="section">
-        <div className="wrap prose-narrow">
-          <div className="list">
-            {trainingTopics.map((topic) => (
-              <div key={topic.title} className="list-item">
-                <h2 className="list__title">{topic.title}</h2>
-                <p className="list__text" style={{ margin: 0 }}>
-                  {topic.items.join(" · ")}
-                </p>
+        <div className="wrap" style={{ maxWidth: 900 }}>
+          <div style={{ display: "grid", gap: 20, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+            {trainingTopics.map((topic, i) => (
+              <div key={topic.title} className="bento-card" style={{ minHeight: 200 }}>
+                <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
+                <h2 className="bento-card__title">{topic.title}</h2>
+                <ul style={{ margin: "10px 0 0", padding: "0 0 0 16px", display: "grid", gap: 4, fontSize: 13, color: "var(--muted)" }}>
+                  {topic.items.map((item) => (
+                    <li key={item} style={{ lineHeight: 1.5 }}>{item}</li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
-          <Link href="/kontakt" className="btn btn-primary" style={{ marginTop: 40 }}>
-            Termin anfragen
-          </Link>
+          <div style={{ marginTop: 48, display: "flex", gap: 12 }}>
+            <Link href="/kontakt" className="btn btn-primary">Termin anfragen</Link>
+            <a href="tel:+498997594591" className="btn btn-outline">Anrufen</a>
+          </div>
         </div>
       </section>
     </>

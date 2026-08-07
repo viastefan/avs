@@ -59,7 +59,7 @@ export function ContactForm() {
       </button>
 
       {state.message ? (
-        <p role="status" style={{ margin: 0, color: "var(--green)", fontSize: 14 }}>
+        <p role="status" style={{ margin: 0, color: "var(--accent)", fontSize: 14 }}>
           {state.message}
         </p>
       ) : null}

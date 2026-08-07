@@ -13,18 +13,16 @@
       <stop offset="100%" stop-color="#555"/>
     </linearGradient>
   </defs>
-  <!-- Outer hexagonal border -->
-  <path d="M120 8 L216 60 C224 65 228 73 228 82 L228 188 C228 197 224 205 216 210 L120 262 L24 210 C16 205 12 197 12 188 L12 82 C12 73 16 65 24 60 Z" fill="#0a0a0a" stroke="#ffffff" stroke-width="8" stroke-linejoin="round"/>
-  <!-- Top face (dark gray) -->
+  <!-- Outer hexagonal border - dark fill for light backgrounds -->
+  <path d="M120 8 L216 60 C224 65 228 73 228 82 L228 188 C228 197 224 205 216 210 L120 262 L24 210 C16 205 12 197 12 188 L12 82 C12 73 16 65 24 60 Z" fill="#111111" stroke="#111111" stroke-width="8" stroke-linejoin="round"/>
+  <!-- Top face -->
   <path d="M120 52 L196 92 L120 132 L44 92 Z" fill="url(#topFace)"/>
   <!-- Left face (white/bright) -->
   <path d="M44 92 L120 132 L120 222 L44 182 Z" fill="url(#leftFace)"/>
-  <!-- Right face (medium gray) -->
+  <!-- Right face -->
   <path d="M120 132 L196 92 L196 182 L120 222 Z" fill="url(#rightFace)"/>
   <!-- Edge highlights -->
   <path d="M120 132 L120 222" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" fill="none"/>
   <path d="M44 92 L120 132" stroke="rgba(0,0,0,0.08)" stroke-width="1" fill="none"/>
   <path d="M120 132 L196 92" stroke="rgba(255,255,255,0.12)" stroke-width="1" fill="none"/>
-  <path d="M120 52 L196 92" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="none"/>
-  <path d="M120 52 L44 92" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
 </svg>

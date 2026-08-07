@@ -14,25 +14,25 @@ export default function ContainerstauungPage() {
     <>
       <PageHero
         title="Containerstauung"
-        description="Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft."
+        description="Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft."
         image={images.containers}
         eyebrow="Stauung & Sicherung"
       />
       <section className="section">
-        <div className="wrap prose-narrow">
-          <div className="list">
-            {containerFeatures.map((feature) => (
-              <div key={feature.title} className="list-item">
-                <h2 className="list__title">{feature.title}</h2>
-                <p className="list__text" style={{ margin: 0 }}>
-                  {feature.text}
-                </p>
+        <div className="wrap" style={{ maxWidth: 900 }}>
+          <div style={{ display: "grid", gap: 20, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+            {containerFeatures.map((feature, i) => (
+              <div key={feature.title} className="bento-card" style={{ minHeight: 180 }}>
+                <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
+                <h2 className="bento-card__title">{feature.title}</h2>
+                <p className="bento-card__text">{feature.text}</p>
               </div>
             ))}
           </div>
-          <Link href="/kontakt" className="btn btn-primary" style={{ marginTop: 40 }}>
-            Anfrage senden
-          </Link>
+          <div style={{ marginTop: 48, display: "flex", gap: 12 }}>
+            <Link href="/kontakt" className="btn btn-primary">Anfrage senden</Link>
+            <a href="tel:+498997594591" className="btn btn-outline">Anrufen</a>
+          </div>
         </div>
       </section>
     </>
