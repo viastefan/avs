@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { containerFeatures } from "@/lib/content";
 import { images } from "@/lib/images";
 
@@ -18,23 +19,57 @@ export default function ContainerstauungPage() {
         image={images.containers}
         eyebrow="Stauung & Sicherung"
       />
+
       <section className="section">
-        <div className="wrap" style={{ maxWidth: 900 }}>
-          <div style={{ display: "grid", gap: 20, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-            {containerFeatures.map((feature, i) => (
-              <div key={feature.title} className="bento-card" style={{ minHeight: 180 }}>
-                <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
-                <h2 className="bento-card__title">{feature.title}</h2>
-                <p className="bento-card__text">{feature.text}</p>
+        <div className="wrap grid-2">
+          <ScrollReveal>
+            <div className="split-copy">
+              <p className="kicker">Ansatz</p>
+              <h2 className="h2">Jeder Zentimeter zählt</h2>
+              <p className="lead">
+                Wir planen und stauen Ihre Container so, dass der verfügbare Raum optimal genutzt und
+                die Ladung sicher fixiert ist — für einen bruchfreien Transport auf jedem Verkehrsweg.
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <div className="figure">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={images.containerYard.src} alt={images.containerYard.alt} loading="lazy" />
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <ScrollReveal>
+            <div className="section-head">
+              <div>
+                <p className="kicker">Leistungsumfang</p>
+                <h2 className="h2">Von der Planung bis zur Sicherung</h2>
               </div>
+            </div>
+          </ScrollReveal>
+          <div className="bento">
+            {containerFeatures.map((feature, i) => (
+              <ScrollReveal key={feature.title} delay={i * 60}>
+                <div className="bento-card">
+                  <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="bento-card__title">{feature.title}</h3>
+                  <p className="bento-card__text">{feature.text}</p>
+                </div>
+              </ScrollReveal>
             ))}
-          </div>
-          <div style={{ marginTop: 48, display: "flex", gap: 12 }}>
-            <Link href="/kontakt" className="btn btn-primary">Anfrage senden</Link>
-            <a href="tel:+498997594591" className="btn btn-outline">Anrufen</a>
           </div>
         </div>
       </section>
+
+      <CtaBand
+        kicker="Containerstauung"
+        title="Bereit für Ihre nächste Sendung?"
+        text="Wir stauen und sichern Ihre Ladung fachgerecht — sprechen Sie uns an."
+      />
     </>
   );
 }

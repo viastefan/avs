@@ -2,8 +2,8 @@
 
 export const images = {
   hero: {
-    src: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2400&auto=format&fit=crop",
-    alt: "Luftfracht auf dem Vorfeld",
+    src: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2400&auto=format&fit=crop",
+    alt: "Tragfläche über den Wolken — Luftfracht ab München",
   },
   warehouse: {
     src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1800&auto=format&fit=crop",

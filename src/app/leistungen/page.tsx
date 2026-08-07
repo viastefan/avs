@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { services } from "@/lib/content";
 import { images } from "@/lib/images";
 
@@ -9,28 +11,98 @@ export const metadata: Metadata = {
   description: "Export-, Gefahrgut-, Schwergut- und Spezialverpackung am Flughafen München.",
 };
 
+const standards = ["HPE", "IATA / ICAO", "IMDG-Code", "ADR"];
+
 export default function LeistungenPage() {
   return (
     <>
       <PageHero
         title="Verpackungsservice"
-        description="Gefahrgüter und Transportgüter für Straße, See und Luftfracht."
+        description="Fachgerechte Verpackung für Gefahrgüter und Transportgüter — Straße, See und Luftfracht."
         image={images.packaging}
         eyebrow="Leistungen"
       />
+
       <section className="section">
+        <div className="wrap grid-2">
+          <ScrollReveal>
+            <div className="split-copy">
+              <p className="kicker">Überblick</p>
+              <h2 className="h2">Verpackung, auf die Verlass ist</h2>
+              <p className="lead">
+                Als reglementierter Beauftragter am Frachtzentrum des Flughafens München verpacken
+                wir Ihre Güter normkonform, sicher und termingerecht — vom einzelnen Packstück bis
+                zur kompletten Maschine.
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <div>
+              <p style={{ margin: 0, fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent)", opacity: 0.7 }}>
+                Nach anerkannten Vorschriften
+              </p>
+              <div style={{ marginTop: 16, display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {standards.map((s) => (
+                  <span
+                    key={s}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      height: 40,
+                      padding: "0 18px",
+                      borderRadius: 999,
+                      border: "1px solid var(--line-strong)",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: "var(--ink)",
+                    }}
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+              <p className="muted" style={{ marginTop: 24, fontSize: 14, lineHeight: 1.7, maxWidth: "38ch" }}>
+                Auf Wunsch übernehmen wir zusätzlich die Erstellung der erforderlichen Begleitpapiere
+                und stellen einen externen Gefahrgutbeauftragten.
+              </p>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
-          <div className="list">
+          <ScrollReveal>
+            <div className="section-head">
+              <div>
+                <p className="kicker">Alle Leistungen</p>
+                <h2 className="h2">Was wir verpacken</h2>
+              </div>
+            </div>
+          </ScrollReveal>
+          <div className="bento">
             {services.map((service, i) => (
-              <Link key={service.slug} href={`/leistungen/${service.slug}`}>
-                <span className="list__idx">{String(i + 1).padStart(2, "0")}</span>
-                <span className="list__title">{service.title}</span>
-                <span className="list__text">{service.summary}</span>
-              </Link>
+              <ScrollReveal key={service.slug} delay={i * 60} className={i === 0 ? "bento-wide" : ""}>
+                <Link href={`/leistungen/${service.slug}`} className={`bento-card${i === 0 ? " bento-wide" : ""}`}>
+                  <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
+                  <p className="bento-card__sector">{service.sector}</p>
+                  <h3 className="bento-card__title">{service.title}</h3>
+                  <p className="bento-card__text">{service.summary}</p>
+                  <span className="bento-card__arrow">
+                    <svg viewBox="0 0 16 16"><path d="M4 12 L12 4 M12 4 L5 4 M12 4 L12 11" /></svg>
+                  </span>
+                </Link>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
+
+      <CtaBand
+        kicker="Individuelle Anfrage"
+        title="Sie haben besondere Anforderungen?"
+        text="Sprechen Sie mit uns — wir finden die passende Verpackungslösung für Ihre Güter."
+      />
     </>
   );
 }
