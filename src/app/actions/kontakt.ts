@@ -19,12 +19,21 @@ export async function submitContact(
     return { ok: true, message: "Vielen Dank! Ihr Anliegen wird schnellstmöglich bearbeitet." };
   }
 
-  const firstName = String(formData.get("firstName") || "").trim();
-  const lastName = String(formData.get("lastName") || "").trim();
-  const email = String(formData.get("email") || "").trim();
-  const company = String(formData.get("company") || "").trim();
-  const subject = String(formData.get("subject") || "").trim();
-  const message = String(formData.get("message") || "").trim();
+  const get = (key: string) => String(formData.get(key) || "").trim();
+
+  const firstName = get("firstName");
+  const lastName = get("lastName");
+  const email = get("email");
+  const phone = get("phone");
+  const company = get("company");
+  const subject = get("subject");
+  const message = get("message");
+  const transport = get("transport");
+  const goods = get("goods");
+  const weight = get("weight");
+  const deadline = get("deadline");
+  const preferredContact = get("preferredContact");
+  const consent = get("consent");
 
   if (!firstName || !lastName || !email || !subject || !message) {
     return { ok: false, error: "Bitte füllen Sie alle Pflichtfelder aus." };
@@ -34,12 +43,26 @@ export async function submitContact(
     return { ok: false, error: "Bitte eine gültige E-Mail angeben." };
   }
 
+  if (!consent) {
+    return { ok: false, error: "Bitte stimmen Sie der Datenschutzerklärung zu." };
+  }
+
+  if (preferredContact === "Telefon" && !phone) {
+    return { ok: false, error: "Für einen Rückruf benötigen wir Ihre Telefonnummer." };
+  }
+
   const inquiry = {
     firstName,
     lastName,
     email,
+    phone,
     company,
     subject,
+    transport,
+    goods,
+    weight,
+    deadline,
+    preferredContact,
     message,
     receivedAt: new Date().toISOString(),
   };
@@ -64,9 +87,17 @@ export async function submitContact(
           text: [
             `Name: ${firstName} ${lastName}`,
             `E-Mail: ${email}`,
+            `Telefon: ${phone || "—"}`,
             `Unternehmen: ${company || "—"}`,
-            `Betreff: ${subject}`,
+            `Rückmeldung bevorzugt per: ${preferredContact || "—"}`,
             "",
+            `Anliegen: ${subject}`,
+            `Verkehrsträger: ${transport || "—"}`,
+            `Art der Güter: ${goods || "—"}`,
+            `Gewicht / Maße: ${weight || "—"}`,
+            `Gewünschter Termin: ${deadline || "—"}`,
+            "",
+            "Nachricht:",
             message,
           ].join("\n"),
         }),

@@ -28,18 +28,6 @@ export function ContactModal() {
 
   return (
     <>
-      <button
-        type="button"
-        className="fab"
-        onClick={() => setOpen(true)}
-        aria-label="Kontakt aufnehmen"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-        <span className="fab__label">Kontakt</span>
-      </button>
-
       <div
         className={`modal${open ? " modal--open" : ""}`}
         role="dialog"

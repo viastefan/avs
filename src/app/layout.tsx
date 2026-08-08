@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ContactModal } from "@/components/ContactModal";
+import { CookieNotice } from "@/components/CookieNotice";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { site } from "@/lib/site";
@@ -56,6 +57,7 @@ export default function RootLayout({
         <main className="flex-1 pt-[var(--header-h)]">{children}</main>
         <Footer />
         <ContactModal />
+        <CookieNotice />
       </body>
     </html>
   );

@@ -24,5 +24,6 @@ export const nav = [
   { href: "/leistungen", label: "Leistungen" },
   { href: "/containerstauung", label: "Containerstauung" },
   { href: "/gefahrgutschulung", label: "Gefahrgutschulung" },
+  { href: "/faq", label: "FAQ" },
   { href: "/kontakt", label: "Kontakt" },
 ] as const;

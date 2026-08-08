@@ -36,8 +36,8 @@ export default function ContainerstauungPage() {
           <ScrollReveal delay={100}>
             <div className="split__media">
               <Image
-                src={images.containerYard.src}
-                alt={images.containerYard.alt}
+                src={images.warehouse.src}
+                alt={images.warehouse.alt}
                 fill
                 sizes="(max-width: 900px) 100vw, 560px"
                 style={{ objectFit: "cover" }}

@@ -46,7 +46,11 @@ export const images = {
     alt: "Flugzeug bereit zum Abflug",
   },
   trucks: {
-    src: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=2000&auto=format&fit=crop",
-    alt: "LKW-Transport auf der Straße",
+    src: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=2000&auto=format&fit=crop",
+    alt: "Sattelzug auf der Straße — Straßenfracht",
+  },
+  materials: {
+    src: "https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=1800&auto=format&fit=crop",
+    alt: "Verpackungsmaterial und Kartonagen",
   },
 } as const;

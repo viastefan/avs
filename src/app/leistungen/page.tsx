@@ -19,7 +19,7 @@ export default function LeistungenPage() {
       <PageHero
         title="Verpackungsservice"
         description="Fachgerechte Verpackung für Gefahrgüter und Transportgüter — Straße, See und Luftfracht."
-        image={images.packaging}
+        image={images.materials}
         eyebrow="Leistungen"
       />
 

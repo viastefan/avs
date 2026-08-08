@@ -232,3 +232,70 @@ export const trainingFormats = [
   { title: "Bei uns am Standort", text: "Schulung im Frachtzentrum München — mit direktem Bezug zur Luftfrachtabfertigung." },
   { title: "Auffrischung", text: "Kompakte Updates, wenn sich Vorschriften ändern oder Zertifikate auslaufen." },
 ];
+
+export const faqGroups = [
+  {
+    title: "Leistungen & Ablauf",
+    items: [
+      {
+        q: "Welche Verpackungsvorschriften wenden Sie an?",
+        a: "Wir verpacken nach den international anerkannten HPE-Richtlinien sowie den aktuellen Vorschriften für Luft- (IATA/ICAO), See- (IMDG-Code) und Straßenfracht (ADR). Welche Norm greift, richtet sich nach Gut und Verkehrsträger — das klären wir vorab mit Ihnen.",
+      },
+      {
+        q: "Wie schnell können Sie eine Sendung bearbeiten?",
+        a: "Das hängt von Umfang und Art der Sendung ab. Melden Sie sich mit Termin und Eckdaten — wir sagen Ihnen verbindlich, was möglich ist. Durch die Lage direkt am Frachtzentrum entfallen zusätzliche Transportwege.",
+      },
+      {
+        q: "Verpacken Sie auch schwere Maschinen und Anlagen?",
+        a: "Ja. Für besonders schwere oder sperrige Güter bieten wir Schwergutverpackung — auf Wunsch direkt vor Ort bei Ihnen, inklusive fachgerechter Ladungssicherung.",
+      },
+      {
+        q: "Kommen Sie auch zu uns in den Betrieb?",
+        a: "Ja. Vor-Ort-Verpackung gehört zu unserem Leistungsumfang, besonders bei Schwergut und Anlagen, die sich nicht sinnvoll transportieren lassen, bevor sie verpackt sind.",
+      },
+    ],
+  },
+  {
+    title: "Gefahrgut & Dokumente",
+    items: [
+      {
+        q: "Übernehmen Sie auch die Begleitpapiere?",
+        a: "Auf Wunsch erstellen wir die erforderlichen Dokumente: Shipper's Declaration für die Luftfracht, IMO-Erklärung für die Seefracht und das ADR-Beförderungspapier für die Straße.",
+      },
+      {
+        q: "Stellen Sie einen Gefahrgutbeauftragten?",
+        a: "Ja, auf Anfrage bieten wir die Dienstleistung eines externen Gefahrgutbeauftragten an — sinnvoll für Betriebe, die regelmäßig Gefahrgut versenden, aber keine eigene Stelle besetzen wollen.",
+      },
+      {
+        q: "Was bedeutet reglementierter Beauftragter?",
+        a: "Als reglementierter Beauftragter sind wir nach den Vorgaben der EU-Luftsicherheitsverordnung zugelassen und dürfen Luftfracht als sicher einstufen. Unsere Zulassungsnummer lautet DE/RA/00876-01.",
+      },
+    ],
+  },
+  {
+    title: "Schulung",
+    items: [
+      {
+        q: "Bieten Sie Gefahrgutschulungen an?",
+        a: "Ja. Wir schulen praxisnah zu Verpackungsvorschriften, Kennzeichnung und Dokumentation für Straße, See und Luft — abgestimmt auf Ihren Betrieb.",
+      },
+      {
+        q: "Wo finden die Schulungen statt?",
+        a: "Wahlweise inhouse bei Ihnen am eigenen Material, bei uns am Standort im Frachtzentrum München, oder als kompakte Auffrischung, wenn sich Vorschriften ändern.",
+      },
+    ],
+  },
+  {
+    title: "Material & Standort",
+    items: [
+      {
+        q: "Kann ich Verpackungsmaterial über Sie beziehen?",
+        a: "Alle von uns verwendeten Materialien können Sie über uns beziehen. Ist ein Artikel nicht auf Lager, kümmern wir uns um die Beschaffung.",
+      },
+      {
+        q: "Wo befindet sich Ihr Standort?",
+        a: "Im Frachtzentrum des Flughafens München, Südallee, Modul H (Pavillon), 85356 München-Flughafen — direkt dort, wo Ihre Fracht abgefertigt wird.",
+      },
+    ],
+  },
+];
