@@ -15,7 +15,7 @@ export default function KontaktPage() {
       <PageHero
         title="Kontakt aufnehmen"
         description="Wir freuen uns auf Ihre Anfrage zu Verpackung, Containerstauung oder Gefahrgutschulung."
-        image={images.airport}
+        image={images.warehouse}
         eyebrow="Kontakt"
       />
       <section className="section">

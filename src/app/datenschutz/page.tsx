@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/PageHero";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -29,16 +30,15 @@ function Divider() {
 
 export default function DatenschutzPage() {
   return (
-    <section className="section">
-      <div className="wrap" style={{ maxWidth: 720 }}>
-        <p className="kicker">Rechtliches</p>
-        <h1 className="h2" style={{ marginTop: 14 }}>Datenschutz</h1>
-        <p className="lead" style={{ marginTop: 16 }}>
-          Wir nehmen den Schutz Ihrer personenbezogenen Daten ernst. Nachfolgend informieren wir Sie
-          über Art, Umfang und Zweck der Verarbeitung auf dieser Website.
-        </p>
-
-        <div style={{ marginTop: 44, display: "grid", gap: 32 }}>
+    <>
+      <PageHero
+        eyebrow="Rechtliches"
+        title="Datenschutz"
+        description="Wir nehmen den Schutz Ihrer personenbezogenen Daten ernst. Nachfolgend informieren wir Sie über Art, Umfang und Zweck der Verarbeitung auf dieser Website."
+      />
+      <section className="section">
+        <div className="wrap" style={{ maxWidth: 720 }}>
+          <div style={{ display: "grid", gap: 32 }}>
           <div>
             <p style={label}>Verantwortlicher</p>
             <p style={{ ...text, color: "var(--ink)" }}>
@@ -155,8 +155,9 @@ export default function DatenschutzPage() {
               verschlüsselte Verbindung erkennen Sie an „https://“ in der Adresszeile Ihres Browsers.
             </p>
           </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

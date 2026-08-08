@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/PageHero";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -29,15 +30,15 @@ function Divider() {
 
 export default function ImpressumPage() {
   return (
-    <section className="section">
-      <div className="wrap" style={{ maxWidth: 720 }}>
-        <p className="kicker">Rechtliches</p>
-        <h1 className="h2" style={{ marginTop: 14 }}>Impressum</h1>
-        <p className="lead" style={{ marginTop: 16 }}>
-          Angaben und Pflichtinformationen gemäß § 5 TMG sowie § 18 Abs. 2 MStV.
-        </p>
-
-        <div style={{ marginTop: 44, display: "grid", gap: 32 }}>
+    <>
+      <PageHero
+        eyebrow="Rechtliches"
+        title="Impressum"
+        description="Angaben und Pflichtinformationen gemäß § 5 TMG sowie § 18 Abs. 2 MStV."
+      />
+      <section className="section">
+        <div className="wrap" style={{ maxWidth: 720 }}>
+          <div style={{ display: "grid", gap: 32 }}>
           <div>
             <p style={label}>Anbieter</p>
             <p style={{ ...text, color: "var(--ink)" }}>
@@ -147,8 +148,9 @@ export default function ImpressumPage() {
               Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung.
             </p>
           </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
