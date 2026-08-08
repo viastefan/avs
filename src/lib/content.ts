@@ -16,6 +16,8 @@ export const services: Service[] = [
       "Fachgerechte Exportverpackung nach international anerkannten HPE-Vorschriften — sicher, gesetzeskonform und reibungslos abgewickelt.",
     body: [
       "Unsere Experten übernehmen die Verpackung Ihrer Waren für den Export gemäß den international anerkannten Vorschriften des HPE.",
+      "Die HPE-Richtlinien regeln, wie Güter für den internationalen Versand zu sichern sind — von der Wahl des Holzes über die Kistenkonstruktion bis zur Korrosionsschutzverpackung. Wir wählen die Bauart passend zu Gewicht, Schwerpunkt und Transportdauer.",
+      "Für Sendungen in Länder mit Quarantänebestimmungen setzen wir Vollholzverpackungen nach ISPM 15 ein und kennzeichnen sie entsprechend. So vermeiden Sie Zurückweisungen am Zoll.",
       "Verlassen Sie sich auf unsere Fachkenntnis und Erfahrung, um eine makellose Abwicklung Ihrer Exportgeschäfte zu gewährleisten.",
     ],
     highlights: ["HPE-konform", "Internationale Standards", "Begleitdokumente"],
@@ -29,6 +31,8 @@ export const services: Service[] = [
     body: [
       "Gefahrgutverpackung muss speziellen Anforderungen entsprechen, um Risiken für Mensch und Umwelt zu minimieren.",
       "Wir verwenden stets die aktuellsten Versionen der IATA/ICAO-, IMDG-Code- sowie ADR-Vorschriften und unterstützen Sie bei der Erstellung der erforderlichen Begleitpapiere.",
+      "Entscheidend ist die richtige Klassifizierung: UN-Nummer, Verpackungsgruppe und zulässige Menge je Versandstück bestimmen, welche Bauart-geprüfte Verpackung eingesetzt werden darf. Wir prüfen das vorab und weisen auf Beförderungsverbote hin, bevor die Sendung unterwegs ist.",
+      "Besonderes Augenmerk gilt Lithiumbatterien, begrenzten Mengen (LQ) und Freistellungen — hier ändern sich die Regeln regelmäßig, und Fehler führen zu Zurückweisung am Terminal.",
       "Darüber hinaus bieten wir auf Anfrage die Dienstleistung eines externen Gefahrgutbeauftragten an.",
     ],
     highlights: [
@@ -45,6 +49,8 @@ export const services: Service[] = [
       "Verpackung besonders schwerer Waren, Maschinen und Anlagen — auch direkt vor Ort beim Kunden.",
     body: [
       "Für besonders schwere Waren, Maschinen oder Anlagen bieten wir einen speziellen Service: Wir verpacken sie direkt vor Ort beim Kunden.",
+      "Schwergut stellt eigene Anforderungen: Der Schwerpunkt muss bekannt sein, Anschlagpunkte müssen definiert und die Kiste auf Kipp- und Stapeldruck ausgelegt sein. Wir konstruieren die Verpackung um das Gut herum, statt es in eine Standardkiste zu zwingen.",
+      "Auf Wunsch ergänzen wir Verzurrösen, Kufen für den Gabelstaplereingriff sowie Stoß- und Neigungsindikatoren, damit Transportschäden nachvollziehbar bleiben.",
       "Mit unserem erfahrenen Team sorgen wir für eine fachgerechte und sichere Verpackung, damit der Transport reibungslos möglich ist.",
     ],
     highlights: ["Vor Ort beim Kunden", "Maschinen & Anlagen", "Transportschutz"],
@@ -57,6 +63,8 @@ export const services: Service[] = [
       "Kühl-, Reinraum-, ISO-, Fahrzeug- und Lohnverpackung — individuell beraten und präzise umgesetzt.",
     body: [
       "Wenn Sie Kühlverpackungen, Reinraumverpackungen oder ISO-Verpackungen für den sicheren Transport benötigen, stehen wir Ihnen gerne zur Verfügung.",
+      "Temperaturgeführte Sendungen erfordern abgestimmte Isolierung und Kühlmittel — je nach Zieltemperatur, Transportdauer und Klimazone. Wir legen die Kombination so aus, dass die Kühlkette über die gesamte Strecke hält.",
+      "Für empfindliche Elektronik und Optik arbeiten wir mit ESD-Schutz, Trockenmittel und Barrierefolien. Reinraumware verpacken wir so, dass die Reinheitsklasse bis zum Auspacken erhalten bleibt.",
       "Wir unterstützen Sie bei individueller Beratung, Kommissionierung und der Auswahl der passenden Verpackungslösung.",
     ],
     highlights: ["Kühlverpackung", "Reinraum", "ISO & Fahrzeug"],
@@ -69,6 +77,8 @@ export const services: Service[] = [
       "Klare Empfehlungen zu Verpackungsvarianten für Luft-, See- und Straßenfracht — abgestimmt auf Ihre Güter.",
     body: [
       "Für alle Fragen zu potenziellen Verpackungsvarianten können Sie uns jederzeit kontaktieren.",
+      "Oft lässt sich mit einer angepassten Bauart Volumen und damit Frachtkosten sparen — gerade in der Luftfracht, wo das Volumengewicht den Preis bestimmt. Wir rechnen die Varianten durch und zeigen Ihnen, wo der sinnvollste Kompromiss zwischen Schutz und Kosten liegt.",
+      "Ebenso beraten wir, wenn Sendungen wiederholt beschädigt ankommen: Meist liegt die Ursache in der Ladungssicherung oder in einer Verpackung, die für den tatsächlichen Transportweg nicht ausgelegt ist.",
       "Unser Team klärt Sie über sämtliche Optionen auf und findet die passende Lösung für Ihre Anforderungen.",
     ],
     highlights: ["Individuelle Analyse", "Alle Verkehrsträger", "Schnelle Auskunft"],
@@ -81,7 +91,9 @@ export const services: Service[] = [
       "Verpackung direkt bei Ihnen vor Ort sowie Bezug hochwertiger Verpackungsmaterialien über uns.",
     body: [
       "Sie wünschen eine Verpackung direkt bei Ihnen vor Ort? Auch hierfür sind wir Ihr Ansprechpartner.",
+      "Das lohnt sich besonders, wenn Maschinen erst demontiert werden müssen oder sich nicht unverpackt transportieren lassen. Wir kommen mit Material und Werkzeug in Ihren Betrieb und verpacken dort, wo das Gut steht.",
       "Alle von uns verwendeten Verpackungsmaterialien können Sie über uns beziehen. Sollte ein Artikel nicht auf Lager sein, kümmern wir uns um die Beschaffung.",
+      "Auf Wunsch beliefern wir Sie regelmäßig, damit Ihre eigene Packstation immer bestückt ist.",
     ],
     highlights: ["Vor-Ort-Service", "Materialbezug", "Beschaffung"],
   },

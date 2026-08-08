@@ -4,6 +4,7 @@ import { ContactModal } from "@/components/ContactModal";
 import { CookieNotice } from "@/components/CookieNotice";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { StructuredData } from "@/components/StructuredData";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -53,6 +54,7 @@ export default function RootLayout({
         `}} />
       </head>
       <body className="flex min-h-full flex-col">
+        <StructuredData />
         <Header />
         <main className="flex-1 pt-[var(--header-h)]">{children}</main>
         <Footer />
