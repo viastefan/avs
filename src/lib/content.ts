@@ -148,33 +148,6 @@ export const whyPoints = [
   },
 ];
 
-export const faqs = [
-  {
-    q: "Welche Verpackungsvorschriften wenden Sie an?",
-    a: "Wir verpacken nach den international anerkannten HPE-Richtlinien sowie den aktuellen Vorschriften für Luft- (IATA/ICAO), See- (IMDG-Code) und Straßenfracht (ADR). Die passende Norm richtet sich nach Gut und Verkehrsträger.",
-  },
-  {
-    q: "Übernehmen Sie auch die Begleitpapiere?",
-    a: "Ja. Auf Wunsch erstellen wir die erforderlichen Dokumente wie Shipper's Declaration (Luft), IMO-Erklärung (See) oder ADR-Beförderungspapier (Straße) und stellen auf Anfrage einen externen Gefahrgutbeauftragten.",
-  },
-  {
-    q: "Verpacken Sie auch schwere Maschinen und Anlagen?",
-    a: "Ja. Für besonders schwere oder sperrige Güter bieten wir Schwergutverpackung — auf Wunsch direkt vor Ort bei Ihnen, inklusive fachgerechter Ladungssicherung.",
-  },
-  {
-    q: "Kann ich Verpackungsmaterial über Sie beziehen?",
-    a: "Alle von uns verwendeten Materialien können Sie über uns beziehen. Ist ein Artikel nicht auf Lager, kümmern wir uns um die Beschaffung.",
-  },
-  {
-    q: "Bieten Sie Gefahrgutschulungen an?",
-    a: "Ja. Wir schulen praxisnah zu Verpackungsvorschriften, Kennzeichnung und Dokumentation für Straße, See und Luft — abgestimmt auf Ihren Betrieb, vor Ort oder bei uns.",
-  },
-  {
-    q: "Wo befindet sich Ihr Standort?",
-    a: "Sie finden uns im Frachtzentrum des Flughafens München, Südallee, Modul H (Pavillon), 85356 München-Flughafen — direkt dort, wo Ihre Fracht abgefertigt wird.",
-  },
-];
-
 export const trainingTopics = [
   {
     title: "Verpackungsvorschriften",

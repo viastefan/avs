@@ -22,6 +22,14 @@ export function StructuredData() {
           addressRegion: "Bayern",
           addressCountry: "DE",
         },
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            opens: "08:00",
+            closes: "17:00",
+          },
+        ],
         areaServed: [
           { "@type": "Country", name: "Deutschland" },
           { "@type": "Place", name: "Flughafen München" },

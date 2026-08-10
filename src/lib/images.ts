@@ -37,14 +37,6 @@ export const images = {
     src: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1800&auto=format&fit=crop",
     alt: "Beratungsgespräch und Handschlag",
   },
-  airport: {
-    src: "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?q=80&w=1800&auto=format&fit=crop",
-    alt: "Flughafen und Flugverkehr",
-  },
-  cargoPlane: {
-    src: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=1800&auto=format&fit=crop",
-    alt: "Flugzeug bereit zum Abflug",
-  },
   trucks: {
     src: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=2000&auto=format&fit=crop",
     alt: "Sattelzug auf der Straße — Straßenfracht",

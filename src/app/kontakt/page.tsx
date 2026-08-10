@@ -74,7 +74,32 @@ export default function KontaktPage() {
               In Google Maps öffnen →
             </a>
           </div>
-          <div className="map-frame">
+          <div className="anfahrt">
+            <div className="anfahrt__item">
+              <p className="anfahrt__label">Mit dem Auto</p>
+              <p className="anfahrt__text">
+                A92, Ausfahrt Flughafen München. Der Beschilderung „Frachtzentrum / Cargo“ folgen,
+                dann zur Südallee. Modul H liegt im Pavillon-Bereich; Besucherparkplätze sind
+                ausgeschildert.
+              </p>
+            </div>
+            <div className="anfahrt__item">
+              <p className="anfahrt__label">Mit S-Bahn und Bus</p>
+              <p className="anfahrt__text">
+                S1 oder S8 bis München Flughafen Terminal, weiter mit dem Bus Richtung
+                Frachtzentrum. Planen Sie ab Terminal etwa 15 Minuten ein.
+              </p>
+            </div>
+            <div className="anfahrt__item">
+              <p className="anfahrt__label">Anlieferung</p>
+              <p className="anfahrt__text">
+                Bitte melden Sie größere Anlieferungen vorab telefonisch an, damit wir die Annahme
+                vorbereiten und Wartezeiten vermeiden.
+              </p>
+            </div>
+          </div>
+
+          <div className="map-frame" style={{ marginTop: 24 }}>
             <iframe
               title="Standort AVS am Frachtzentrum Flughafen München"
               loading="lazy"

@@ -17,7 +17,6 @@ export const site = {
   },
   approval: "DE/RA/00876-01",
   url: "https://avs-tau.vercel.app",
-  oldUrl: "https://www.airport-verpackungen.de",
 } as const;
 
 export const nav = [

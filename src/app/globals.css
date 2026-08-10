@@ -2024,3 +2024,38 @@ select.field {
   gap: 10px;
   font-size: 14px;
 }
+
+.anfahrt {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: 1fr;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+@media (min-width: 780px) {
+  .anfahrt { grid-template-columns: repeat(3, 1fr); }
+}
+
+.anfahrt__item {
+  background: var(--surface);
+  padding: clamp(20px, 2.6vw, 26px);
+}
+
+.anfahrt__label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.anfahrt__text {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}

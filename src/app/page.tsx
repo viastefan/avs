@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
-import { Faq } from "@/components/Faq";
-import { Globe } from "@/components/Globe";
+import { FaqGroup } from "@/components/FaqGroup";
 import { HeroStage } from "@/components/HeroStage";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { services, stats, whyPoints } from "@/lib/content";
+import { faqGroups, services, stats, whyPoints } from "@/lib/content";
 import { images } from "@/lib/images";
 import { site } from "@/lib/site";
 
@@ -205,18 +204,36 @@ export default function HomePage() {
       </section>
 
       <section className="section network">
-        <div className="wrap grid-2">
+        <div className="wrap split">
           <ScrollReveal>
-            <div className="split-copy">
-              <p className="kicker">Netzwerk</p>
-              <h2 className="h2">Von München in die Welt</h2>
-              <p className="lead">
-                Vom Hub München begleiten wir Sendungen in internationale Frachtnetzwerke.
+            <div className="split__body">
+              <p className="kicker">Standort</p>
+              <h2>Am Frachtzentrum statt im Gewerbegebiet</h2>
+              <p>
+                Wir sitzen im Frachtzentrum des Flughafens München, Modul H. Das klingt nach einem
+                Detail, entscheidet in der Praxis aber über Stunden: Ihre Sendung muss nicht erst
+                quer durch den Landkreis gefahren werden, bevor sie verpackt und abgefertigt wird.
               </p>
+              <p>
+                Kurze Wege zum Handling, direkte Abstimmung mit Spediteuren vor Ort und die
+                Zulassung als reglementierter Beauftragter greifen ineinander — von der Anlieferung
+                bis zur sicheren Luftfracht.
+              </p>
+              <a href={site.phoneHref} className="link-accent">
+                {site.phone} →
+              </a>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <Globe />
+            <div className="split__media">
+              <Image
+                src={images.warehouse.src}
+                alt={images.warehouse.alt}
+                fill
+                sizes="(max-width: 900px) 100vw, 560px"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
           </ScrollReveal>
         </div>
       </section>
@@ -229,10 +246,13 @@ export default function HomePage() {
                 <p className="kicker">Häufige Fragen</p>
                 <h2 className="h2">Gut zu wissen</h2>
               </div>
+              <Link href="/faq" className="section-head__link">
+                Alle Fragen →
+              </Link>
             </div>
           </ScrollReveal>
           <ScrollReveal>
-            <Faq />
+            <FaqGroup items={faqGroups[0].items} />
           </ScrollReveal>
         </div>
       </section>
