@@ -40,8 +40,8 @@
   --accent-soft: rgba(18, 128, 95, 0.09);
   --accent-hover: #0e6b51;
   --danger: #ef4444;
-  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 20px rgba(16, 24, 40, 0.05);
-  --shadow-card-hover: 0 2px 6px rgba(16, 24, 40, 0.06), 0 18px 44px rgba(16, 24, 40, 0.1);
+  --shadow-card: 0 1px 1px rgba(16, 24, 40, 0.03);
+  --shadow-card-hover: 0 1px 2px rgba(16, 24, 40, 0.05), 0 10px 26px rgba(16, 24, 40, 0.06);
   --logo-src: url("/brand/avs-logo-light.svg");
   --header-solid-bg: rgba(255, 255, 255, 0.82);
   --header-border: rgba(0, 0, 0, 0.08);
@@ -49,7 +49,7 @@
   --header-link: #56585c;
   --header-link-hover: #0c0d0e;
   --header-active-bg: rgba(0, 0, 0, 0.05);
-  --dot: rgba(0, 0, 0, 0.11);
+  --dot: rgba(0, 0, 0, 0.07);
 
   /* Frosted glass — shared across header, floating cards, overlays */
   --glass-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.64) 100%);
@@ -103,7 +103,7 @@
     --accent: #17976f;
     --accent-soft: rgba(23, 151, 111, 0.12);
     --accent-hover: #34b48a;
-    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.25);
     --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.45);
     --logo-src: url("/brand/avs-logo.svg");
     --header-solid-bg: rgba(10, 10, 10, 0.82);
@@ -112,7 +112,7 @@
     --header-link: rgba(255, 255, 255, 0.55);
     --header-link-hover: #ffffff;
     --header-active-bg: rgba(255, 255, 255, 0.08);
-    --dot: rgba(255, 255, 255, 0.10);
+    --dot: rgba(255, 255, 255, 0.07);
     --glass-bg: linear-gradient(180deg, rgba(40, 40, 46, 0.72) 0%, rgba(22, 22, 26, 0.55) 100%);
     --glass-blur: saturate(170%) blur(22px);
     --glass-border: rgba(255, 255, 255, 0.1);
@@ -135,7 +135,7 @@
   --accent: #17976f;
   --accent-soft: rgba(23, 151, 111, 0.12);
   --accent-hover: #34b48a;
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.25);
   --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.45);
   --logo-src: url("/brand/avs-logo.svg");
   --header-solid-bg: rgba(10, 10, 10, 0.82);
@@ -193,20 +193,10 @@ a { color: inherit; text-decoration: none; }
   margin: 0;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.kicker::before {
-  content: "";
-  width: 20px;
-  height: 2px;
-  background: var(--accent);
-  display: block;
+  color: var(--muted-soft);
+  display: inline-block;
 }
 
 .display {
@@ -231,7 +221,7 @@ a { color: inherit; text-decoration: none; }
   margin: 0;
   font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
   font-size: var(--fs-3xl);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.08;
 }
@@ -327,36 +317,21 @@ a { color: inherit; text-decoration: none; }
   border-radius: 999px;
   border: 1px solid var(--line-strong);
   background: var(--surface);
-  box-shadow: var(--shadow-card);
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: -0.005em;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   line-height: 1.2;
-  color: var(--ink-soft);
+  color: var(--muted);
 }
 
 .badge__dot {
   position: relative;
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   flex: none;
   border-radius: 50%;
   background: var(--accent);
-}
-
-.badge__dot::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 1.5px solid var(--accent);
-  opacity: 0.4;
-  animation: badge-ping 2.6s var(--ease) infinite;
-}
-
-@keyframes badge-ping {
-  0% { transform: scale(0.6); opacity: 0.55; }
-  70%, 100% { transform: scale(1.7); opacity: 0; }
 }
 
 /* ——— Fields ——— */
@@ -651,8 +626,8 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(105deg, rgba(8,11,10,0.94) 0%, rgba(8,11,10,0.86) 34%, rgba(8,11,10,0.55) 62%, rgba(8,11,10,0.42) 100%),
-    linear-gradient(to top, rgba(8,11,10,0.85) 0%, rgba(8,11,10,0) 42%);
+    linear-gradient(100deg, rgba(10,13,12,0.92) 0%, rgba(10,13,12,0.82) 40%, rgba(10,13,12,0.62) 72%, rgba(10,13,12,0.52) 100%),
+    linear-gradient(to top, rgba(10,13,12,0.72) 0%, rgba(10,13,12,0) 46%);
 }
 
 .hero__dots {
@@ -660,7 +635,7 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: radial-gradient(circle at center, rgba(255,255,255,0.16) 1px, transparent 1.6px);
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 1px, transparent 1.6px);
   background-size: 26px 26px;
   mask-image: radial-gradient(ellipse 58% 62% at 20% 30%, #000 0%, rgba(0,0,0,0.3) 46%, transparent 76%);
   -webkit-mask-image: radial-gradient(ellipse 58% 62% at 20% 30%, #000 0%, rgba(0,0,0,0.3) 46%, transparent 76%);
@@ -690,14 +665,12 @@ a { color: inherit; text-decoration: none; }
 }
 
 .hero .badge__dot { background: var(--green-400); }
-.hero .badge__dot::after { border-color: var(--green-400); }
-
-.hero__title {
+.hero .hero__title {
   margin: 24px 0 0;
   font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
-  font-size: clamp(40px, 5.6vw, 78px);
-  font-weight: 700;
-  letter-spacing: -0.038em;
+  font-size: clamp(38px, 5vw, 68px);
+  font-weight: 600;
+  letter-spacing: -0.032em;
   line-height: 1.02;
   color: #fff;
   text-wrap: balance;
@@ -705,7 +678,7 @@ a { color: inherit; text-decoration: none; }
 
 .hero__title em {
   font-style: normal;
-  color: var(--green-400);
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .hero__sub {
@@ -1276,33 +1249,19 @@ a { color: inherit; text-decoration: none; }
 }
 
 .bento-card:hover {
-  border-color: var(--accent);
+  border-color: var(--line-strong);
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-3px);
 }
 
-.bento-card__idx {
-  position: absolute;
-  top: clamp(20px, 3vw, 28px);
-  right: clamp(20px, 3vw, 28px);
-  font-size: 52px;
-  font-weight: 700;
-  font-family: var(--font-display), sans-serif;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: var(--line);
-  pointer-events: none;
-  user-select: none;
-}
+.bento-card__idx { display: none; }
 
 .bento-card__sector {
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--muted-soft);
   margin-bottom: 10px;
-  opacity: 0.7;
 }
 
 .bento-card__title {
@@ -1317,7 +1276,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .bento-card:hover .bento-card__title {
-  color: var(--accent);
+  color: var(--ink);
 }
 
 .bento-card__text {
@@ -1739,10 +1698,10 @@ a { color: inherit; text-decoration: none; }
 
 .why-card__num {
   font-family: var(--font-display), sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.04em;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted-soft);
+  letter-spacing: 0.1em;
 }
 
 .why-card__title {
@@ -1899,9 +1858,9 @@ a { color: inherit; text-decoration: none; }
 
 .step__num {
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--muted-soft);
   font-variant-numeric: tabular-nums;
 }
 
@@ -1933,8 +1892,8 @@ a { color: inherit; text-decoration: none; }
 .sec-intro h2 {
   margin: 14px 0 0;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(26px, 3vw, 42px);
-  font-weight: 700;
+  font-size: clamp(24px, 2.7vw, 36px);
+  font-weight: 600;
   letter-spacing: -0.032em;
   line-height: 1.1;
   color: var(--ink);
@@ -2228,14 +2187,14 @@ select.field {
 .norm__code {
   display: inline-block;
   font-family: var(--font-display), sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
   padding: 4px 9px;
-  border: 1px solid var(--accent-soft);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--accent-soft);
+  background: transparent;
 }
 
 .norm__name {
