@@ -3,15 +3,13 @@ import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { processSteps, services } from "@/lib/content";
+import { capabilities, processSteps, services } from "@/lib/content";
 import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Verpackungsservice",
   description: "Export-, Gefahrgut-, Schwergut- und Spezialverpackung am Flughafen München.",
 };
-
-const standards = ["HPE", "IATA / ICAO", "IMDG-Code", "ADR"];
 
 export default function LeistungenPage() {
   return (
@@ -38,33 +36,15 @@ export default function LeistungenPage() {
           </ScrollReveal>
           <ScrollReveal delay={100}>
             <div>
-              <p style={{ margin: 0, fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent)", opacity: 0.7 }}>
-                Nach anerkannten Vorschriften
-              </p>
-              <div style={{ marginTop: 16, display: "flex", flexWrap: "wrap", gap: 10 }}>
-                {standards.map((s) => (
-                  <span
-                    key={s}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      height: 40,
-                      padding: "0 18px",
-                      borderRadius: 999,
-                      border: "1px solid var(--line-strong)",
-                      fontSize: 14,
-                      fontWeight: 600,
-                      color: "var(--ink)",
-                    }}
-                  >
-                    {s}
-                  </span>
+              <p className="kicker">Leistungsübersicht</p>
+              <div className="spec" style={{ marginTop: 18 }}>
+                {capabilities.map((c) => (
+                  <div key={c.label} className="spec__row">
+                    <div className="spec__label">{c.label}</div>
+                    <div className="spec__value">{c.value}</div>
+                  </div>
                 ))}
               </div>
-              <p className="muted" style={{ marginTop: 24, fontSize: 14, lineHeight: 1.7, maxWidth: "38ch" }}>
-                Auf Wunsch übernehmen wir zusätzlich die Erstellung der erforderlichen Begleitpapiere
-                und stellen einen externen Gefahrgutbeauftragten.
-              </p>
             </div>
           </ScrollReveal>
         </div>

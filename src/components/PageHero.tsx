@@ -27,7 +27,12 @@ export function PageHero({
             ← {backLabel}
           </Link>
         ) : null}
-        {eyebrow ? <p className="page-hero__eyebrow">{eyebrow}</p> : null}
+        {eyebrow ? (
+          <span className="badge page-hero__badge">
+            <span className="badge__dot" aria-hidden />
+            {eyebrow}
+          </span>
+        ) : null}
         <h1 className="page-hero__title">{title}</h1>
         {description ? <p className="page-hero__sub">{description}</p> : null}
       </div>

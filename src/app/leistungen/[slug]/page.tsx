@@ -100,7 +100,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           </div>
 
           <div>
-            <div className="section-head" style={{ marginBottom: 24 }}>
+            <div className="section-head" style={{ marginBottom: 24, paddingTop: 8, borderTop: "1px solid var(--line)" }}>
               <div>
                 <p className="kicker">Weitere Leistungen</p>
                 <h2 className="h3" style={{ marginTop: 8 }}>Das könnte Sie auch interessieren</h2>

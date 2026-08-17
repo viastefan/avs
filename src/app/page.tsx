@@ -4,7 +4,7 @@ import { CtaBand } from "@/components/CtaBand";
 import { FaqGroup } from "@/components/FaqGroup";
 import { HeroStage } from "@/components/HeroStage";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { faqGroups, services, stats, whyPoints } from "@/lib/content";
+import { faqGroups, norms, services, stats, whyPoints } from "@/lib/content";
 import { images } from "@/lib/images";
 import { site } from "@/lib/site";
 
@@ -13,25 +13,42 @@ export default function HomePage() {
     <>
       <section className="hero">
         <div className="hero__dots" aria-hidden />
-        <div className="wrap hero__inner">
-          <p className="hero__eyebrow fade-up">{site.name}</p>
-          <h1 className="hero__title fade-up fade-up-1">
-            Verpackung für die Luftfracht.
-          </h1>
-          <p className="hero__sub fade-up fade-up-2">
-            Normkonform, vollständig dokumentiert und termintreu — direkt am Frachtzentrum
-            des Flughafens München.
-          </p>
-          <div className="hero__links fade-up fade-up-3">
-            <Link href="/kontakt" className="hero__link">
-              Anfrage senden
-            </Link>
-            <Link href="/leistungen" className="hero__link">
-              Leistungen ansehen
-            </Link>
+        <div className="wrap hero__grid">
+          <div className="hero__col">
+            <span className="badge fade-up">
+              <span className="badge__dot" aria-hidden />
+              Frachtzentrum Flughafen München · Modul H
+            </span>
+            <h1 className="hero__title fade-up fade-up-1">
+              Verpackung für die <em>Luftfracht</em>.
+            </h1>
+            <p className="hero__sub fade-up fade-up-2">
+              Normkonform, vollständig dokumentiert und termintreu — direkt am Frachtzentrum
+              des Flughafens München.
+            </p>
+            <div className="hero__cta fade-up fade-up-3">
+              <Link href="/kontakt" className="btn btn-primary">
+                Anfrage senden
+              </Link>
+              <Link href="/leistungen" className="btn btn-outline">
+                Leistungen ansehen
+              </Link>
+            </div>
+            <ul className="hero__creds fade-up fade-up-3">
+              <li>Reglementierter Beauftragter</li>
+              <li>HPE · IATA · IMDG · ADR</li>
+              <li>Schwer- &amp; Gefahrgut</li>
+            </ul>
+          </div>
+          <div className="hero__media fade-up fade-up-2">
+            <HeroStage src={images.hero.src} alt={images.hero.alt} />
+            <div className="hero__card glass">
+              <p className="hero__card-k">Zulassung</p>
+              <p className="hero__card-v">{site.approval}</p>
+              <p className="hero__card-sub">Reglementierter Beauftragter · EU-Luftsicherheit</p>
+            </div>
           </div>
         </div>
-        <HeroStage src={images.hero.src} alt={images.hero.alt} />
       </section>
 
       <div className="rail">
@@ -94,6 +111,32 @@ export default function HomePage() {
               ))}
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section section--alt">
+        <div className="wrap">
+          <ScrollReveal>
+            <div className="sec-intro">
+              <p className="kicker">Normen &amp; Zulassungen</p>
+              <h2>Nach diesen Regeln arbeiten wir</h2>
+              <p>
+                Verpackung in der Luftfracht ist kein Ermessensspielraum. Welche Vorschrift greift,
+                hängt von Gut und Verkehrsträger ab — hier die Regelwerke, nach denen wir arbeiten.
+              </p>
+            </div>
+          </ScrollReveal>
+          <div className="norms">
+            {norms.map((n, i) => (
+              <ScrollReveal key={n.code} delay={i * 50}>
+                <div className="norm">
+                  <span className="norm__code">{n.code}</span>
+                  <h3 className="norm__name">{n.name}</h3>
+                  <p className="norm__text">{n.text}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
 

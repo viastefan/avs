@@ -284,3 +284,66 @@ export const faqGroups = [
     ],
   },
 ];
+
+export const norms = [
+  {
+    code: "HPE",
+    name: "Exportverpackung",
+    text: "Richtlinien des Bundesverbands Holzpackmittel für Kisten, Verschläge und Korrosionsschutz — die Referenz für seemäßige und exportfähige Verpackung.",
+  },
+  {
+    code: "IATA / ICAO",
+    name: "Gefahrgut Luftfracht",
+    text: "Dangerous Goods Regulations für den Lufttransport. Bestimmt Verpackungsanweisung, Menge je Versandstück und die Shipper's Declaration.",
+  },
+  {
+    code: "IMDG",
+    name: "Gefahrgut Seefracht",
+    text: "International Maritime Dangerous Goods Code — maßgeblich für Klassifizierung, Stauung und Trennung gefährlicher Güter an Bord.",
+  },
+  {
+    code: "ADR",
+    name: "Gefahrgut Straße",
+    text: "Europäisches Übereinkommen über die Beförderung gefährlicher Güter auf der Straße, inklusive Beförderungspapier und Kennzeichnung.",
+  },
+  {
+    code: "ISPM 15",
+    name: "Holzverpackung",
+    text: "Internationaler Standard für behandeltes Vollholz. Pflicht für viele Zielländer, um Schädlingseinschleppung zu verhindern.",
+  },
+  {
+    code: "EG 300/2008",
+    name: "Luftsicherheit",
+    text: "Rahmen für die Sicherheit in der Zivilluftfahrt. Grundlage unserer Zulassung als reglementierter Beauftragter.",
+  },
+];
+
+export const commitments = [
+  {
+    title: "Verbindliche Rückmeldung",
+    text: "Auf jede Anfrage antworten wir werktags — mit einer klaren Aussage, was machbar ist und was nicht.",
+  },
+  {
+    title: "Keine Blindleistung",
+    text: "Wir verpacken nur, was wir verantworten können. Passt eine Anforderung nicht zur Vorschrift, sagen wir das vorher.",
+  },
+  {
+    title: "Dokumentation inklusive",
+    text: "Begleitpapiere gehören zur Leistung, nicht zum Aufpreis-Katalog — auf Wunsch komplett von uns erstellt.",
+  },
+  {
+    title: "Ein Ansprechpartner",
+    text: "Vom Angebot bis zur Übergabe bleibt Ihr Kontakt derselbe. Keine Weiterreichung durch Abteilungen.",
+  },
+];
+
+export const capabilities = [
+  { label: "Verkehrsträger", value: "Luft, See, Straße" },
+  { label: "Gefahrgut", value: "IATA/ICAO, IMDG, ADR" },
+  { label: "Exportverpackung", value: "HPE, ISPM 15" },
+  { label: "Schwergut", value: "Maschinen und Anlagen, auch vor Ort" },
+  { label: "Spezialverpackung", value: "Kühl, Reinraum, ISO, ESD" },
+  { label: "Dokumente", value: "Shipper's Declaration, IMO, ADR-Papier" },
+  { label: "Material", value: "Bezug und Beschaffung über uns" },
+  { label: "Schulung", value: "Inhouse, am Standort, Auffrischung" },
+];

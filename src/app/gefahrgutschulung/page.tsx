@@ -47,7 +47,7 @@ export default function GefahrgutschulungPage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section section--alt">
         <div className="wrap">
           <ScrollReveal>
             <div className="sec-intro">

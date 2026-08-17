@@ -37,7 +37,7 @@ export default function FaqPage() {
         description="Die Fragen, die uns am häufigsten erreichen — zu Vorschriften, Gefahrgut, Schulungen und Ablauf."
       />
 
-      <section className="section">
+      <section className="section section--alt">
         <div className="wrap prose-narrow" style={{ display: "grid", gap: "clamp(48px, 6vw, 72px)" }}>
           {faqGroups.map((group, i) => (
             <ScrollReveal key={group.title} delay={i * 60}>

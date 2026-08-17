@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
+import { ScrollReveal } from "@/components/ScrollReveal";
+import { commitments } from "@/lib/content";
 import { images } from "@/lib/images";
 import { site } from "@/lib/site";
 
@@ -55,6 +57,38 @@ export default function KontaktPage() {
             </div>
           </div>
           <ContactForm />
+        </div>
+      </section>
+
+      <section className="section section--alt">
+        <div className="wrap">
+          <ScrollReveal>
+            <div className="sec-intro">
+              <p className="kicker">Was Sie erwarten können</p>
+              <h2>Wie wir mit Anfragen umgehen</h2>
+              <p>
+                Vier Zusagen, an denen Sie uns messen können — vom ersten Anruf bis zur Übergabe
+                der Sendung.
+              </p>
+            </div>
+          </ScrollReveal>
+          <div className="commit-grid">
+            {commitments.map((c, i) => (
+              <ScrollReveal key={c.title} delay={i * 60}>
+                <div className="commit">
+                  <span className="commit__check" aria-hidden>
+                    <svg viewBox="0 0 16 16" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 8.5 6.2 11.5 13 4.5" />
+                    </svg>
+                  </span>
+                  <div>
+                    <h3 className="commit__title">{c.title}</h3>
+                    <p className="commit__text">{c.text}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
 
