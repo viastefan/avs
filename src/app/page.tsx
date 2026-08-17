@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
 import { FaqGroup } from "@/components/FaqGroup";
-import { HeroStage } from "@/components/HeroStage";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { faqGroups, norms, services, stats, whyPoints } from "@/lib/content";
 import { images } from "@/lib/images";
@@ -11,7 +10,18 @@ import { site } from "@/lib/site";
 export default function HomePage() {
   return (
     <>
-      <section className="hero">
+      <section className="hero hero--dark">
+        <div className="hero__bg">
+          <Image
+            src={images.hero.src}
+            alt={images.hero.alt}
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: "cover", objectPosition: "center 55%" }}
+          />
+        </div>
+        <div className="hero__scrim" aria-hidden />
         <div className="hero__dots" aria-hidden />
         <div className="wrap hero__grid">
           <div className="hero__col">
@@ -40,13 +50,10 @@ export default function HomePage() {
               <li>Schwer- &amp; Gefahrgut</li>
             </ul>
           </div>
-          <div className="hero__media fade-up fade-up-2">
-            <HeroStage src={images.hero.src} alt={images.hero.alt} />
-            <div className="hero__card glass">
-              <p className="hero__card-k">Zulassung</p>
-              <p className="hero__card-v">{site.approval}</p>
-              <p className="hero__card-sub">Reglementierter Beauftragter · EU-Luftsicherheit</p>
-            </div>
+          <div className="hero__card fade-up fade-up-3">
+            <p className="hero__card-k">Zulassung</p>
+            <p className="hero__card-v">{site.approval}</p>
+            <p className="hero__card-sub">Reglementierter Beauftragter · EU-Luftsicherheit</p>
           </div>
         </div>
       </section>

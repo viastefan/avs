@@ -40,6 +40,7 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
+  const [overDark, setOverDark] = useState(false);
   const panelId = useId();
 
   useEffect(() => {
@@ -66,12 +67,17 @@ export function Header() {
 
   useEffect(() => {
     if (open) setOpen(false);
+    setOverDark(!!document.querySelector(".hero--dark"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return (
     <>
-      <header className={`site-header site-header--solid${solid ? " site-header--scrolled" : ""}`}>
+      <header
+        className={`site-header ${
+          overDark && !solid && !open ? "site-header--over" : "site-header--solid"
+        }${solid ? " site-header--scrolled" : ""}`}
+      >
         <div className="wrap site-header__inner">
           <Link href="/" onClick={() => setOpen(false)} aria-label={`${site.name} Startseite`} className="brand-mark">
             <span className="brand-logo" aria-hidden="true" />
