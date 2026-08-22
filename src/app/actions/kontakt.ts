@@ -112,7 +112,14 @@ export async function submitContact(
       return { ok: false, error: "E-Mail-Versand vorübergehend nicht möglich." };
     }
   } else {
-    console.info("AVS contact inquiry (no RESEND_API_KEY configured):", inquiry);
+    // No mail provider configured: never claim the enquiry was received,
+    // or the visitor leaves believing it arrived while nobody was told.
+    console.error("AVS contact inquiry could not be delivered — RESEND_API_KEY is not set:", inquiry);
+    return {
+      ok: false,
+      error:
+        "Der Versand ist derzeit nicht möglich. Bitte rufen Sie uns an unter +49 (0)89 975 945 91 oder schreiben Sie an info@airport-verpackungen.de.",
+    };
   }
 
   return {

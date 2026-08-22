@@ -101,7 +101,15 @@ export async function POST(request: Request) {
       );
     }
   } else {
-    console.info("AVS contact inquiry (no RESEND_API_KEY configured):", inquiry);
+    console.error("AVS contact inquiry could not be delivered — RESEND_API_KEY is not set:", inquiry);
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "Der Versand ist derzeit nicht möglich. Bitte rufen Sie uns an unter +49 (0)89 975 945 91 oder schreiben Sie an info@airport-verpackungen.de.",
+      },
+      { status: 503 },
+    );
   }
 
   return NextResponse.json({ ok: true });
