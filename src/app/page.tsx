@@ -41,9 +41,9 @@ export default function HomePage() {
               <HeroEnquiry />
             </div>
             <ul className="hero__creds fade-up fade-up-3">
-              <li>Reglementierter Beauftragter</li>
-              <li>HPE · IATA · IMDG · ADR</li>
-              <li>Schwer- &amp; Gefahrgut</li>
+              <li>Begleitpapiere inklusive</li>
+              <li>Verpackung auch bei Ihnen vor Ort</li>
+              <li>Antwort werktags</li>
             </ul>
           </div>
           <div className="hero__card fade-up fade-up-3">
