@@ -2342,3 +2342,33 @@ select.field {
   /* four stacked chips make the hero needlessly tall on a phone */
   .enquiry__chips li:nth-child(n + 3) { display: none; }
 }
+
+/* CTA band carries the same enquiry starter as the hero */
+.cta-band__copy { max-width: 34rem; }
+
+.cta-band__action { min-width: 0; }
+.cta-band__action .enquiry { margin-top: 0; }
+.cta-band__action .enquiry__row { max-width: none; }
+
+.cta-band__phone {
+  margin: 20px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.cta-band__phone a {
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+  transition: border-color 0.2s;
+}
+
+.cta-band__phone a:hover { border-color: #fff; }
+
+@media (min-width: 900px) {
+  .cta-band__row {
+    align-items: center;
+    gap: clamp(40px, 6vw, 80px);
+  }
+  .cta-band__action { flex: 1; }
+}

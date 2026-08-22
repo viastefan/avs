@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { HeroEnquiry } from "@/components/HeroEnquiry";
 import { site } from "@/lib/site";
 
 type CtaBandProps = {
@@ -15,18 +15,19 @@ export function CtaBand({
   return (
     <section className="cta-band">
       <div className="wrap cta-band__row">
-        <div>
+        <div className="cta-band__copy">
           <p className="kicker">{kicker}</p>
           <h2 className="h2">{title}</h2>
-          <p className="muted">{text ?? `Anfrage senden oder anrufen — ${site.address.line2}`}</p>
+          <p className="muted">
+            {text ?? "Beschreiben Sie Ihre Sendung in einem Satz — wir melden uns werktags."}
+          </p>
+          <p className="cta-band__phone">
+            Lieber telefonisch?{" "}
+            <a href={site.phoneHref}>{site.phone}</a>
+          </p>
         </div>
-        <div className="cta__actions">
-          <Link href="/kontakt" className="btn btn-primary">
-            Anfrage senden
-          </Link>
-          <a href={site.phoneHref} className="btn btn-outline">
-            {site.phone}
-          </a>
+        <div className="cta-band__action">
+          <HeroEnquiry />
         </div>
       </div>
     </section>
