@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/CtaBand";
@@ -50,14 +49,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
       <section className="section">
         <div className="wrap" style={{ display: "grid", gap: "clamp(40px, 6vw, 80px)", gridTemplateColumns: "minmax(0, 1fr)" }}>
-          <ScrollReveal>
-            <div className="detail-figure">
-              <Image src={image.src} alt={image.alt} fill sizes="(max-width: 900px) 100vw, 1100px" style={{ objectFit: "cover" }} />
-            </div>
-          </ScrollReveal>
-
           <div className="prose-narrow">
-            <p className="lead" style={{ marginBottom: 24 }}>{service.summary}</p>
             <div className="prose-body">
               {service.body.map((p) => (
                 <p key={p}>{p}</p>
@@ -66,7 +58,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
             {service.highlights?.length ? (
               <div style={{ marginTop: 36 }}>
-                <p style={{ margin: 0, fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent)", opacity: 0.7 }}>
+                <p className="field-label">
                   Auf einen Blick
                 </p>
                 <div style={{ marginTop: 16, display: "flex", flexWrap: "wrap", gap: 10 }}>

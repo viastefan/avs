@@ -67,7 +67,7 @@ export function Header() {
 
   useEffect(() => {
     if (open) setOpen(false);
-    setOverDark(!!document.querySelector(".hero--dark"));
+    setOverDark(!!document.querySelector(".hero--dark, .page-hero"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 

@@ -9,12 +9,11 @@ export const metadata: Metadata = {
 
 const label = {
   margin: 0,
-  fontSize: 12,
-  fontWeight: 700,
-  letterSpacing: "0.08em",
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: "0.14em",
   textTransform: "uppercase" as const,
-  color: "var(--accent)",
-  opacity: 0.75,
+  color: "var(--muted-soft)",
 };
 
 const text = {
