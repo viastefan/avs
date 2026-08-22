@@ -685,12 +685,6 @@ a { color: inherit; text-decoration: none; }
   text-wrap: pretty;
 }
 
-.hero__cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 34px;
-}
 
 .hero__creds {
   list-style: none;
@@ -962,13 +956,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 .list a,
-.list-item {
-  display: grid;
-  gap: 6px;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--line);
-  transition: all 0.3s var(--ease);
-}
 
 @media (min-width: 768px) {
   .list a {
@@ -1399,18 +1386,7 @@ a { color: inherit; text-decoration: none; }
 
 .prose-body p { margin: 0; }
 
-.prose-list {
-  margin: 28px 0 0;
-  padding-left: 20px;
-  display: grid;
-  gap: 8px;
-  font-size: 15px;
-  color: var(--muted);
-}
 
-.prose-list li::marker {
-  color: var(--accent);
-}
 
 /* ——— Scroll Reveal ——— */
 .reveal {

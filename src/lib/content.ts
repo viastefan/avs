@@ -122,13 +122,6 @@ export const containerFeatures = [
   },
 ];
 
-export const stats = [
-  { value: "Modul H", label: "Standort im Frachtzentrum München" },
-  { value: "IATA · ADR · IMDG", label: "Alle Verkehrsträger abgedeckt" },
-  { value: "HPE-konform", label: "Exportverpackung nach Norm" },
-  { value: "DE/RA/00876-01", label: "Reglementierter Beauftragter" },
-];
-
 export const whyPoints = [
   {
     title: "Direkt am Frachtzentrum",
