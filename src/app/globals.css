@@ -2363,4 +2363,6 @@ select.field {
 @media (max-width: 560px) {
   .enquiry__row { flex-direction: column; }
   .enquiry__submit { justify-content: center; }
+  /* four stacked chips make the hero needlessly tall on a phone */
+  .enquiry__chips li:nth-child(n + 3) { display: none; }
 }
