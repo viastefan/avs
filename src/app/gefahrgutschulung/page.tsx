@@ -63,7 +63,6 @@ export default function GefahrgutschulungPage() {
             {trainingTopics.map((topic, i) => (
               <ScrollReveal key={topic.title} delay={i * 60}>
                 <div className="bento-card">
-                  <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
                   <h3 className="bento-card__title">{topic.title}</h3>
                   <ul
                     style={{
@@ -87,7 +86,7 @@ export default function GefahrgutschulungPage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="wrap">
           <ScrollReveal>
             <div className="sec-intro">

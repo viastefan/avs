@@ -2,8 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
 import { FaqGroup } from "@/components/FaqGroup";
+import { HeroEnquiry } from "@/components/HeroEnquiry";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { faqGroups, norms, services, stats, whyPoints } from "@/lib/content";
+import { faqGroups, norms, services, whyPoints } from "@/lib/content";
 import { images } from "@/lib/images";
 import { site } from "@/lib/site";
 
@@ -36,13 +37,8 @@ export default function HomePage() {
               Normkonform, vollständig dokumentiert und termintreu — direkt am Frachtzentrum
               des Flughafens München.
             </p>
-            <div className="hero__cta fade-up fade-up-3">
-              <Link href="/kontakt" className="btn btn-primary">
-                Anfrage senden
-              </Link>
-              <Link href="/leistungen" className="btn btn-outline">
-                Leistungen ansehen
-              </Link>
+            <div className="fade-up fade-up-3">
+              <HeroEnquiry />
             </div>
             <ul className="hero__creds fade-up fade-up-3">
               <li>Reglementierter Beauftragter</li>
@@ -58,19 +54,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="rail">
-        <div className="wrap rail__inner">
-          <p style={{ margin: 0 }}>
-            <strong style={{ color: "var(--ink)", fontWeight: 600 }}>{site.legalName}</strong>
-            {" · "}
-            {site.address.line2}
-          </p>
-          <p style={{ margin: 0 }}>
-            Reglementierter Beauftragter{" "}
-            <strong style={{ color: "var(--ink)" }}>{site.approval}</strong>
-          </p>
-        </div>
-      </div>
 
       <section className="section">
         <div className="wrap grid-2">
@@ -84,8 +67,8 @@ export default function HomePage() {
                 Maschine — wir liefern die normkonforme Lösung, inklusive Dokumentation und Beratung.
               </p>
               <p className="muted" style={{ marginTop: 16, fontSize: 15, lineHeight: 1.7 }}>
-                Als reglementierter Beauftragter arbeiten wir nach HPE, IATA/ICAO, IMDG und ADR —
-                zuverlässig, termintreu und direkt dort, wo Ihre Sendung umgeschlagen wird.
+                Seit Jahren arbeitet ein eingespieltes Team an einem Ort, an dem Fehler teuer werden:
+                Eine zurückgewiesene Sendung kostet nicht nur Gebühren, sondern den Flug.
               </p>
               <a href={site.phoneHref} className="link-accent">
                 {site.phone} →
@@ -106,20 +89,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <ScrollReveal>
-            <div className="stats">
-              {stats.map((s) => (
-                <div key={s.label} className="stat">
-                  <div className="stat__value">{s.value}</div>
-                  <div className="stat__label">{s.label}</div>
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
 
       <section className="section section--alt">
         <div className="wrap">
@@ -133,21 +102,21 @@ export default function HomePage() {
               </p>
             </div>
           </ScrollReveal>
-          <div className="norms">
-            {norms.map((n, i) => (
-              <ScrollReveal key={n.code} delay={i * 50}>
-                <div className="norm">
+          <ScrollReveal>
+            <div className="norms">
+              {norms.map((n) => (
+                <div key={n.code} className="norm">
                   <span className="norm__code">{n.code}</span>
                   <h3 className="norm__name">{n.name}</h3>
                   <p className="norm__text">{n.text}</p>
                 </div>
-              </ScrollReveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }} id="leistungen">
+      <section className="section" id="leistungen">
         <div className="wrap">
           <ScrollReveal>
             <div className="section-head">
@@ -164,7 +133,6 @@ export default function HomePage() {
             {services.map((service, i) => (
               <ScrollReveal key={service.slug} delay={i * 60} className={i === 0 ? "bento-wide" : ""}>
                 <Link href={`/leistungen/${service.slug}`} className={`bento-card${i === 0 ? " bento-wide" : ""}`}>
-                  <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
                   <p className="bento-card__sector">{service.sector}</p>
                   <h3 className="bento-card__title">{service.title}</h3>
                   <p className="bento-card__text">{service.summary}</p>
@@ -178,7 +146,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="wrap">
           <ScrollReveal>
             <div className="section-head">

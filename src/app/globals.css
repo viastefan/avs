@@ -43,7 +43,8 @@
   --shadow-card: 0 1px 1px rgba(16, 24, 40, 0.03);
   --shadow-card-hover: 0 1px 2px rgba(16, 24, 40, 0.05), 0 10px 26px rgba(16, 24, 40, 0.06);
   --logo-src: url("/brand/avs-logo-light.svg");
-  --header-solid-bg: rgba(255, 255, 255, 0.82);
+  --header-solid-bg: #ffffff;
+  --header-glass-bg: rgba(255, 255, 255, 0.95);
   --header-border: rgba(0, 0, 0, 0.08);
   --header-text: #0c0d0e;
   --header-link: #56585c;
@@ -51,12 +52,6 @@
   --header-active-bg: rgba(0, 0, 0, 0.05);
   --dot: rgba(0, 0, 0, 0.07);
 
-  /* Frosted glass — shared across header, floating cards, overlays */
-  --glass-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.64) 100%);
-  --glass-blur: saturate(180%) blur(22px);
-  --glass-border: rgba(255, 255, 255, 0.7);
-  --glass-hairline: rgba(0, 0, 0, 0.09);
-  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 10px 34px rgba(16, 24, 40, 0.10);
 
   --header-h: 56px;
   --gutter: clamp(20px, 4vw, 48px);
@@ -106,19 +101,17 @@
     --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.25);
     --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.45);
     --logo-src: url("/brand/avs-logo.svg");
-    --header-solid-bg: rgba(10, 10, 10, 0.82);
+    --header-solid-bg: #0d0d0f;
+    --header-glass-bg: rgba(13, 13, 15, 0.92);
     --header-border: rgba(255, 255, 255, 0.08);
     --header-text: #ffffff;
     --header-link: rgba(255, 255, 255, 0.55);
     --header-link-hover: #ffffff;
     --header-active-bg: rgba(255, 255, 255, 0.08);
     --dot: rgba(255, 255, 255, 0.07);
-    --glass-bg: linear-gradient(180deg, rgba(40, 40, 46, 0.72) 0%, rgba(22, 22, 26, 0.55) 100%);
-    --glass-blur: saturate(170%) blur(22px);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-hairline: rgba(255, 255, 255, 0.09);
-    --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 12px 36px rgba(0, 0, 0, 0.45);
-  }
+        --glass-blur: saturate(170%) blur(22px);
+        --glass-hairline: rgba(255, 255, 255, 0.09);
+      }
 }
 
 :root[data-theme="dark"] {
@@ -138,19 +131,17 @@
   --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.25);
   --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.45);
   --logo-src: url("/brand/avs-logo.svg");
-  --header-solid-bg: rgba(10, 10, 10, 0.82);
+  --header-solid-bg: #0d0d0f;
+  --header-glass-bg: rgba(13, 13, 15, 0.92);
   --header-border: rgba(255, 255, 255, 0.08);
   --header-text: #ffffff;
   --header-link: rgba(255, 255, 255, 0.55);
   --header-link-hover: #ffffff;
   --header-active-bg: rgba(255, 255, 255, 0.08);
   --dot: rgba(255, 255, 255, 0.10);
-  --glass-bg: linear-gradient(180deg, rgba(40, 40, 46, 0.72) 0%, rgba(22, 22, 26, 0.55) 100%);
-  --glass-blur: saturate(170%) blur(22px);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-hairline: rgba(255, 255, 255, 0.09);
-  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 12px 36px rgba(0, 0, 0, 0.45);
-}
+    --glass-blur: saturate(170%) blur(22px);
+    --glass-hairline: rgba(255, 255, 255, 0.09);
+  }
 
 @theme inline {
   --color-background: var(--bg);
@@ -243,7 +234,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 .muted { color: var(--muted); }
+
+/* Section rhythm: two plain sections in a row share one gap, so stacked
+   blocks do not double their padding. A tinted section keeps its own. */
 .section { padding: var(--space-9) 0; }
+.section:not(.section--alt) + .section:not(.section--alt) { padding-top: 0; }
 
 /* ——— Buttons ——— */
 .btn {
@@ -301,13 +296,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ——— Frosted glass + badge — shared identity ——— */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-}
 
 .badge {
   display: inline-flex;
@@ -381,15 +369,21 @@ a { color: inherit; text-decoration: none; }
 }
 
 .site-header--solid {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-bottom-color: var(--glass-hairline);
-  box-shadow: var(--glass-shadow);
+  background: var(--header-solid-bg);
+  border-bottom-color: var(--header-border);
+  box-shadow: none;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header--solid {
+    background: var(--header-glass-bg);
+    backdrop-filter: saturate(170%) blur(18px);
+    -webkit-backdrop-filter: saturate(170%) blur(18px);
+  }
 }
 
 .site-header--scrolled {
-  border-bottom-color: var(--glass-hairline);
+  border-bottom-color: var(--header-border);
 }
 
 .brand-mark {
@@ -882,21 +876,7 @@ a { color: inherit; text-decoration: none; }
 
 
 /* ——— Trust rail ——— */
-.rail {
-  background: var(--bg-elevated);
-  border-bottom: 1px solid var(--line);
-}
 
-.rail__inner {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 24px;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 0;
-  font-size: 13px;
-  color: var(--muted);
-}
 
 /* ——— Grid / Cards ——— */
 .figure {
@@ -1253,7 +1233,6 @@ a { color: inherit; text-decoration: none; }
   box-shadow: var(--shadow-card-hover);
 }
 
-.bento-card__idx { display: none; }
 
 .bento-card__sector {
   font-size: 11px;
@@ -1643,39 +1622,10 @@ a { color: inherit; text-decoration: none; }
 .modal-option:hover .modal-option__arrow { opacity: 1; transform: translateX(0); }
 
 /* ——— Stats row ——— */
-.stats {
-  display: grid;
-  gap: 1px;
-  grid-template-columns: repeat(2, 1fr);
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
 
-@media (min-width: 860px) {
-  .stats { grid-template-columns: repeat(4, 1fr); }
-}
 
-.stat {
-  background: var(--surface);
-  padding: clamp(20px, 3vw, 28px);
-}
 
-.stat__value {
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(18px, 2vw, 22px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--accent);
-}
 
-.stat__label {
-  margin-top: 6px;
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.5;
-}
 
 /* ——— Why grid ——— */
 .why-grid {
@@ -2314,3 +2264,122 @@ select.field {
 .site-header--over .nav-link--active { color: #fff; background: rgba(255, 255, 255, 0.12); }
 .site-header--over .theme-toggle { color: rgba(255, 255, 255, 0.66); }
 .site-header--over .theme-toggle:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+
+.field-label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-soft);
+}
+
+/* ——— Hero enquiry starter ——— */
+.enquiry { margin-top: 34px; }
+
+.enquiry__label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.enquiry__row {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  max-width: 40rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.enquiry__row:focus-within {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.enquiry__input {
+  flex: 1;
+  min-width: 0;
+  height: 46px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+}
+
+.enquiry__input::placeholder { color: rgba(255, 255, 255, 0.42); }
+
+.enquiry__submit {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 46px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--green-500);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.25s var(--ease);
+}
+
+.enquiry__submit:hover { background: var(--green-400); color: #05231a; }
+
+.enquiry__submit svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.enquiry__chips {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.enquiry__chips button {
+  padding: 7px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.66);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.enquiry__chips button:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.36);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+@media (max-width: 560px) {
+  .enquiry__row { flex-direction: column; }
+  .enquiry__submit { justify-content: center; }
+}

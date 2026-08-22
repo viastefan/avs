@@ -63,7 +63,6 @@ export default function ContainerstauungPage() {
             {containerFeatures.map((feature, i) => (
               <ScrollReveal key={feature.title} delay={i * 60}>
                 <div className="bento-card">
-                  <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
                   <h3 className="bento-card__title">{feature.title}</h3>
                   <p className="bento-card__text">{feature.text}</p>
                 </div>
@@ -73,7 +72,7 @@ export default function ContainerstauungPage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="wrap split split--flip">
           <ScrollReveal>
             <div className="split__body">

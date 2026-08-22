@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 import { submitContact, type ContactState } from "@/app/actions/kontakt";
 
@@ -22,6 +23,7 @@ const transports = ["Luftfracht", "Seefracht", "Straßenfracht", "Noch offen"];
 
 export function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initial);
+  const prefill = useSearchParams().get("anfrage") ?? "";
 
   return (
     <form action={action} noValidate className="form-panel">
@@ -119,6 +121,7 @@ export function ContactForm() {
             className="field field-area"
             name="message"
             required
+            defaultValue={prefill}
             placeholder="Beschreiben Sie kurz Ihr Vorhaben — Zielort, Besonderheiten, Fristen."
           />
         </label>

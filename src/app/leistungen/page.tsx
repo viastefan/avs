@@ -50,7 +50,7 @@ export default function LeistungenPage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="wrap">
           <ScrollReveal>
             <div className="section-head">
@@ -64,7 +64,6 @@ export default function LeistungenPage() {
             {services.map((service, i) => (
               <ScrollReveal key={service.slug} delay={i * 60} className={i === 0 ? "bento-wide" : ""}>
                 <Link href={`/leistungen/${service.slug}`} className={`bento-card${i === 0 ? " bento-wide" : ""}`}>
-                  <span className="bento-card__idx">{String(i + 1).padStart(2, "0")}</span>
                   <p className="bento-card__sector">{service.sector}</p>
                   <h3 className="bento-card__title">{service.title}</h3>
                   <p className="bento-card__text">{service.summary}</p>
@@ -78,7 +77,7 @@ export default function LeistungenPage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section">
         <div className="wrap">
           <ScrollReveal>
             <div className="sec-intro">
