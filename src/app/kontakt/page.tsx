@@ -28,38 +28,56 @@ export default function KontaktPage() {
         <div className="wrap grid-2" style={{ alignItems: "start" }}>
           <div>
             <p className="kicker">Ansprechpartner</p>
-            <h2 className="h2" style={{ marginTop: 14 }}>So erreichen Sie uns</h2>
-            <div style={{ marginTop: 32, display: "grid", gap: 28 }}>
-              <div>
-                <p className="field-label">Adresse</p>
-                <p style={{ margin: "8px 0 0", fontSize: 15, color: "var(--ink)", lineHeight: 1.7 }}>
-                  {site.legalName}<br />
-                  {site.address.line1}<br />
-                  {site.address.line2}<br />
+            <h2 className="h2" style={{ marginTop: 14 }}>Direkt zum richtigen Kontakt</h2>
+            <p className="lead" style={{ marginTop: 16 }}>
+              Rufen Sie an, wenn es eilig ist — am Telefon klären wir in fünf Minuten, was
+              schriftlich mehrere Nachrichten braucht.
+            </p>
+
+            <div className="contact-lines">
+              <a className="contact-line" href={site.phoneHref}>
+                <span className="contact-line__label">Zentrale</span>
+                <span className="contact-line__value">{site.phone}</span>
+                <span className="contact-line__note">Werktags erreichbar</span>
+              </a>
+              <a className="contact-line" href={`tel:${site.phoneAlt.replace(/[^+\d]/g, "")}`}>
+                <span className="contact-line__label">Zweitanschluss</span>
+                <span className="contact-line__value">{site.phoneAlt}</span>
+                <span className="contact-line__note">Falls besetzt</span>
+              </a>
+              <a className="contact-line" href={site.emailHref}>
+                <span className="contact-line__label">E-Mail</span>
+                <span className="contact-line__value">{site.email}</span>
+                <span className="contact-line__note">Antwort werktags</span>
+              </a>
+            </div>
+
+            <div className="spec" style={{ marginTop: 36 }}>
+              <div className="spec__row">
+                <div className="spec__label">Anschrift</div>
+                <div className="spec__value">
+                  {site.legalName}
+                  <br />
+                  {site.address.line1}
+                  <br />
+                  {site.address.line2}
+                  <br />
                   {site.address.city}
-                </p>
+                </div>
               </div>
-              <div>
-                <p className="field-label">Telefon</p>
-                <p style={{ margin: "8px 0 0" }}>
-                  <a href={site.phoneHref} style={{ fontSize: 18, fontWeight: 700, color: "var(--ink)" }}>{site.phone}</a>
-                </p>
-                <p style={{ margin: "4px 0 0", fontSize: 14, color: "var(--muted)" }}>{site.phoneAlt}</p>
+              <div className="spec__row">
+                <div className="spec__label">Zulassung</div>
+                <div className="spec__value">
+                  Reglementierter Beauftragter {site.approval}
+                </div>
               </div>
-              <div>
-                <p className="field-label">E-Mail</p>
-                <p style={{ margin: "8px 0 0" }}>
-                  <a href={site.emailHref} style={{ fontSize: 15, color: "var(--accent)", fontWeight: 600 }}>{site.email}</a>
-                </p>
-              </div>
-              <div>
-                <p className="field-label">Zulassung</p>
-                <p style={{ margin: "8px 0 0", fontSize: 14, color: "var(--muted)" }}>
-                  Reglementierter Beauftragter <strong style={{ color: "var(--ink)" }}>{site.approval}</strong>
-                </p>
+              <div className="spec__row">
+                <div className="spec__label">Erreichbarkeit</div>
+                <div className="spec__value">Montag bis Freitag, 08:00–17:00 Uhr</div>
               </div>
             </div>
           </div>
+
           <Suspense fallback={<div className="form-panel" style={{ minHeight: 480 }} />}>
             <ContactForm />
           </Suspense>

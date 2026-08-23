@@ -2353,3 +2353,45 @@ select.field {
 .crumbs [aria-current="page"] { color: var(--ink); font-weight: 500; }
 
 .crumbs__sep { color: var(--muted-soft); opacity: 0.6; }
+
+/* ——— Direct contact lines ——— */
+.contact-lines {
+  display: grid;
+  gap: 1px;
+  margin-top: 28px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.contact-line {
+  display: grid;
+  gap: 3px;
+  padding: 16px 18px;
+  background: var(--surface);
+  transition: background 0.2s var(--ease);
+}
+
+.contact-line:hover { background: var(--surface-hover); }
+
+.contact-line__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-soft);
+}
+
+.contact-line__value {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.contact-line__note {
+  font-size: 13px;
+  color: var(--muted);
+}
