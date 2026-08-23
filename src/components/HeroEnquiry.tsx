@@ -22,7 +22,7 @@ export function HeroEnquiry() {
   return (
     <div className="enquiry">
       <form
-        className="enquiry__bar"
+        className="enquiry__form"
         onSubmit={(e) => {
           e.preventDefault();
           start(value);
