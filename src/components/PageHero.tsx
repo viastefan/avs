@@ -1,13 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 
 type PageHeroProps = {
   title: string;
   description?: string;
   image?: { src: string; alt: string };
   eyebrow?: string;
-  backHref?: string;
-  backLabel?: string;
 };
 
 export function PageHero({
@@ -15,8 +12,6 @@ export function PageHero({
   description,
   image,
   eyebrow,
-  backHref,
-  backLabel = "Zurück",
 }: PageHeroProps) {
   return (
     <section className={`page-hero${image ? "" : " page-hero--compact"}`}>
@@ -38,11 +33,6 @@ export function PageHero({
       <div className="page-hero__dots" aria-hidden />
 
       <div className="wrap page-hero__inner">
-        {backHref ? (
-          <Link href={backHref} className="page-hero__back">
-            ← {backLabel}
-          </Link>
-        ) : null}
         {eyebrow ? (
           <span className="badge">
             <span className="badge__dot" aria-hidden />

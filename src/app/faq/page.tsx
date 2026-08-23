@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/CtaBand";
 import { FaqGroup } from "@/components/FaqGroup";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { faqGroups } from "@/lib/content";
@@ -36,6 +37,8 @@ export default function FaqPage() {
         title="Gut zu wissen"
         description="Die Fragen, die uns am häufigsten erreichen — zu Vorschriften, Gefahrgut, Schulungen und Ablauf."
       />
+
+      <Breadcrumbs trail={[{ label: "Häufige Fragen" }]} />
 
       <section className="section section--alt">
         <div className="wrap prose-narrow" style={{ display: "grid", gap: "clamp(48px, 6vw, 72px)" }}>

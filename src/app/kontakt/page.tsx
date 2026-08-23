@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ContactForm } from "@/components/ContactForm";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { commitments } from "@/lib/content";
@@ -21,6 +22,8 @@ export default function KontaktPage() {
         image={images.warehouse}
         eyebrow="Kontakt"
       />
+
+      <Breadcrumbs trail={[{ label: "Kontakt" }]} />
       <section className="section">
         <div className="wrap grid-2" style={{ alignItems: "start" }}>
           <div>

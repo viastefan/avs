@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/CtaBand";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { getService, services } from "@/lib/content";
@@ -41,11 +42,11 @@ export default async function ServiceDetailPage({ params }: Props) {
       <PageHero
         title={service.title}
         image={image}
-        backHref="/leistungen"
-        backLabel="Leistungen"
         eyebrow={service.sector}
         description={service.summary}
       />
+
+      <Breadcrumbs trail={[{ label: "Leistungen", href: "/leistungen" }, { label: service.title }]} />
 
       <section className="section">
         <div className="wrap" style={{ display: "grid", gap: "clamp(40px, 6vw, 80px)", gridTemplateColumns: "minmax(0, 1fr)" }}>

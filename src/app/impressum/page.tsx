@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHero } from "@/components/PageHero";
 import { site } from "@/lib/site";
 
@@ -35,6 +36,8 @@ export default function ImpressumPage() {
         title="Impressum"
         description="Angaben und Pflichtinformationen gemäß § 5 TMG sowie § 18 Abs. 2 MStV."
       />
+
+      <Breadcrumbs trail={[{ label: "Impressum" }]} />
       <section className="section">
         <div className="wrap" style={{ maxWidth: 720 }}>
           <div style={{ display: "grid", gap: 32 }}>

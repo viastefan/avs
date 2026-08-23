@@ -824,18 +824,7 @@ a { color: inherit; text-decoration: none; }
 
 .page-hero .badge__dot { background: var(--green-400); }
 
-.page-hero__back {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 20px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
-  font-weight: 500;
-  transition: color 0.2s var(--ease);
-}
 
-.page-hero__back:hover { color: #fff; }
 
 .page-hero__title {
   margin: 22px 0 0;
@@ -2342,3 +2331,35 @@ select.field {
   padding: 0 18px;
   font-size: 13px;
 }
+
+/* ——— Breadcrumbs ——— */
+.crumbs {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-elevated);
+}
+
+.crumbs ol {
+  width: min(100% - (var(--gutter) * 2), var(--max));
+  margin: 0 auto;
+  padding: 12px 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.crumbs li { display: inline-flex; align-items: center; gap: 8px; }
+
+.crumbs a {
+  color: var(--muted);
+  transition: color 0.2s var(--ease);
+}
+
+.crumbs a:hover { color: var(--ink); }
+
+.crumbs [aria-current="page"] { color: var(--ink); font-weight: 500; }
+
+.crumbs__sep { color: var(--muted-soft); opacity: 0.6; }

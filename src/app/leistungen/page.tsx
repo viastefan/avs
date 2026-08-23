@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { capabilities, processSteps, services } from "@/lib/content";
@@ -20,6 +21,8 @@ export default function LeistungenPage() {
         image={images.materials}
         eyebrow="Leistungen"
       />
+
+      <Breadcrumbs trail={[{ label: "Leistungen" }]} />
 
       <section className="section">
         <div className="wrap grid-2">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { containerFeatures, containerIntro } from "@/lib/content";
@@ -21,6 +22,8 @@ export default function ContainerstauungPage() {
         image={images.containers}
         eyebrow="Stauung & Sicherung"
       />
+
+      <Breadcrumbs trail={[{ label: "Containerstauung" }]} />
 
       <section className="section">
         <div className="wrap split">

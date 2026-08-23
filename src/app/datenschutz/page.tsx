@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHero } from "@/components/PageHero";
 import { site } from "@/lib/site";
 
@@ -35,6 +36,8 @@ export default function DatenschutzPage() {
         title="Datenschutz"
         description="Wir nehmen den Schutz Ihrer personenbezogenen Daten ernst. Nachfolgend informieren wir Sie über Art, Umfang und Zweck der Verarbeitung auf dieser Website."
       />
+
+      <Breadcrumbs trail={[{ label: "Datenschutz" }]} />
       <section className="section">
         <div className="wrap" style={{ maxWidth: 720 }}>
           <div style={{ display: "grid", gap: 32 }}>
