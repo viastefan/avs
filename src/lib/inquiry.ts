@@ -1,0 +1,131 @@
+/** Shared enquiry handling for the server action and the public API route.
+ *  Both entry points must behave identically — keeping the logic here is
+ *  what stops one of them drifting out of sync with the other. */
+
+export type InquiryFields = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  company: string;
+  subject: string;
+  message: string;
+  transport: string;
+  goods: string;
+  weight: string;
+  deadline: string;
+  preferredContact: string;
+  consent: string;
+};
+
+export type InquiryResult =
+  | { ok: true; message: string }
+  | { ok: false; error: string; mailto?: string; status: number };
+
+const CONTACT_EMAIL = "info@airport-verpackungen.de";
+const CONTACT_PHONE = "+49 (0)89 975 945 91";
+
+export function readFields(get: (key: string) => string): InquiryFields {
+  return {
+    firstName: get("firstName"),
+    lastName: get("lastName"),
+    email: get("email"),
+    phone: get("phone"),
+    company: get("company"),
+    subject: get("subject"),
+    message: get("message"),
+    transport: get("transport"),
+    goods: get("goods"),
+    weight: get("weight"),
+    deadline: get("deadline"),
+    preferredContact: get("preferredContact"),
+    consent: get("consent"),
+  };
+}
+
+function isEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function bodyLines(f: InquiryFields) {
+  return [
+    `Name: ${f.firstName} ${f.lastName}`,
+    `E-Mail: ${f.email}`,
+    `Telefon: ${f.phone || "—"}`,
+    `Unternehmen: ${f.company || "—"}`,
+    `Rueckmeldung bevorzugt per: ${f.preferredContact || "—"}`,
+    "",
+    `Anliegen: ${f.subject}`,
+    `Verkehrstraeger: ${f.transport || "—"}`,
+    `Art der Gueter: ${f.goods || "—"}`,
+    `Gewicht / Masse: ${f.weight || "—"}`,
+    `Gewuenschter Termin: ${f.deadline || "—"}`,
+    "",
+    "Nachricht:",
+    f.message,
+  ];
+}
+
+/** Handles one enquiry: validates, tries to send, and always leaves the
+ *  sender a usable route — never a success message for an undelivered mail. */
+export async function handleInquiry(
+  f: InquiryFields,
+  opts: { requireConsent?: boolean } = {},
+): Promise<InquiryResult> {
+  if (!f.firstName || !f.lastName || !f.email || !f.subject || !f.message) {
+    return { ok: false, error: "Bitte füllen Sie alle Pflichtfelder aus.", status: 400 };
+  }
+  if (!isEmail(f.email)) {
+    return { ok: false, error: "Bitte eine gültige E-Mail angeben.", status: 400 };
+  }
+  if (opts.requireConsent && !f.consent) {
+    return { ok: false, error: "Bitte stimmen Sie der Datenschutzerklärung zu.", status: 400 };
+  }
+  if (f.preferredContact === "Telefon" && !f.phone) {
+    return { ok: false, error: "Für einen Rückruf benötigen wir Ihre Telefonnummer.", status: 400 };
+  }
+
+  const to = process.env.CONTACT_TO_EMAIL || CONTACT_EMAIL;
+  const from = process.env.CONTACT_FROM_EMAIL || "AVS Website <onboarding@resend.dev>";
+  const resendKey = process.env.RESEND_API_KEY;
+  const lines = bodyLines(f);
+
+  const mailto =
+    `mailto:${to}` +
+    `?subject=${encodeURIComponent(`Anfrage über die Website: ${f.subject}`)}` +
+    `&body=${encodeURIComponent(lines.join("\n"))}`;
+
+  const undelivered = (error: string, status: number): InquiryResult => {
+    console.error(`AVS enquiry not delivered (${error})`, { ...f, receivedAt: new Date().toISOString() });
+    return { ok: false, error, mailto, status };
+  };
+
+  if (!resendKey) {
+    return undelivered("Der automatische Versand ist nicht eingerichtet.", 503);
+  }
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from,
+        to: [to],
+        reply_to: f.email,
+        subject: `[AVS Anfrage] ${f.subject}`,
+        text: lines.join("\n"),
+      }),
+    });
+    if (!res.ok) {
+      console.error("Resend error:", await res.text());
+      return undelivered("Der automatische Versand hat nicht funktioniert.", 502);
+    }
+  } catch (error) {
+    console.error("Contact mail failed:", error);
+    return undelivered("Der automatische Versand hat nicht funktioniert.", 502);
+  }
+
+  return { ok: true, message: "Vielen Dank! Ihr Anliegen wird schnellstmöglich bearbeitet." };
+}
+
+export const contactFallback = { email: CONTACT_EMAIL, phone: CONTACT_PHONE };
