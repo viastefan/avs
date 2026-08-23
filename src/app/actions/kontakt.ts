@@ -4,6 +4,8 @@ export type ContactState = {
   ok: boolean;
   error?: string;
   message?: string;
+  /** Ready-to-send mail addressed to AVS, used when server delivery fails. */
+  mailto?: string;
 };
 
 function isEmail(value: string) {
@@ -67,8 +69,29 @@ export async function submitContact(
     receivedAt: new Date().toISOString(),
   };
 
+  const bodyLines = [
+    `Name: ${firstName} ${lastName}`,
+    `E-Mail: ${email}`,
+    `Telefon: ${phone || "—"}`,
+    `Unternehmen: ${company || "—"}`,
+    `Rueckmeldung bevorzugt per: ${preferredContact || "—"}`,
+    "",
+    `Anliegen: ${subject}`,
+    `Verkehrstraeger: ${transport || "—"}`,
+    `Art der Gueter: ${goods || "—"}`,
+    `Gewicht / Masse: ${weight || "—"}`,
+    `Gewuenschter Termin: ${deadline || "—"}`,
+    "",
+    "Nachricht:",
+    message,
+  ];
+
   const resendKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL || "info@airport-verpackungen.de";
+  const mailto =
+    `mailto:${to}` +
+    `?subject=${encodeURIComponent(`Anfrage über die Website: ${subject}`)}` +
+    `&body=${encodeURIComponent(bodyLines.join("\n"))}`;
   const from = process.env.CONTACT_FROM_EMAIL || "AVS Website <onboarding@resend.dev>";
 
   if (resendKey) {
@@ -84,32 +107,25 @@ export async function submitContact(
           to: [to],
           reply_to: email,
           subject: `[AVS Anfrage] ${subject}`,
-          text: [
-            `Name: ${firstName} ${lastName}`,
-            `E-Mail: ${email}`,
-            `Telefon: ${phone || "—"}`,
-            `Unternehmen: ${company || "—"}`,
-            `Rückmeldung bevorzugt per: ${preferredContact || "—"}`,
-            "",
-            `Anliegen: ${subject}`,
-            `Verkehrsträger: ${transport || "—"}`,
-            `Art der Güter: ${goods || "—"}`,
-            `Gewicht / Maße: ${weight || "—"}`,
-            `Gewünschter Termin: ${deadline || "—"}`,
-            "",
-            "Nachricht:",
-            message,
-          ].join("\n"),
+          text: bodyLines.join("\n"),
         }),
       });
 
       if (!res.ok) {
         console.error("Resend error:", await res.text());
-        return { ok: false, error: "E-Mail-Versand vorübergehend nicht möglich." };
+        return {
+          ok: false,
+          error: "Der automatische Versand hat nicht funktioniert.",
+          mailto,
+        };
       }
     } catch (error) {
       console.error("Contact mail failed:", error);
-      return { ok: false, error: "E-Mail-Versand vorübergehend nicht möglich." };
+      return {
+        ok: false,
+        error: "Der automatische Versand hat nicht funktioniert.",
+        mailto,
+      };
     }
   } else {
     // No mail provider configured: never claim the enquiry was received,
@@ -117,8 +133,8 @@ export async function submitContact(
     console.error("AVS contact inquiry could not be delivered — RESEND_API_KEY is not set:", inquiry);
     return {
       ok: false,
-      error:
-        "Der Versand ist derzeit nicht möglich. Bitte rufen Sie uns an unter +49 (0)89 975 945 91 oder schreiben Sie an info@airport-verpackungen.de.",
+      error: "Der automatische Versand ist nicht eingerichtet.",
+      mailto,
     };
   }
 

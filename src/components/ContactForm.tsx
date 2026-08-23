@@ -148,9 +148,25 @@ export function ContactForm() {
         </p>
       ) : null}
       {state.error ? (
-        <p role="alert" className="form-msg form-msg--err">
-          {state.error}
-        </p>
+        <div role="alert" className="form-msg form-msg--err">
+          <p style={{ margin: 0 }}>{state.error}</p>
+          {state.mailto ? (
+            <>
+              <p style={{ margin: "8px 0 0" }}>
+                Ihre Angaben sind erhalten — senden Sie sie mit einem Klick aus Ihrem
+                E-Mail-Programm, oder rufen Sie uns an.
+              </p>
+              <div className="form-msg__actions">
+                <a className="btn btn-primary" href={state.mailto}>
+                  Anfrage per E-Mail senden
+                </a>
+                <a className="btn btn-outline" href="tel:+498997594591">
+                  +49 (0)89 975 945 91
+                </a>
+              </div>
+            </>
+          ) : null}
+        </div>
       ) : null}
     </form>
   );

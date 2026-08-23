@@ -5,13 +5,13 @@
 :root {
   color-scheme: light dark;
 
-  --green-800: #0a4f3c;
-  --green-700: #0e6b51;
-  --green-600: #12805f;
-  --green-500: #17976f;
-  --green-400: #34b48a;
-  --green-300: #7fd3b4;
-  --green-100: #e8f5f0;
+  --green-800: #0b3b2e;
+  --green-700: #0f4f3c;
+  --green-600: #14624b;
+  --green-500: #1b775c;
+  --green-400: #4f9c85;
+  --green-300: #8cbfae;
+  --green-100: #eaf1ee;
 
   --black: #09090b;
   --charcoal: #18181b;
@@ -36,9 +36,9 @@
   --muted-soft: #71717a;
   --line: rgba(0, 0, 0, 0.08);
   --line-strong: rgba(0, 0, 0, 0.13);
-  --accent: #12805f;
-  --accent-soft: rgba(18, 128, 95, 0.09);
-  --accent-hover: #0e6b51;
+  --accent: #14624b;
+  --accent-soft: rgba(20, 98, 75, 0.08);
+  --accent-hover: #0f4f3c;
   --danger: #ef4444;
   --shadow-card: 0 1px 1px rgba(16, 24, 40, 0.03);
   --shadow-card-hover: 0 1px 2px rgba(16, 24, 40, 0.05), 0 10px 26px rgba(16, 24, 40, 0.06);
@@ -51,7 +51,6 @@
   --header-link-hover: #0c0d0e;
   --header-active-bg: rgba(0, 0, 0, 0.05);
   --dot: rgba(0, 0, 0, 0.07);
-
 
   --header-h: 56px;
   --gutter: clamp(20px, 4vw, 48px);
@@ -95,9 +94,9 @@
     --muted-soft: #71717a;
     --line: rgba(255, 255, 255, 0.06);
     --line-strong: rgba(255, 255, 255, 0.1);
-    --accent: #17976f;
-    --accent-soft: rgba(23, 151, 111, 0.12);
-    --accent-hover: #34b48a;
+    --accent: #4f9c85;
+    --accent-soft: rgba(79, 156, 133, 0.12);
+    --accent-hover: #6fb3a0;
     --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.25);
     --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.45);
     --logo-src: url("/brand/avs-logo.svg");
@@ -109,9 +108,7 @@
     --header-link-hover: #ffffff;
     --header-active-bg: rgba(255, 255, 255, 0.08);
     --dot: rgba(255, 255, 255, 0.07);
-        --glass-blur: saturate(170%) blur(22px);
-        --glass-hairline: rgba(255, 255, 255, 0.09);
-      }
+  }
 }
 
 :root[data-theme="dark"] {
@@ -125,9 +122,9 @@
   --muted-soft: #71717a;
   --line: rgba(255, 255, 255, 0.06);
   --line-strong: rgba(255, 255, 255, 0.1);
-  --accent: #17976f;
-  --accent-soft: rgba(23, 151, 111, 0.12);
-  --accent-hover: #34b48a;
+  --accent: #4f9c85;
+  --accent-soft: rgba(79, 156, 133, 0.12);
+  --accent-hover: #6fb3a0;
   --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.25);
   --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.45);
   --logo-src: url("/brand/avs-logo.svg");
@@ -138,10 +135,8 @@
   --header-link: rgba(255, 255, 255, 0.55);
   --header-link-hover: #ffffff;
   --header-active-bg: rgba(255, 255, 255, 0.08);
-  --dot: rgba(255, 255, 255, 0.10);
-    --glass-blur: saturate(170%) blur(22px);
-    --glass-hairline: rgba(255, 255, 255, 0.09);
-  }
+  --dot: rgba(255, 255, 255, 0.07);
+}
 
 @theme inline {
   --color-background: var(--bg);
@@ -256,19 +251,16 @@ a { color: inherit; text-decoration: none; }
   line-height: 1;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease);
 }
 
 .btn-primary {
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 6px 18px rgba(18, 128, 95, 0.18);
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08), 0 12px 26px rgba(18, 128, 95, 0.26);
 }
 
 .btn-secondary {
@@ -2297,7 +2289,7 @@ select.field {
   transition: background 0.25s var(--ease);
 }
 
-.enquiry__submit:hover { background: var(--green-400); color: #05231a; }
+.enquiry__submit:hover { background: var(--green-400); color: #06251c; }
 
 .enquiry__submit svg {
   width: 15px;
@@ -2371,4 +2363,17 @@ select.field {
     gap: clamp(40px, 6vw, 80px);
   }
   .cta-band__action { flex: 1; }
+}
+
+.form-msg__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.form-msg__actions .btn {
+  height: 42px;
+  padding: 0 18px;
+  font-size: 13px;
 }
