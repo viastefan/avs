@@ -5,6 +5,7 @@ import { CookieNotice } from "@/components/CookieNotice";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { StructuredData } from "@/components/StructuredData";
+import { ThumbBar } from "@/components/ThumbBar";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -60,6 +61,7 @@ export default function RootLayout({
         <Footer />
         <ContactModal />
         <CookieNotice />
+        <ThumbBar />
       </body>
     </html>
   );

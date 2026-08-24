@@ -2208,7 +2208,7 @@ select.field {
   background: transparent;
   color: #fff;
   font: inherit;
-  font-size: 15px;
+  font-size: 16px;
   outline: none;
 }
 
@@ -2274,7 +2274,10 @@ select.field {
 
 @media (max-width: 560px) {
   .enquiry__row { flex-direction: column; }
-  .enquiry__submit { justify-content: center; }
+  /* `flex: 1` drives the main axis — in a column that is height, which
+     collapsed the field to its text. Reset it and size explicitly. */
+  .enquiry__input { flex: none; width: 100%; height: 52px; }
+  .enquiry__submit { justify-content: center; height: 52px; }
   /* four stacked chips make the hero needlessly tall on a phone */
   .enquiry__chips li:nth-child(n + 3) { display: none; }
 }
@@ -2394,4 +2397,154 @@ select.field {
 .contact-line__note {
   font-size: 13px;
   color: var(--muted);
+}
+
+/* ——— Touch ergonomics ———
+   Anything a finger has to hit needs roughly 48px. Inline links keep
+   their visual size and gain the missing area through a pseudo-element,
+   so the layout does not grow. */
+@media (max-width: 900px) {
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .menu-toggle {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 8px 10px;
+  }
+
+  .brand-mark {
+    min-height: 48px;
+  }
+
+  .modal__close {
+    width: 44px;
+    height: 44px;
+  }
+
+  .cookie__actions .btn {
+    min-height: 48px;
+    flex: 1;
+  }
+
+  .enquiry__chips button {
+    min-height: 44px;
+    padding: 10px 15px;
+  }
+
+  /* Inline links: keep the text size, grow the hit area */
+  .link-accent,
+  .section-head__link,
+  .crumbs a,
+  .site-footer__list a,
+  .site-footer__legal a,
+  .site-footer__grid p > a,
+  .cta-band__phone a,
+  .mobile-nav__contact a,
+  .form-consent a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .site-footer__list { gap: 2px; }
+
+  .contact-line { padding: 18px; min-height: 72px; }
+
+  /* Every form control comfortably tappable, and never under 16px so
+     iOS does not zoom the page when the field takes focus */
+  .field {
+    height: 52px;
+    font-size: 16px;
+  }
+
+  .field-area { min-height: 132px; }
+
+  /* The label wraps the box, so the whole row toggles it — give that
+     row real height instead of inflating the box itself. */
+  .form-consent {
+    align-items: center;
+    min-height: 56px;
+    padding: 8px 10px;
+    margin-inline: -10px;
+    border-radius: var(--radius);
+  }
+
+  .form-consent input {
+    width: 22px;
+    height: 22px;
+    margin-top: 0;
+  }
+
+  .btn {
+    min-height: 48px;
+  }
+
+  .faq__q {
+    min-height: 56px;
+    padding: 18px 0;
+  }
+}
+
+/* ——— Sticky action bar (thumb zone) ———
+   On a phone the header sits out of reach at the top. The two actions
+   that matter — call, or start an enquiry — belong within the natural
+   arc of the thumb. */
+.thumb-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  display: none;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: var(--header-glass-bg);
+  border-top: 1px solid var(--header-border);
+  backdrop-filter: saturate(170%) blur(18px);
+  -webkit-backdrop-filter: saturate(170%) blur(18px);
+}
+
+@media (max-width: 900px) {
+  .thumb-bar { display: flex; }
+  /* keep the footer and the cookie notice clear of the bar */
+  body { padding-bottom: 76px; }
+  .cookie { bottom: calc(76px + env(safe-area-inset-bottom)); }
+}
+
+.thumb-bar__action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.thumb-bar__action svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.thumb-bar__call {
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+}
+
+.thumb-bar__enquiry {
+  background: var(--accent);
+  color: #fff;
 }
