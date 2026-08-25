@@ -59,6 +59,9 @@
   --radius-sm: 4px;
   --radius-xs: 3px;
   --radius-lg: 10px;
+  --radius-field: 14px;
+  --radius-pill: 999px;
+  --field-bg: #f1f2f3;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -109,6 +112,7 @@
     --header-link-hover: #ffffff;
     --header-active-bg: rgba(255, 255, 255, 0.08);
     --dot: rgba(255, 255, 255, 0.07);
+    --field-bg: #17171a;
   }
 }
 
@@ -137,6 +141,7 @@
   --header-link-hover: #ffffff;
   --header-active-bg: rgba(255, 255, 255, 0.08);
   --dot: rgba(255, 255, 255, 0.07);
+  --field-bg: #17171a;
 }
 
 @theme inline {
@@ -244,7 +249,7 @@ a { color: inherit; text-decoration: none; }
   gap: 8px;
   height: 48px;
   padding: 0 26px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   border: 1px solid transparent;
   font-size: 14px;
   font-weight: 600;
@@ -812,7 +817,9 @@ a { color: inherit; text-decoration: none; }
 .page-hero__inner {
   position: relative;
   z-index: 1;
-  max-width: 46rem;
+  /* No max-width here: this element also carries `.wrap`, whose auto
+     margins would centre a narrower box and indent the text. The
+     measure is constrained on the text itself instead. */
 }
 
 .page-hero .badge {
@@ -833,6 +840,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 600;
   letter-spacing: -0.026em;
   line-height: 1.06;
+  max-width: 20ch;
   color: #fff;
   text-wrap: balance;
 }
@@ -2547,4 +2555,195 @@ select.field {
 .thumb-bar__enquiry {
   background: var(--accent);
   color: #fff;
+}
+
+/* ——— Fields with the label inside ———
+   The label sits above the value inside the same surface, so the field
+   still says what it wants once it is filled — a placeholder alone
+   disappears the moment someone types. */
+.ff {
+  position: relative;
+  display: block;
+  padding: 10px 16px 8px;
+  border-radius: var(--radius-field);
+  background: var(--field-bg);
+  border: 1px solid var(--line);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.ff:focus-within {
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.ff__label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted-soft);
+  pointer-events: none;
+}
+
+.ff__input,
+.ff select,
+.ff textarea {
+  width: 100%;
+  border: 0;
+  padding: 2px 0 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  outline: none;
+  appearance: none;
+}
+
+.ff textarea {
+  min-height: 96px;
+  resize: vertical;
+  display: block;
+}
+
+.ff--select { position: relative; }
+
+.ff--select::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-top: -6px;
+  border-right: 1.6px solid var(--muted);
+  border-bottom: 1.6px solid var(--muted);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.ff--select select { padding-right: 28px; }
+
+.ff__input::placeholder,
+.ff textarea::placeholder { color: var(--muted-soft); opacity: 0.75; }
+
+.ff--invalid { border-color: var(--danger); }
+
+.ff__error {
+  display: block;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--danger);
+}
+
+@media (max-width: 900px) {
+  .ff { padding: 12px 18px 10px; }
+  .ff__input, .ff select { min-height: 30px; }
+  .ff textarea { min-height: 116px; }
+}
+
+/* ——— Form shell ——— */
+.form-stack { display: grid; gap: 12px; }
+.form-stack--extra { margin-top: 12px; }
+
+.form-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.form-more__icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 50%;
+  border: 1.4px solid currentColor;
+}
+
+.form-more__icon::before,
+.form-more__icon::after {
+  content: "";
+  position: absolute;
+  inset: 50% 4px auto;
+  height: 1.4px;
+  background: currentColor;
+  transform: translateY(-50%);
+}
+
+.form-more__icon::after {
+  inset: 4px auto 4px 50%;
+  width: 1.4px;
+  height: auto;
+  transform: translateX(-50%);
+  transition: opacity 0.2s var(--ease);
+}
+
+.form-more__icon--open::after { opacity: 0; }
+
+.form-submit {
+  width: 100%;
+  margin-top: 20px;
+  height: 54px;
+}
+
+.form-hint {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--muted-soft);
+  text-align: center;
+}
+
+/* ——— Success state ——— */
+.form-done { text-align: center; }
+
+.form-done__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin: 4px auto 18px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.form-done__mark svg { width: 24px; height: 24px; }
+
+.form-done__title {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.form-done__text {
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.form-done__text a { color: var(--accent); font-weight: 600; }
+
+/* ——— Contact column sticks while the form scrolls ——— */
+@media (min-width: 1000px) {
+  .contact-aside {
+    position: sticky;
+    top: calc(var(--header-h) + 28px);
+  }
 }

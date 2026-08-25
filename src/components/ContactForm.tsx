@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { submitContact, type ContactState } from "@/app/actions/kontakt";
 
 const initial: ContactState = { ok: false };
@@ -19,11 +19,60 @@ const subjects = [
   "Sonstiges",
 ];
 
-const transports = ["Luftfracht", "Seefracht", "Straßenfracht", "Noch offen"];
+const transports = ["Noch offen", "Luftfracht", "Seefracht", "Straßenfracht"];
+const urgencies = ["Keine feste Frist", "Diese Woche", "Nächste Woche", "Diesen Monat"];
+const contactWays = ["E-Mail", "Telefon", "Egal"];
+
+/** One field, label inside the surface so it survives being filled in. */
+function Field({
+  label,
+  children,
+  select,
+  error,
+}: {
+  label: string;
+  children: React.ReactNode;
+  select?: boolean;
+  error?: string;
+}) {
+  return (
+    <div>
+      <label className={`ff${select ? " ff--select" : ""}${error ? " ff--invalid" : ""}`}>
+        <span className="ff__label">{label}</span>
+        {children}
+      </label>
+      {error ? <span className="ff__error">{error}</span> : null}
+    </div>
+  );
+}
 
 export function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initial);
   const prefill = useSearchParams().get("anfrage") ?? "";
+  const [more, setMore] = useState(false);
+  const [email, setEmail] = useState("");
+  const [touched, setTouched] = useState(false);
+
+  const emailLooksWrong =
+    touched && email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  if (state.ok && state.message) {
+    return (
+      <div className="form-panel form-done" role="status">
+        <span className="form-done__mark" aria-hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 12.5 9.5 18 20 7" />
+          </svg>
+        </span>
+        <h2 className="form-done__title">Anfrage ist raus</h2>
+        <p className="form-done__text">{state.message}</p>
+        <p className="form-done__text">
+          Wenn es eilt, erreichen Sie uns direkt unter{" "}
+          <a href="tel:+498997594591">+49 (0)89 975 945 91</a>.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <form action={action} noValidate className="form-panel">
@@ -36,117 +85,148 @@ export function ContactForm() {
         style={{ position: "absolute", left: -9999, opacity: 0, height: 0, width: 0 }}
       />
 
-      <fieldset className="form-group">
-        <legend className="form-group__legend">Ihre Angaben</legend>
+      <div className="form-stack">
         <div className="form-row">
-          <label className="form-label">
-            <span>Vorname *</span>
-            <input className="field" name="firstName" required autoComplete="given-name" />
-          </label>
-          <label className="form-label">
-            <span>Nachname *</span>
-            <input className="field" name="lastName" required autoComplete="family-name" />
-          </label>
+          <Field label="Vorname">
+            <input className="ff__input" name="firstName" required autoComplete="given-name" placeholder="Max" />
+          </Field>
+          <Field label="Nachname">
+            <input className="ff__input" name="lastName" required autoComplete="family-name" placeholder="Mustermann" />
+          </Field>
         </div>
 
+        <Field label="E-Mail" error={emailLooksWrong ? "Bitte prüfen Sie die Adresse." : undefined}>
+          <input
+            className="ff__input"
+            type="email"
+            name="email"
+            required
+            inputMode="email"
+            autoComplete="email"
+            placeholder="max@firma.de"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onBlur={() => setTouched(true)}
+          />
+        </Field>
+
         <div className="form-row">
-          <label className="form-label">
-            <span>E-Mail *</span>
-            <input className="field" type="email" name="email" required autoComplete="email" />
-          </label>
-          <label className="form-label">
-            <span>Telefon</span>
-            <input className="field" type="tel" name="phone" autoComplete="tel" />
-          </label>
+          <Field label="Telefon (optional)">
+            <input
+              className="ff__input"
+              type="tel"
+              name="phone"
+              inputMode="tel"
+              autoComplete="tel"
+              placeholder="+49 89 …"
+            />
+          </Field>
+          <Field label="Unternehmen (optional)">
+            <input className="ff__input" name="company" autoComplete="organization" placeholder="Firma GmbH" />
+          </Field>
         </div>
 
-        <label className="form-label">
-          <span>Unternehmen</span>
-          <input className="field" name="company" autoComplete="organization" />
-        </label>
-
-        <label className="form-label">
-          <span>Rückmeldung bevorzugt per</span>
-          <select className="field" name="preferredContact" defaultValue="E-Mail">
-            <option>E-Mail</option>
-            <option>Telefon</option>
-            <option>Egal</option>
+        <Field label="Anliegen" select>
+          <select name="subject" required defaultValue="">
+            <option value="" disabled>
+              Bitte wählen
+            </option>
+            {subjects.map((s) => (
+              <option key={s}>{s}</option>
+            ))}
           </select>
-        </label>
-      </fieldset>
+        </Field>
 
-      <fieldset className="form-group">
-        <legend className="form-group__legend">Ihre Anfrage</legend>
-        <div className="form-row">
-          <label className="form-label">
-            <span>Anliegen *</span>
-            <select className="field" name="subject" required defaultValue="">
-              <option value="" disabled>
-                Bitte wählen
-              </option>
-              {subjects.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
-          </label>
-          <label className="form-label">
-            <span>Verkehrsträger</span>
-            <select className="field" name="transport" defaultValue="Noch offen">
-              {transports.map((t) => (
-                <option key={t}>{t}</option>
-              ))}
-            </select>
-          </label>
-        </div>
-
-        <div className="form-row">
-          <label className="form-label">
-            <span>Art der Güter</span>
-            <input className="field" name="goods" placeholder="z. B. Maschinenteile, Lithiumbatterien" />
-          </label>
-          <label className="form-label">
-            <span>Gewicht / Maße</span>
-            <input className="field" name="weight" placeholder="z. B. 1.200 kg, 2 × 1,2 × 1,5 m" />
-          </label>
-        </div>
-
-        <label className="form-label">
-          <span>Gewünschter Termin</span>
-          <input className="field" type="date" name="deadline" />
-        </label>
-
-        <label className="form-label">
-          <span>Nachricht *</span>
+        <Field label="Ihre Nachricht">
           <textarea
-            className="field field-area"
             name="message"
             required
             defaultValue={prefill}
-            placeholder="Beschreiben Sie kurz Ihr Vorhaben — Zielort, Besonderheiten, Fristen."
+            placeholder="Was soll verpackt werden, wohin geht es, bis wann brauchen Sie es?"
           />
-        </label>
-      </fieldset>
+        </Field>
+      </div>
+
+      <button
+        type="button"
+        className="form-more"
+        aria-expanded={more}
+        onClick={() => setMore((v) => !v)}
+      >
+        <span className={`form-more__icon${more ? " form-more__icon--open" : ""}`} aria-hidden />
+        {more ? "Weniger Angaben" : "Angaben ergänzen — beschleunigt das Angebot"}
+      </button>
+
+      {more ? (
+        <div className="form-stack form-stack--extra">
+          <div className="form-row">
+            <Field label="Verkehrsträger" select>
+              <select name="transport" defaultValue="Noch offen">
+                {transports.map((t) => (
+                  <option key={t}>{t}</option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Zielort">
+              <input className="ff__input" name="destination" placeholder="z. B. Singapur" />
+            </Field>
+          </div>
+
+          <div className="form-row">
+            <Field label="Art der Güter">
+              <input className="ff__input" name="goods" placeholder="z. B. Prüfstand, Lithiumbatterien" />
+            </Field>
+            <Field label="Gewicht / Maße">
+              <input className="ff__input" name="weight" placeholder="z. B. 1.800 kg, 2 × 1,2 × 1,5 m" />
+            </Field>
+          </div>
+
+          <div className="form-row">
+            <Field label="Stückzahl">
+              <input className="ff__input" name="quantity" inputMode="numeric" placeholder="z. B. 4 Packstücke" />
+            </Field>
+            <Field label="Gefahrgut / UN-Nummer">
+              <input className="ff__input" name="unNumber" placeholder="z. B. UN 3480" />
+            </Field>
+          </div>
+
+          <div className="form-row">
+            <Field label="Wie eilig ist es?" select>
+              <select name="urgency" defaultValue="Keine feste Frist">
+                {urgencies.map((u) => (
+                  <option key={u}>{u}</option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Gewünschter Termin">
+              <input className="ff__input" type="date" name="deadline" />
+            </Field>
+          </div>
+
+          <Field label="Rückmeldung bevorzugt per" select>
+            <select name="preferredContact" defaultValue="E-Mail">
+              {contactWays.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
+            </select>
+          </Field>
+        </div>
+      ) : null}
 
       <label className="form-consent">
         <input type="checkbox" name="consent" value="ja" required />
         <span>
           Ich habe die <Link href="/datenschutz">Datenschutzerklärung</Link> gelesen und stimme der
-          Verarbeitung meiner Angaben zur Bearbeitung der Anfrage zu. *
+          Verarbeitung meiner Angaben zu.
         </span>
       </label>
 
-      <div className="form-actions">
-        <button type="submit" className="btn btn-primary" disabled={pending}>
-          {pending ? "Senden…" : "Anfrage absenden"}
-        </button>
-        <span className="form-hint">* Pflichtfeld</span>
-      </div>
+      <button type="submit" className="btn btn-primary form-submit" disabled={pending}>
+        {pending ? "Wird gesendet…" : "Anfrage senden"}
+      </button>
 
-      {state.message ? (
-        <p role="status" className="form-msg form-msg--ok">
-          {state.message}
-        </p>
-      ) : null}
+      <p className="form-hint">Wir melden uns werktags. Ihre Angaben gehen nur an uns.</p>
+
       {state.error ? (
         <div role="alert" className="form-msg form-msg--err">
           <p style={{ margin: 0 }}>{state.error}</p>

@@ -16,6 +16,10 @@ export type InquiryFields = {
   deadline: string;
   preferredContact: string;
   consent: string;
+  destination: string;
+  quantity: string;
+  unNumber: string;
+  urgency: string;
 };
 
 export type InquiryResult =
@@ -40,6 +44,10 @@ export function readFields(get: (key: string) => string): InquiryFields {
     deadline: get("deadline"),
     preferredContact: get("preferredContact"),
     consent: get("consent"),
+    destination: get("destination"),
+    quantity: get("quantity"),
+    unNumber: get("unNumber"),
+    urgency: get("urgency"),
   };
 }
 
@@ -57,8 +65,12 @@ function bodyLines(f: InquiryFields) {
     "",
     `Anliegen: ${f.subject}`,
     `Verkehrstraeger: ${f.transport || "—"}`,
+    `Zielort: ${f.destination || "—"}`,
     `Art der Gueter: ${f.goods || "—"}`,
     `Gewicht / Masse: ${f.weight || "—"}`,
+    `Stueckzahl: ${f.quantity || "—"}`,
+    `Gefahrgut / UN-Nummer: ${f.unNumber || "—"}`,
+    `Dringlichkeit: ${f.urgency || "—"}`,
     `Gewuenschter Termin: ${f.deadline || "—"}`,
     "",
     "Nachricht:",

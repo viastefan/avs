@@ -26,7 +26,7 @@ export default function KontaktPage() {
       <Breadcrumbs trail={[{ label: "Kontakt" }]} />
       <section className="section">
         <div className="wrap grid-2" style={{ alignItems: "start" }}>
-          <div>
+          <div className="contact-aside">
             <p className="kicker">Ansprechpartner</p>
             <h2 className="h2" style={{ marginTop: 14 }}>Direkt zum richtigen Kontakt</h2>
             <p className="lead" style={{ marginTop: 16 }}>
