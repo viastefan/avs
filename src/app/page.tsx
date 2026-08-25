@@ -34,8 +34,8 @@ export default function HomePage() {
               Verpackung für die <em>Luftfracht</em>.
             </h1>
             <p className="hero__sub fade-up fade-up-2">
-              Normkonform, vollständig dokumentiert und termintreu — direkt am Frachtzentrum
-              des Flughafens München.
+              Wir sitzen im Frachtzentrum am Flughafen München, Modul H — dort, wo Ihre Sendung
+              ohnehin abgefertigt wird. Kein Umweg über ein Gewerbegebiet, kein Tag Verlust.
             </p>
             <div className="fade-up fade-up-3">
               <HeroEnquiry />
@@ -63,12 +63,13 @@ export default function HomePage() {
               <h2 className="h2">Verpackung mit System — direkt am Frachtzentrum</h2>
               <p className="lead">
                 Die Airport-Verpackungs-Service GmbH verpackt Transport- und Gefahrgüter für Luft-,
-                See- und Straßenfracht. Ob einzelnes Packstück, sensible Spezialware oder tonnenschwere
-                Maschine — wir liefern die normkonforme Lösung, inklusive Dokumentation und Beratung.
+                See- und Straßenfracht — vom einzelnen Packstück über temperaturgeführte Spezialware
+                bis zur tonnenschweren Maschine, samt aller Papiere.
               </p>
               <p className="muted" style={{ marginTop: 16, fontSize: 15, lineHeight: 1.7 }}>
-                Seit Jahren arbeitet ein eingespieltes Team an einem Ort, an dem Fehler teuer werden:
-                Eine zurückgewiesene Sendung kostet nicht nur Gebühren, sondern den Flug.
+                Am Frachtzentrum wird knapp gerechnet: Wer die Annahmeschlusszeit reißt, wartet auf
+                den nächsten Flug. Deshalb arbeiten wir dort, wo die Fracht steht — Rückfragen klären
+                wir auf dem kurzen Weg statt per E-Mail über zwei Tage.
               </p>
               <a href={site.phoneHref} className="link-accent">
                 {site.phone} →
@@ -228,14 +229,14 @@ export default function HomePage() {
               <p className="kicker">Standort</p>
               <h2>Am Frachtzentrum statt im Gewerbegebiet</h2>
               <p>
-                Wir sitzen im Frachtzentrum des Flughafens München, Modul H. Das klingt nach einem
-                Detail, entscheidet in der Praxis aber über Stunden: Ihre Sendung muss nicht erst
-                quer durch den Landkreis gefahren werden, bevor sie verpackt und abgefertigt wird.
+                Modul H liegt an der Südallee, mitten im Frachtzentrum des Flughafens München.
+                Zwischen unserer Halle und der Abfertigung liegen Minuten, keine Anfahrt. Was
+                anderswo ein zusätzlicher Transporttag ist, ist hier ein Handgriff.
               </p>
               <p>
-                Kurze Wege zum Handling, direkte Abstimmung mit Spediteuren vor Ort und die
-                Zulassung als reglementierter Beauftragter greifen ineinander — von der Anlieferung
-                bis zur sicheren Luftfracht.
+                Als reglementierter Beauftragter dürfen wir Luftfracht als sicher einstufen. Zusammen
+                mit den kurzen Wegen heißt das: anliefern, verpacken, dokumentieren, abgeben — ohne
+                dass die Sendung das Gelände zwischendurch verlässt.
               </p>
               <a href={site.phoneHref} className="link-accent">
                 {site.phone} →
