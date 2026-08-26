@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/Header";
 import { services } from "@/lib/content";
 import { site } from "@/lib/site";
 
@@ -89,6 +90,10 @@ export function Footer() {
             <Link href="/impressum">Impressum</Link>
             <Link href="/datenschutz">Datenschutz</Link>
           </nav>
+          <div className="site-footer__theme">
+            <span>Darstellung</span>
+            <ThemeToggle className="theme-toggle theme-toggle--footer" />
+          </div>
         </div>
       </div>
     </footer>

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useState } from "react";
 import { nav, site } from "@/lib/site";
 
-function ThemeToggle() {
+export function ThemeToggle({ className = "theme-toggle" }: { className?: string } = {}) {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function ThemeToggle() {
   }, [dark]);
 
   return (
-    <button type="button" className="theme-toggle" onClick={toggle} aria-label={dark ? "Zu hellem Design wechseln" : "Zu dunklem Design wechseln"}>
+    <button type="button" className={className} onClick={toggle} aria-label={dark ? "Zu hellem Design wechseln" : "Zu dunklem Design wechseln"}>
       {dark ? (
         <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
       ) : (
@@ -97,12 +97,16 @@ export function Header() {
             <button type="button" className="btn nav-cta" onClick={openContact}>Anfrage</button>
           </nav>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 4 }} className="lg-hidden">
-            <ThemeToggle />
-            <button type="button" className="menu-toggle" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen((v) => !v)}>
-              {open ? "Schliessen" : "Menu"}
-            </button>
-          </div>
+          <button
+            type="button"
+            className={`menu-toggle lg-hidden${open ? " menu-toggle--open" : ""}`}
+            aria-expanded={open}
+            aria-controls={panelId}
+            aria-label={open ? "Menü schließen" : "Menü öffnen"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="menu-toggle__bars" aria-hidden />
+          </button>
         </div>
       </header>
 
@@ -113,7 +117,15 @@ export function Header() {
             <img src="/brand/avs-logo.svg" alt="" width={36} height={36} />
             <span className="brand-mark__text" style={{ color: "#fff" }}>{site.name}</span>
           </span>
-          <button type="button" className="menu-toggle" style={{ color: "#fff" }} onClick={() => setOpen(false)}>Schliessen</button>
+          <button
+            type="button"
+            className="menu-toggle menu-toggle--open"
+            style={{ color: "#fff" }}
+            aria-label="Menü schließen"
+            onClick={() => setOpen(false)}
+          >
+            <span className="menu-toggle__bars" aria-hidden />
+          </button>
         </div>
         <nav className="mobile-nav__links" aria-label="Mobile Navigation">
           {nav.map((item) => (
