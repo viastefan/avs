@@ -6,6 +6,8 @@ export type Service = {
   /** One line for the home page cards, where `summary` runs to four
    *  lines on a phone and has to be cut mid-sentence. */
   short: string;
+  /** Heading over the detail text — every other section on the site has one. */
+  detailHeading: string;
   body: string[];
   highlights?: string[];
 };
@@ -18,6 +20,7 @@ export const services: Service[] = [
     short: "Kisten und Verschläge nach HPE, Vollholz nach ISPM 15.",
     summary:
       "Fachgerechte Exportverpackung nach international anerkannten HPE-Vorschriften — sicher, gesetzeskonform und reibungslos abgewickelt.",
+    detailHeading: "Vom Holz bis zum Zollstempel",
     body: [
       "Unsere Experten übernehmen die Verpackung Ihrer Waren für den Export gemäß den international anerkannten Vorschriften des HPE.",
       "Die HPE-Richtlinien regeln, wie Güter für den internationalen Versand zu sichern sind — von der Wahl des Holzes über die Kistenkonstruktion bis zur Korrosionsschutzverpackung. Wir wählen die Bauart passend zu Gewicht, Schwerpunkt und Transportdauer.",
@@ -33,6 +36,7 @@ export const services: Service[] = [
     short: "IATA, IMDG und ADR — Klassifizierung und Papiere inklusive.",
     summary:
       "Sichere Verpackung gefährlicher Güter für Straße, See und Luft — nach aktuellen IATA/ICAO-, IMDG- und ADR-Vorschriften.",
+    detailHeading: "Klassifizieren, verpacken, deklarieren",
     body: [
       "Gefahrgutverpackung muss speziellen Anforderungen entsprechen, um Risiken für Mensch und Umwelt zu minimieren.",
       "Wir verwenden stets die aktuellsten Versionen der IATA/ICAO-, IMDG-Code- sowie ADR-Vorschriften und unterstützen Sie bei der Erstellung der erforderlichen Begleitpapiere.",
@@ -53,6 +57,7 @@ export const services: Service[] = [
     short: "Maschinen und Anlagen, auf Wunsch bei Ihnen im Werk.",
     summary:
       "Verpackung besonders schwerer Waren, Maschinen und Anlagen — auch direkt vor Ort beim Kunden.",
+    detailHeading: "Konstruiert um das Gut herum",
     body: [
       "Für besonders schwere Waren, Maschinen oder Anlagen bieten wir einen speziellen Service: Wir verpacken sie direkt vor Ort beim Kunden.",
       "Schwergut stellt eigene Anforderungen: Der Schwerpunkt muss bekannt sein, Anschlagpunkte müssen definiert und die Kiste auf Kipp- und Stapeldruck ausgelegt sein. Wir konstruieren die Verpackung um das Gut herum, statt es in eine Standardkiste zu zwingen.",
@@ -68,6 +73,7 @@ export const services: Service[] = [
     short: "Kühlkette, Reinraum, ESD und Korrosionsschutz.",
     summary:
       "Kühl-, Reinraum-, ISO-, Fahrzeug- und Lohnverpackung — individuell beraten und präzise umgesetzt.",
+    detailHeading: "Wenn die Standardkiste nicht reicht",
     body: [
       "Wenn Sie Kühlverpackungen, Reinraumverpackungen oder ISO-Verpackungen für den sicheren Transport benötigen, stehen wir Ihnen gerne zur Verfügung.",
       "Temperaturgeführte Sendungen erfordern abgestimmte Isolierung und Kühlmittel — je nach Zieltemperatur, Transportdauer und Klimazone. Wir legen die Kombination so aus, dass die Kühlkette über die gesamte Strecke hält.",
@@ -83,6 +89,7 @@ export const services: Service[] = [
     short: "Bauart, Volumengewicht, Frachtkosten — vorher durchgerechnet.",
     summary:
       "Klare Empfehlungen zu Verpackungsvarianten für Luft-, See- und Straßenfracht — abgestimmt auf Ihre Güter.",
+    detailHeading: "Erst rechnen, dann packen",
     body: [
       "Für alle Fragen zu potenziellen Verpackungsvarianten können Sie uns jederzeit kontaktieren.",
       "Oft lässt sich mit einer angepassten Bauart Volumen und damit Frachtkosten sparen — gerade in der Luftfracht, wo das Volumengewicht den Preis bestimmt. Wir rechnen die Varianten durch und zeigen Ihnen, wo der sinnvollste Kompromiss zwischen Schutz und Kosten liegt.",
@@ -98,6 +105,7 @@ export const services: Service[] = [
     short: "Wir kommen zu Ihnen — oder liefern das Material.",
     summary:
       "Verpackung direkt bei Ihnen vor Ort sowie Bezug hochwertiger Verpackungsmaterialien über uns.",
+    detailHeading: "Wir kommen in Ihren Betrieb",
     body: [
       "Sie wünschen eine Verpackung direkt bei Ihnen vor Ort? Auch hierfür sind wir Ihr Ansprechpartner.",
       "Das lohnt sich besonders, wenn Maschinen erst demontiert werden müssen oder sich nicht unverpackt transportieren lassen. Wir kommen mit Material und Werkzeug in Ihren Betrieb und verpacken dort, wo das Gut steht.",

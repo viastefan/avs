@@ -51,6 +51,13 @@ export default async function ServiceDetailPage({ params }: Props) {
       <section className="section">
         <div className="wrap" style={{ display: "grid", gap: "clamp(40px, 6vw, 80px)", gridTemplateColumns: "minmax(0, 1fr)" }}>
           <div className="prose-narrow">
+            <ScrollReveal>
+              <div className="sec-intro sec-intro--start">
+                <p className="kicker">Im Detail</p>
+                <h2 className="h2">{service.detailHeading}</h2>
+              </div>
+            </ScrollReveal>
+
             <div className="prose-body">
               {service.body.map((p) => (
                 <p key={p}>{p}</p>

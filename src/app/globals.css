@@ -1204,7 +1204,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: clamp(24px, 3vw, 32px);
+  padding: clamp(26px, 3vw, 34px);
   border-radius: var(--radius);
   background: var(--surface);
   border: 1px solid var(--line);
@@ -1257,7 +1257,10 @@ a { color: inherit; text-decoration: none; }
 .bento-card__arrow {
   align-self: flex-end;
   flex: none;
-  margin-top: 18px;
+  /* The arrow sits inside the text column horizontally, so 18px read as the
+     circle crowding the last line. Recurring complaint — see the note on
+     card padding: keep decorative marks clear of body text, with real space. */
+  margin-top: 28px;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -1775,6 +1778,14 @@ a { color: inherit; text-decoration: none; }
   max-width: 62ch;
   margin: 0 auto 48px;
   text-align: center;
+}
+
+/* Left-aligned variant for sections that sit over left-aligned prose,
+   where the centred default would float away from the text below it. */
+.sec-intro--start {
+  margin-inline: 0;
+  margin-bottom: 28px;
+  text-align: left;
 }
 
 .sec-intro .kicker { justify-content: center; }
