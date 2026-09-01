@@ -2,43 +2,45 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { submitContact, type ContactState } from "@/app/actions/kontakt";
+import { contactWays, subjects, transports, urgencies } from "@/lib/enquiry-options";
 
 const initial: ContactState = { ok: false };
 
-const subjects = [
-  "Exportverpackung",
-  "Gefahrgutverpackung",
-  "Schwergutverpackung",
-  "Spezialverpackung",
-  "Verpackungsberatung",
-  "Vor-Ort-Verpackung & Material",
-  "Containerstauung",
-  "Gefahrgutschulung",
-  "Sonstiges",
-];
 
-const transports = ["Noch offen", "Luftfracht", "Seefracht", "Straßenfracht"];
-const urgencies = ["Keine feste Frist", "Diese Woche", "Nächste Woche", "Diesen Monat"];
-const contactWays = ["E-Mail", "Telefon", "Egal"];
 
-/** One field, label inside the surface so it survives being filled in. */
-function Field({
-  label,
-  children,
-  select,
-  error,
-}: {
+/** Phones drop the in-field label and let the field carry its name as the
+ *  placeholder instead — one line of text per field, so the control can be
+ *  full width and comfortably tall. Desktop keeps the label inside the
+ *  surface, where it survives being filled in. */
+function useCompact() {
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 900px)");
+    const sync = () => setCompact(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  return compact;
+}
+
+type FieldShellProps = {
   label: string;
+  compact: boolean;
   children: React.ReactNode;
   select?: boolean;
   error?: string;
-}) {
+};
+
+function FieldShell({ label, compact, children, select, error }: FieldShellProps) {
   return (
-    <div>
+    <div className="ff-wrap">
       <label className={`ff${select ? " ff--select" : ""}${error ? " ff--invalid" : ""}`}>
-        <span className="ff__label">{label}</span>
+        <span className={compact ? "sr-only" : "ff__label"}>{label}</span>
         {children}
       </label>
       {error ? <span className="ff__error">{error}</span> : null}
@@ -46,9 +48,64 @@ function Field({
   );
 }
 
+type TextFieldProps = {
+  label: string;
+  name: string;
+  compact: boolean;
+  example?: string;
+  error?: string;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "name" | "placeholder" | "className">;
+
+function TextField({ label, name, compact, example, error, ...rest }: TextFieldProps) {
+  return (
+    <FieldShell label={label} compact={compact} error={error}>
+      <input
+        className="ff__input"
+        name={name}
+        placeholder={compact ? label : example}
+        {...rest}
+      />
+    </FieldShell>
+  );
+}
+
+function SelectField({
+  label,
+  name,
+  compact,
+  options,
+  defaultValue,
+  placeholder,
+  required,
+}: {
+  label: string;
+  name: string;
+  compact: boolean;
+  options: readonly string[];
+  defaultValue?: string;
+  placeholder?: string;
+  required?: boolean;
+}) {
+  return (
+    <FieldShell label={label} compact={compact} select>
+      <select name={name} required={required} defaultValue={defaultValue ?? ""}>
+        {defaultValue === undefined ? (
+          <option value="" disabled>
+            {placeholder ?? (compact ? label : "Bitte wählen")}
+          </option>
+        ) : null}
+        {options.map((o) => (
+          <option key={o}>{o}</option>
+        ))}
+      </select>
+    </FieldShell>
+  );
+}
+
 export function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initial);
   const prefill = useSearchParams().get("anfrage") ?? "";
+  const compact = useCompact();
   const [more, setMore] = useState(false);
   const [email, setEmail] = useState("");
   const [touched, setTouched] = useState(false);
@@ -87,64 +144,58 @@ export function ContactForm() {
 
       <div className="form-stack">
         <div className="form-row">
-          <Field label="Vorname">
-            <input className="ff__input" name="firstName" required autoComplete="given-name" placeholder="Max" />
-          </Field>
-          <Field label="Nachname">
-            <input className="ff__input" name="lastName" required autoComplete="family-name" placeholder="Mustermann" />
-          </Field>
+          <TextField label="Vorname" name="firstName" compact={compact} example="Max" required autoComplete="given-name" />
+          <TextField label="Nachname" name="lastName" compact={compact} example="Mustermann" required autoComplete="family-name" />
         </div>
 
-        <Field label="E-Mail" error={emailLooksWrong ? "Bitte prüfen Sie die Adresse." : undefined}>
-          <input
-            className="ff__input"
-            type="email"
-            name="email"
-            required
-            inputMode="email"
-            autoComplete="email"
-            placeholder="max@firma.de"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onBlur={() => setTouched(true)}
-          />
-        </Field>
+        <TextField
+          label="E-Mail"
+          name="email"
+          compact={compact}
+          example="max@firma.de"
+          type="email"
+          required
+          inputMode="email"
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onBlur={() => setTouched(true)}
+          error={emailLooksWrong ? "Bitte prüfen Sie die Adresse." : undefined}
+        />
 
         <div className="form-row">
-          <Field label="Telefon (optional)">
-            <input
-              className="ff__input"
-              type="tel"
-              name="phone"
-              inputMode="tel"
-              autoComplete="tel"
-              placeholder="+49 89 …"
-            />
-          </Field>
-          <Field label="Unternehmen (optional)">
-            <input className="ff__input" name="company" autoComplete="organization" placeholder="Firma GmbH" />
-          </Field>
+          <TextField
+            label="Telefon (optional)"
+            name="phone"
+            compact={compact}
+            example="+49 89 …"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+          />
+          <TextField
+            label="Unternehmen (optional)"
+            name="company"
+            compact={compact}
+            example="Firma GmbH"
+            autoComplete="organization"
+          />
         </div>
 
-        <Field label="Anliegen" select>
-          <select name="subject" required defaultValue="">
-            <option value="" disabled>
-              Bitte wählen
-            </option>
-            {subjects.map((s) => (
-              <option key={s}>{s}</option>
-            ))}
-          </select>
-        </Field>
+        <SelectField label="Anliegen" name="subject" compact={compact} options={subjects} required />
 
-        <Field label="Ihre Nachricht">
+        <FieldShell label="Ihre Nachricht" compact={compact}>
           <textarea
             name="message"
             required
             defaultValue={prefill}
-            placeholder="Was soll verpackt werden, wohin geht es, bis wann brauchen Sie es?"
+            placeholder={
+              compact
+                ? "Ihre Nachricht — was, wohin, bis wann?"
+                : "Was soll verpackt werden, wohin geht es, bis wann brauchen Sie es?"
+            }
           />
-        </Field>
+        </FieldShell>
       </div>
 
       <button
@@ -160,56 +211,69 @@ export function ContactForm() {
       {more ? (
         <div className="form-stack form-stack--extra">
           <div className="form-row">
-            <Field label="Verkehrsträger" select>
-              <select name="transport" defaultValue="Noch offen">
-                {transports.map((t) => (
-                  <option key={t}>{t}</option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Zielort">
-              <input className="ff__input" name="destination" placeholder="z. B. Singapur" />
-            </Field>
+            <SelectField
+              label="Verkehrsträger"
+              name="transport"
+              compact={compact}
+              options={transports}
+              defaultValue="Noch offen"
+            />
+            <TextField label="Zielort" name="destination" compact={compact} example="z. B. Singapur" />
           </div>
 
           <div className="form-row">
-            <Field label="Art der Güter">
-              <input className="ff__input" name="goods" placeholder="z. B. Prüfstand, Lithiumbatterien" />
-            </Field>
-            <Field label="Gewicht / Maße">
-              <input className="ff__input" name="weight" placeholder="z. B. 1.800 kg, 2 × 1,2 × 1,5 m" />
-            </Field>
+            <TextField
+              label="Art der Güter"
+              name="goods"
+              compact={compact}
+              example="z. B. Prüfstand, Lithiumbatterien"
+            />
+            <TextField
+              label="Gewicht / Maße"
+              name="weight"
+              compact={compact}
+              example="z. B. 1.800 kg, 2 × 1,2 × 1,5 m"
+            />
           </div>
 
           <div className="form-row">
-            <Field label="Stückzahl">
-              <input className="ff__input" name="quantity" inputMode="numeric" placeholder="z. B. 4 Packstücke" />
-            </Field>
-            <Field label="Gefahrgut / UN-Nummer">
-              <input className="ff__input" name="unNumber" placeholder="z. B. UN 3480" />
-            </Field>
+            <TextField
+              label="Stückzahl"
+              name="quantity"
+              compact={compact}
+              example="z. B. 4 Packstücke"
+              inputMode="numeric"
+            />
+            <TextField
+              label="Gefahrgut / UN-Nummer"
+              name="unNumber"
+              compact={compact}
+              example="z. B. UN 3480"
+            />
           </div>
 
           <div className="form-row">
-            <Field label="Wie eilig ist es?" select>
-              <select name="urgency" defaultValue="Keine feste Frist">
-                {urgencies.map((u) => (
-                  <option key={u}>{u}</option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Gewünschter Termin">
+            <SelectField
+              label="Wie eilig ist es?"
+              name="urgency"
+              compact={compact}
+              options={urgencies}
+              defaultValue="Keine feste Frist"
+            />
+            {/* A date control has no placeholder to fall back on, so the
+                label stays visible on every width. */}
+            <FieldShell label="Gewünschter Termin" compact={false}>
               <input className="ff__input" type="date" name="deadline" />
-            </Field>
+            </FieldShell>
           </div>
 
-          <Field label="Rückmeldung bevorzugt per" select>
-            <select name="preferredContact" defaultValue="E-Mail">
-              {contactWays.map((c) => (
-                <option key={c}>{c}</option>
-              ))}
-            </select>
-          </Field>
+          <SelectField
+            label="Rückmeldung bevorzugt per"
+            name="preferredContact"
+            compact={compact}
+            options={contactWays}
+            defaultValue="E-Mail"
+          />
         </div>
       ) : null}
 

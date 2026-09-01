@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ContactForm } from "@/components/ContactForm";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { PageHero } from "@/components/PageHero";
+import { ContactHero } from "@/components/ContactHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { commitments } from "@/lib/content";
-import { images } from "@/lib/images";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -16,12 +15,7 @@ export const metadata: Metadata = {
 export default function KontaktPage() {
   return (
     <>
-      <PageHero
-        title="Kontakt aufnehmen"
-        description="Wir freuen uns auf Ihre Anfrage zu Verpackung, Containerstauung oder Gefahrgutschulung."
-        image={images.warehouse}
-        eyebrow="Kontakt"
-      />
+      <ContactHero />
 
       <Breadcrumbs trail={[{ label: "Kontakt" }]} />
       <section className="section">

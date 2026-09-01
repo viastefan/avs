@@ -32,11 +32,14 @@
   --surface-hover: #f4f4f5;
   --ink: #0c0d0e;
   --ink-soft: #27272a;
-  --muted: #56585c;
-  --muted-soft: #71717a;
+  --muted: #53555a;
+  --muted-soft: #65656d;
   --line: rgba(0, 0, 0, 0.08);
   --line-strong: rgba(0, 0, 0, 0.13);
   --accent: #14624b;
+  /* Text/icons drawn on top of --accent. The dark theme's accent is a
+     light green, so white on it lands at 3.3:1 — under the 4.5:1 floor. */
+  --on-accent: #ffffff;
   --accent-soft: rgba(20, 98, 75, 0.08);
   --accent-hover: #0f4f3c;
   --danger: #ef4444;
@@ -70,10 +73,10 @@
   --fs-sm: 13px;
   --fs-md: 16px;
   --fs-lg: 17px;
-  --fs-xl: clamp(17px, calc(15.21px + 0.472vw), 22px);
-  --fs-2xl: clamp(21px, calc(17.06px + 1.038vw), 32px);
-  --fs-3xl: clamp(23px, calc(18.34px + 1.226vw), 36px);
-  --fs-hero: clamp(31px, calc(19.89px + 2.925vw), 62px);
+  --fs-xl: clamp(19px, calc(17.89px + 0.286vw), 22px);
+  --fs-2xl: clamp(23px, calc(20.40px + 0.667vw), 30px);
+  --fs-3xl: clamp(32px, calc(29.03px + 0.762vw), 40px);
+  --fs-hero: clamp(40px, calc(32.57px + 1.905vw), 60px);
 
   --space-1: 4px;
   --space-2: 8px;
@@ -94,11 +97,12 @@
     --surface-hover: #1c1c1f;
     --ink: #fafafa;
     --ink-soft: #e4e4e7;
-    --muted: #a1a1aa;
-    --muted-soft: #71717a;
+    --muted: #a6a6b0;
+    --muted-soft: #8b8b95;
     --line: rgba(255, 255, 255, 0.06);
     --line-strong: rgba(255, 255, 255, 0.1);
     --accent: #4f9c85;
+    --on-accent: #06120d;
     --accent-soft: rgba(79, 156, 133, 0.12);
     --accent-hover: #6fb3a0;
     --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.25);
@@ -123,11 +127,12 @@
   --surface-hover: #1c1c1f;
   --ink: #fafafa;
   --ink-soft: #e4e4e7;
-  --muted: #a1a1aa;
-  --muted-soft: #71717a;
+  --muted: #a6a6b0;
+  --muted-soft: #8b8b95;
   --line: rgba(255, 255, 255, 0.06);
   --line-strong: rgba(255, 255, 255, 0.1);
   --accent: #4f9c85;
+  --on-accent: #06120d;
   --accent-soft: rgba(79, 156, 133, 0.12);
   --accent-hover: #6fb3a0;
   --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.25);
@@ -172,7 +177,7 @@ body {
 
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--accent); color: var(--on-accent); }
 
 /* ——— Layout ——— */
 .wrap {
@@ -183,11 +188,11 @@ a { color: inherit; text-decoration: none; }
 /* ——— Typography ——— */
 .kicker {
   margin: 0;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--muted-soft);
+  color: var(--muted);
   display: inline-block;
 }
 
@@ -203,7 +208,7 @@ a { color: inherit; text-decoration: none; }
 .h1 {
   margin: 0;
   font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
-  font-size: clamp(29px, calc(19.32px + 2.547vw), 56px);
+  font-size: clamp(33px, calc(19.32px + 2.547vw), 56px);
   font-weight: 700;
   letter-spacing: -0.035em;
   line-height: 1;
@@ -229,8 +234,8 @@ a { color: inherit; text-decoration: none; }
 
 .lead {
   margin: 0;
-  font-size: clamp(15px, calc(13.92px + 0.283vw), 18px);
-  line-height: 1.7;
+  font-size: clamp(16.5px, calc(15.94px + 0.143vw), 18px);
+  line-height: 1.65;
   color: var(--muted);
 }
 
@@ -262,7 +267,7 @@ a { color: inherit; text-decoration: none; }
 
 .btn-primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 .btn-primary:hover {
@@ -447,7 +452,7 @@ a { color: inherit; text-decoration: none; }
   padding-inline: 15px !important;
   font-size: 12.5px !important;
   background: var(--accent) !important;
-  color: #fff !important;
+  color: var(--on-accent) !important;
   border-color: transparent !important;
 }
 
@@ -485,7 +490,13 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   transform: translateY(-100%);
   opacity: 0;
-  transition: transform 0.45s var(--ease-out), opacity 0.35s var(--ease);
+  /* `visibility` takes the closed drawer out of the tab order and the
+     accessibility tree. Without it the links stay focusable inside an
+     `aria-hidden` container, so keyboard focus disappears off-screen.
+     Transitioning it lets the slide-out still play before it hides. */
+  visibility: hidden;
+  transition: transform 0.45s var(--ease-out), opacity 0.35s var(--ease),
+    visibility 0.45s var(--ease-out);
   pointer-events: none;
   min-height: 100svh;
 }
@@ -493,6 +504,7 @@ a { color: inherit; text-decoration: none; }
 .mobile-nav--open {
   transform: translateY(0);
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
@@ -599,10 +611,13 @@ a { color: inherit; text-decoration: none; }
   isolation: isolate;
 }
 
+/* Layers stay at non-negative z-index. With negative values they render
+   behind the section's own opaque background, which hid the photograph
+   entirely — the fill colour is only meant as a fallback while it loads. */
 .hero__bg {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   overflow: hidden;
 }
 
@@ -616,16 +631,20 @@ a { color: inherit; text-decoration: none; }
 .hero__scrim {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
+  /* Lightened from 0.92/0.82: at that strength the photograph behind the
+     headline was effectively invisible. Even against a pure-white patch of
+     the image, 0.72 keeps body text near 7:1 — well clear of the 4.5:1 AA
+     floor — so the picture can show through without costing legibility. */
   background:
-    linear-gradient(100deg, rgba(10,13,12,0.92) 0%, rgba(10,13,12,0.82) 40%, rgba(10,13,12,0.62) 72%, rgba(10,13,12,0.52) 100%),
+    linear-gradient(100deg, rgba(10,13,12,0.86) 0%, rgba(10,13,12,0.72) 40%, rgba(10,13,12,0.5) 72%, rgba(10,13,12,0.4) 100%),
     linear-gradient(to top, rgba(10,13,12,0.72) 0%, rgba(10,13,12,0) 46%);
 }
 
 .hero__dots {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
   pointer-events: none;
   background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 1px, transparent 1.6px);
   background-size: 26px 26px;
@@ -636,7 +655,7 @@ a { color: inherit; text-decoration: none; }
 
 .hero__grid {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: grid;
   gap: clamp(36px, 5vw, 60px);
   align-items: end;
@@ -660,10 +679,10 @@ a { color: inherit; text-decoration: none; }
 .hero .hero__title {
   margin: 24px 0 0;
   font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
-  font-size: clamp(30px, calc(20.68px + 2.453vw), 56px);
+  font-size: var(--fs-hero);
   font-weight: 600;
-  letter-spacing: -0.028em;
-  line-height: 1.02;
+  letter-spacing: -0.034em;
+  line-height: 0.98;
   color: #fff;
   text-wrap: balance;
 }
@@ -675,11 +694,11 @@ a { color: inherit; text-decoration: none; }
 
 .hero__sub {
   margin: 22px 0 0;
-  max-width: 46ch;
-  font-size: clamp(16px, calc(14.92px + 0.283vw), 19px);
-  line-height: 1.62;
+  max-width: 44ch;
+  font-size: clamp(17px, calc(16.26px + 0.190vw), 19px);
+  line-height: 1.58;
   letter-spacing: -0.011em;
-  color: rgba(255, 255, 255, 0.76);
+  color: rgba(255, 255, 255, 0.78);
   text-wrap: pretty;
 }
 
@@ -836,10 +855,10 @@ a { color: inherit; text-decoration: none; }
 .page-hero__title {
   margin: 22px 0 0;
   font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
-  font-size: clamp(27px, calc(20.91px + 1.604vw), 44px);
+  font-size: clamp(34px, calc(29.54px + 1.143vw), 46px);
   font-weight: 600;
-  letter-spacing: -0.026em;
-  line-height: 1.06;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
   max-width: 20ch;
   color: #fff;
   text-wrap: balance;
@@ -847,8 +866,8 @@ a { color: inherit; text-decoration: none; }
 
 .page-hero__sub {
   margin: 18px 0 0;
-  max-width: 48ch;
-  font-size: clamp(15px, calc(13.92px + 0.283vw), 18px);
+  max-width: 46ch;
+  font-size: clamp(16.5px, calc(15.94px + 0.143vw), 18px);
   line-height: 1.62;
   letter-spacing: -0.011em;
   color: rgba(255, 255, 255, 0.74);
@@ -1042,9 +1061,11 @@ a { color: inherit; text-decoration: none; }
 .feature__body .muted {
   margin-top: 16px;
   max-width: 34ch;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 15px;
-  line-height: 1.65;
+  /* This band is dark in both themes, so it carries its own colour rather
+     than --muted. 0.45 sat exactly on the 4.5:1 line; 0.56 clears it. */
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .feature__body .btn {
@@ -1124,10 +1145,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 .cta-band .muted {
-  margin-top: 14px;
-  color: rgba(255, 255, 255, 0.4);
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.7);
   max-width: 36ch;
-  font-size: 15px;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .cta__actions {
@@ -1138,7 +1160,7 @@ a { color: inherit; text-decoration: none; }
 
 .cta-band .btn-primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 .cta-band .btn-primary:hover {
@@ -1252,7 +1274,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .bento-card:hover .bento-card__arrow svg {
-  stroke: #fff;
+  stroke: var(--on-accent);
 }
 
 .bento-card__arrow svg {
@@ -1291,7 +1313,9 @@ a { color: inherit; text-decoration: none; }
 /* ——— Footer ——— */
 .site-footer {
   background: var(--black);
-  color: rgba(255, 255, 255, 0.4);
+  /* 0.4 left the address and contact details at 3.6:1 against the near-black
+     footer, under the 4.5:1 AA floor for text this size. */
+  color: rgba(255, 255, 255, 0.66);
 }
 
 .site-footer__grid {
@@ -1324,9 +1348,10 @@ a { color: inherit; text-decoration: none; }
 
 .site-footer .kicker {
   margin-bottom: 16px;
-  color: var(--green-500);
+  /* green-500 at 60% opacity came out near 2:1 on the near-black footer.
+     The lighter green carries the same accent at a legible weight. */
+  color: var(--green-400);
   font-size: 11px;
-  opacity: 0.6;
 }
 
 .site-footer .kicker::before { display: none; }
@@ -1345,7 +1370,9 @@ a { color: inherit; text-decoration: none; }
   justify-content: space-between;
   padding: 20px 0;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.25);
+  /* Impressum and Datenschutz live here — they were the worst contrast on
+     the site at 2.1:1, and they are exactly the links people go looking for. */
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .site-footer__legal {
@@ -1370,29 +1397,36 @@ a { color: inherit; text-decoration: none; }
 
 
 
-/* ——— Scroll Reveal ——— */
+/* ——— Scroll reveal ———
+   One movement, used everywhere: content rises a little and sharpens as it
+   arrives, as though it were settling into focus. The blur is what makes
+   it read as glass rather than as a plain fade — and it is small enough
+   (6px over half a second) that it never costs a frame on a phone. */
 .reveal {
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  transform: translateY(14px);
+  filter: blur(6px);
+  transition: opacity 0.55s var(--ease-out), transform 0.6s var(--ease-out),
+    filter 0.6s var(--ease-out);
 }
 
 .reveal.revealed {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
 }
 
 /* ——— Motion ——— */
 .fade-up {
-  animation: fade-up 0.8s var(--ease-out) both;
+  animation: fade-up 0.85s var(--ease-out) both;
 }
-.fade-up-1 { animation-delay: 0.1s; }
-.fade-up-2 { animation-delay: 0.2s; }
-.fade-up-3 { animation-delay: 0.3s; }
+.fade-up-1 { animation-delay: 0.09s; }
+.fade-up-2 { animation-delay: 0.18s; }
+.fade-up-3 { animation-delay: 0.27s; }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
 }
 
 @keyframes hero-drift {
@@ -1407,7 +1441,7 @@ a { color: inherit; text-decoration: none; }
     animation: none !important;
     transition: none !important;
   }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal { opacity: 1; transform: none; filter: none; transition: none; }
   .mobile-nav { transition: none; }
   .btn:hover, .list a:hover, .bento-card:hover { transform: none; box-shadow: var(--shadow-card); }
 }
@@ -1423,12 +1457,15 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   padding: var(--gutter);
   opacity: 0;
+  /* See `.mobile-nav`: keeps the closed dialog out of the tab order. */
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s var(--ease);
+  transition: opacity 0.3s var(--ease), visibility 0.3s var(--ease);
 }
 
 .modal--open {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
@@ -1522,7 +1559,7 @@ a { color: inherit; text-decoration: none; }
 
 .modal-option--primary .modal-option__icon {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 .modal-option__body { display: grid; gap: 3px; flex: 1; min-width: 0; }
@@ -1576,7 +1613,7 @@ a { color: inherit; text-decoration: none; }
 .why-card__title {
   margin: 12px 0 8px;
   font-family: var(--font-display), sans-serif;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -1584,7 +1621,7 @@ a { color: inherit; text-decoration: none; }
 
 .why-card__text {
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--muted);
   line-height: 1.65;
 }
@@ -1610,7 +1647,7 @@ a { color: inherit; text-decoration: none; }
   cursor: pointer;
   text-align: left;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(16px, calc(14.92px + 0.283vw), 19px);
+  font-size: clamp(17px, calc(16.26px + 0.190vw), 19px);
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -1745,18 +1782,18 @@ a { color: inherit; text-decoration: none; }
 .sec-intro h2 {
   margin: 14px 0 0;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(22px, calc(16.98px + 1.321vw), 36px);
+  font-size: var(--fs-3xl);
   font-weight: 600;
   letter-spacing: -0.032em;
-  line-height: 1.1;
+  line-height: 1.04;
   color: var(--ink);
   text-wrap: balance;
 }
 
 .sec-intro p {
   margin: 18px 0 0;
-  font-size: clamp(15px, calc(13.92px + 0.283vw), 18px);
-  line-height: 1.7;
+  font-size: clamp(16.5px, calc(15.94px + 0.143vw), 18px);
+  line-height: 1.65;
   color: var(--muted);
 }
 
@@ -1786,17 +1823,17 @@ a { color: inherit; text-decoration: none; }
 .split__body h2 {
   margin: 14px 0 0;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(22px, calc(16.98px + 1.321vw), 36px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.12;
+  font-size: var(--fs-3xl);
+  font-weight: 600;
+  letter-spacing: -0.032em;
+  line-height: 1.04;
   color: var(--ink);
 }
 
 .split__body p {
   margin: 16px 0 0;
-  font-size: 15px;
-  line-height: 1.75;
+  font-size: 16px;
+  line-height: 1.7;
   color: var(--muted);
 }
 
@@ -2053,7 +2090,7 @@ select.field {
 .norm__name {
   margin: 14px 0 0;
   font-family: var(--font-display), sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -2061,8 +2098,8 @@ select.field {
 
 .norm__text {
   margin: 8px 0 0;
-  font-size: 13.5px;
-  line-height: 1.7;
+  font-size: 14.5px;
+  line-height: 1.6;
   color: var(--muted);
 }
 
@@ -2259,11 +2296,15 @@ select.field {
 
 
 @media (max-width: 560px) {
-  .enquiry__row { flex-direction: column; }
+  .enquiry__row { flex-direction: column; gap: 6px; }
   /* `flex: 1` drives the main axis — in a column that is height, which
-     collapsed the field to its text. Reset it and size explicitly. */
-  .enquiry__input { flex: none; width: 100%; height: 52px; }
-  .enquiry__submit { justify-content: center; height: 52px; }
+     collapsed both the wrapper and the field to their own text. The input
+     was already reset here; without its wrapper the box stayed empty and
+     the button floated in the middle of it. */
+  .enquiry__field { flex: none; width: 100%; }
+  .enquiry__input { flex: none; width: 100%; height: 54px; }
+  .enquiry__ghost { padding-inline: 16px; }
+  .enquiry__submit { justify-content: center; height: 54px; font-size: 15px; }
 }
 
 /* CTA band carries the same enquiry starter as the hero */
@@ -2276,7 +2317,25 @@ select.field {
 .cta-band__phone {
   margin: 20px 0 0;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.66);
+}
+
+/* Closing band without the enquiry field (home page): straight to phone,
+   form or address, since the hero already carries the input. */
+.cta-band__direct {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cta-band__direct .btn { flex: 1 1 auto; }
+
+.cta-band__note {
+  flex: 1 0 100%;
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.66);
 }
 
 .cta-band__phone a {
@@ -2468,74 +2527,18 @@ select.field {
   }
 }
 
-/* ——— Sticky action bar (thumb zone) ———
-   On a phone the header sits out of reach at the top. The two actions
-   that matter — call, or start an enquiry — belong within the natural
-   arc of the thumb. */
-.thumb-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 70;
-  display: none;
-  gap: 8px;
-  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-  background: var(--header-glass-bg);
-  border-top: 1px solid var(--header-border);
-  backdrop-filter: saturate(170%) blur(18px);
-  -webkit-backdrop-filter: saturate(170%) blur(18px);
-}
-
-@media (max-width: 900px) {
-  .thumb-bar { display: flex; }
-  /* keep the footer and the cookie notice clear of the bar */
-  body { padding-bottom: 76px; }
-  .cookie { bottom: calc(76px + env(safe-area-inset-bottom)); }
-}
-
-.thumb-bar__action {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 50px;
-  border-radius: var(--radius-sm);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-}
-
-.thumb-bar__action svg {
-  width: 17px;
-  height: 17px;
-  stroke: currentColor;
-  stroke-width: 1.9;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.thumb-bar__call {
-  background: transparent;
-  border: 1px solid var(--line-strong);
-  color: var(--ink);
-}
-
-.thumb-bar__enquiry {
-  background: var(--accent);
-  color: #fff;
-}
-
 /* ——— Fields with the label inside ———
    The label sits above the value inside the same surface, so the field
    still says what it wants once it is filled — a placeholder alone
    disappears the moment someone types. */
 .ff {
+  /* The select arrow is positioned from these, so they must stay in sync
+     with the padding and the control's height — see `.ff--select::after`. */
+  --ff-pad-b: 10px;
+  --ff-ctrl-h: 26px;
   position: relative;
   display: block;
-  padding: 10px 16px 8px;
+  padding: 10px 16px var(--ff-pad-b);
   border-radius: var(--radius-field);
   background: var(--field-bg);
   border: 1px solid var(--line);
@@ -2560,6 +2563,10 @@ select.field {
 .ff__input,
 .ff select,
 .ff textarea {
+  /* `block` removes the descender gap an inline control leaves under
+     itself, which otherwise pads the field bottom by an unpredictable
+     ~1.7px and throws off anything measured from the bottom edge. */
+  display: block;
   width: 100%;
   border: 0;
   padding: 2px 0 0;
@@ -2584,10 +2591,13 @@ select.field {
   content: "";
   position: absolute;
   right: 16px;
-  top: 50%;
+  /* Sits on the value row, not the middle of the field: the label takes up
+     the top, so a box-centred arrow rides ~13px high. The 3px trims half
+     the box, plus 1.5px because only two borders are drawn — that puts the
+     ink below the box centre, so the box has to sit a touch higher. */
+  bottom: calc(var(--ff-pad-b) + var(--ff-ctrl-h) / 2 - 3px);
   width: 9px;
   height: 9px;
-  margin-top: -6px;
   border-right: 1.6px solid var(--muted);
   border-bottom: 1.6px solid var(--muted);
   transform: rotate(45deg);
@@ -2609,8 +2619,12 @@ select.field {
 }
 
 @media (max-width: 900px) {
-  .ff { padding: 12px 18px 10px; }
-  .ff__input, .ff select { min-height: 30px; }
+  .ff {
+    --ff-pad-b: 12px;
+    --ff-ctrl-h: 30px;
+    padding: 12px 18px var(--ff-pad-b);
+  }
+  .ff__input, .ff select { min-height: var(--ff-ctrl-h); }
   .ff textarea { min-height: 116px; }
 }
 
@@ -2818,7 +2832,7 @@ select.field {
   align-items: center;
   gap: 10px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .theme-toggle--footer {
@@ -2834,4 +2848,1277 @@ select.field {
 @media (max-width: 900px) {
   /* the switch lives at the foot of the page, not in the header */
   .site-footer__theme { display: flex; }
+}
+
+
+/* ——— Drawer scrim ———
+   Sits between the page and the mobile panel so the page reads as pushed
+   away rather than merely covered. */
+.mobile-nav__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease), visibility 0.35s var(--ease);
+}
+
+.mobile-nav__scrim--on {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mobile-nav__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.mobile-nav__foot .mobile-nav__contact { padding-bottom: 32px; }
+
+.theme-toggle--nav {
+  margin: 0 var(--gutter) 32px 0;
+  width: 44px;
+  height: 44px;
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.theme-toggle--nav:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* On automatic the switch carries a dot, so the visitor can tell "follows
+   the clock" from "I chose this". */
+.theme-toggle { position: relative; }
+
+.theme-toggle__auto {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--green-400);
+}
+
+.theme-toggle--nav .theme-toggle__auto,
+.theme-toggle--footer .theme-toggle__auto { right: 9px; bottom: 9px; }
+
+
+/* ——— Contact hero ———
+   Louder than the other subpage heroes: whoever lands here has already
+   decided to get in touch, so the two fastest routes sit above the fold. */
+.c-hero {
+  position: relative;
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: calc(var(--header-h) + clamp(40px, 7vh, 92px));
+  padding-bottom: clamp(40px, 7vh, 88px);
+  background: #0a0d0c;
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.c-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+}
+
+.c-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.c-hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(100deg, rgba(10,13,12,0.95) 0%, rgba(10,13,12,0.88) 44%, rgba(10,13,12,0.7) 78%, rgba(10,13,12,0.6) 100%),
+    linear-gradient(to top, rgba(10,13,12,0.8) 0%, rgba(10,13,12,0) 54%);
+}
+
+/* One soft accent light, low in the corner — the only colour in the band. */
+.c-hero__glow {
+  position: absolute;
+  z-index: -1;
+  left: -14%;
+  bottom: -46%;
+  width: min(78vw, 780px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(79, 156, 133, 0.2) 0%, rgba(79, 156, 133, 0.07) 42%, transparent 70%);
+}
+
+.c-hero__dots {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 1px, transparent 1.6px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 58% 66% at 20% 32%, #000 0%, rgba(0,0,0,0.3) 46%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse 58% 66% at 20% 32%, #000 0%, rgba(0,0,0,0.3) 46%, transparent 76%);
+  opacity: 0.45;
+}
+
+.c-hero__inner { position: relative; z-index: 1; }
+
+.c-hero__badge {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: none;
+}
+
+.c-hero__badge .badge__dot { background: var(--green-400); }
+
+.c-hero__title {
+  margin: 22px 0 0;
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+  font-size: clamp(38px, calc(32.06px + 1.524vw), 54px);
+  font-weight: 600;
+  letter-spacing: -0.032em;
+  line-height: 0.99;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.c-hero__title em {
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.c-hero__sub {
+  margin: 20px 0 0;
+  max-width: 44ch;
+  font-size: clamp(16.5px, calc(15.94px + 0.143vw), 18px);
+  line-height: 1.62;
+  letter-spacing: -0.011em;
+  color: rgba(255, 255, 255, 0.76);
+  text-wrap: pretty;
+}
+
+.c-hero__actions {
+  margin-top: 32px;
+  display: grid;
+  gap: 10px;
+  max-width: 640px;
+}
+
+@media (min-width: 640px) {
+  .c-hero__actions { grid-template-columns: 1fr 1fr; }
+}
+
+.c-action {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: saturate(150%) blur(16px);
+  -webkit-backdrop-filter: saturate(150%) blur(16px);
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.c-action:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.26);
+  transform: translateY(-1px);
+}
+
+.c-action__icon {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.c-action--primary .c-action__icon {
+  background: var(--green-400);
+  color: #06251c;
+}
+
+.c-action__icon svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.c-action__body { display: grid; gap: 2px; min-width: 0; }
+
+.c-action__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.c-action__value {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.c-hero__facts {
+  margin: 34px 0 0;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 44px;
+}
+
+.c-hero__facts div { display: grid; gap: 5px; }
+
+.c-hero__facts dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.c-hero__facts dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+
+/* ——— Floating contact action (phones) ———
+   The header sits out of thumb reach once the page is scrolled, so one
+   round target in the corner opens every route at once. */
+.quick { display: none; }
+
+@media (max-width: 900px) {
+  .quick {
+    display: block;
+    position: fixed;
+    right: clamp(14px, 4vw, 22px);
+    bottom: calc(clamp(14px, 4vw, 22px) + env(safe-area-inset-bottom));
+    z-index: 90;
+  }
+
+  /* clear of the floating button */
+  .cookie { bottom: calc(clamp(12px, 3vw, 24px) + 62px + env(safe-area-inset-bottom)); }
+}
+
+.quick__scrim {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease), visibility 0.3s var(--ease);
+}
+
+.quick--open .quick__scrim {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.quick__sheet {
+  position: absolute;
+  right: 0;
+  bottom: 66px;
+  width: min(78vw, 300px);
+  display: grid;
+  gap: 8px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(10px) scale(0.97);
+  transform-origin: bottom right;
+  transition: opacity 0.28s var(--ease), transform 0.32s var(--ease-out), visibility 0.28s var(--ease);
+}
+
+.quick--open .quick__sheet {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.quick__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22);
+}
+
+.quick__icon {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.quick__item--primary .quick__icon {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.quick__icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.quick__body { display: grid; gap: 2px; min-width: 0; }
+.quick__title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.quick__text {
+  font-size: 12px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick__fab {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-spring), background 0.2s;
+}
+
+.quick--open .quick__fab { transform: rotate(90deg); }
+
+.quick__fab-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s var(--ease), transform 0.25s var(--ease);
+}
+
+.quick__fab-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.quick__fab-icon--close { opacity: 0; transform: rotate(-90deg); }
+.quick--open .quick__fab-icon--phone { opacity: 0; transform: rotate(90deg); }
+.quick--open .quick__fab-icon--close { opacity: 1; transform: rotate(-90deg); }
+
+.enquiry__form { display: block; }
+
+
+/* ——— Step-by-step enquiry ———
+   A sheet that rises over the page and asks one question at a time. Every
+   transition here — the sheet, the steps inside it — comes up from below
+   and sharpens as it lands, the same movement the rest of the site uses
+   for text. */
+.wiz {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+  opacity: 0;
+  /* See `.mobile-nav`: keeps the closed sheet out of the tab order. */
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.32s var(--ease), visibility 0.32s var(--ease);
+}
+
+.wiz--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.wiz__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: rgba(6, 8, 7, 0.6);
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  cursor: pointer;
+}
+
+.wiz__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 560px);
+  max-height: min(720px, calc(100svh - 2 * var(--gutter)));
+  /* Steps differ a lot in height — two fields against nine choices. A
+     floor keeps the sheet from snapping shut and reopening between
+     questions, which reads as a glitch rather than as progress. */
+  min-height: min(540px, calc(100svh - 2 * var(--gutter)));
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.38);
+  overflow: hidden;
+  transform: translateY(24px) scale(0.985);
+  filter: blur(6px);
+  transition: transform 0.42s var(--ease-out), filter 0.42s var(--ease-out);
+}
+
+.wiz--open .wiz__panel {
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* ——— Head: progress, back, close ——— */
+.wiz__head {
+  flex: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.wiz__bar {
+  height: 2px;
+  background: var(--line-strong);
+}
+
+.wiz__bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.wiz__head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+}
+
+.wiz__back,
+.wiz__close {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.wiz__back:hover,
+.wiz__close:hover { background: var(--surface-hover); color: var(--ink); }
+
+.wiz__back:disabled { opacity: 0.25; cursor: default; }
+.wiz__back:disabled:hover { background: transparent; color: var(--muted); }
+
+.wiz__back svg,
+.wiz__close svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wiz__count {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ——— Body ——— */
+.wiz__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(22px, 4vw, 30px) clamp(20px, 4vw, 30px) 8px;
+}
+
+.wiz__step {
+  animation: wiz-step-fwd 0.42s var(--ease-out) both;
+}
+
+.wiz__step--back { animation-name: wiz-step-back; }
+
+@keyframes wiz-step-fwd {
+  from { opacity: 0; transform: translateY(14px); filter: blur(7px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+@keyframes wiz-step-back {
+  from { opacity: 0; transform: translateY(-12px); filter: blur(7px); }
+  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
+}
+
+.wiz__kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.wiz__q {
+  margin: 12px 0 0;
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+  font-size: clamp(23px, calc(20.14px + 0.755vw), 31px);
+  font-weight: 600;
+  letter-spacing: -0.026em;
+  line-height: 1.1;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.wiz__hint {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 44ch;
+}
+
+.wiz__hint a { color: var(--accent); font-weight: 600; }
+
+.wiz__fields {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.wiz__error {
+  margin: 14px 0 0;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--danger);
+}
+
+.wiz__server-error { margin-top: 16px; }
+
+/* ——— Choice rows ——— */
+.wiz-choice { display: grid; gap: 8px; }
+
+.wiz-choice__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 13px 16px;
+  text-align: left;
+  border-radius: var(--radius-field);
+  border: 1px solid var(--line);
+  background: var(--field-bg);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.wiz-choice__item:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-hover);
+}
+
+.wiz-choice__item:active { transform: scale(0.99); }
+
+.wiz-choice__item--on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.wiz-choice__body { display: grid; gap: 3px; flex: 1; min-width: 0; }
+
+.wiz-choice__title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+}
+
+.wiz-choice__text {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.wiz-choice__mark {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.wiz-choice__mark svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wiz-choice__item--on .wiz-choice__mark {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ——— Chips (a short choice that sits under fields) ——— */
+.wiz-chips {
+  display: grid;
+  gap: 8px;
+  padding: 4px 2px 0;
+}
+
+.wiz-chips__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted-soft);
+}
+
+.wiz-chips__row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.wiz-chip {
+  padding: 8px 15px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.wiz-chip:hover { color: var(--ink); border-color: var(--ink-soft); }
+
+.wiz-chip--on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ——— Review ——— */
+.wiz-review {
+  margin: 0;
+  display: grid;
+  gap: 1px;
+  border-radius: var(--radius-field);
+  border: 1px solid var(--line);
+  background: var(--line);
+  overflow: hidden;
+}
+
+.wiz-review__row {
+  display: grid;
+  grid-template-columns: minmax(0, 9rem) minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 14px;
+  text-align: left;
+  border: 0;
+  background: var(--bg-elevated);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.wiz-review__row:hover { background: var(--surface-hover); }
+
+.wiz-review__row dt {
+  font-size: 12.5px;
+  color: var(--muted-soft);
+}
+
+.wiz-review__row dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.wiz-review__edit {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.wiz-review__row:hover .wiz-review__edit,
+.wiz-review__row:focus-visible .wiz-review__edit { opacity: 1; }
+
+.wiz-review__note {
+  margin-top: 10px;
+  padding: 13px 15px;
+  border-radius: var(--radius-field);
+  border: 1px solid var(--line);
+  background: var(--field-bg);
+}
+
+.wiz-review__note-label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted-soft);
+}
+
+.wiz-review__note-text {
+  margin: 5px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+
+.wiz__consent { margin-top: 6px; }
+
+/* ——— Foot ——— */
+.wiz__foot {
+  flex: none;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 16px clamp(20px, 4vw, 30px) calc(18px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: var(--bg-elevated);
+}
+
+.wiz__next {
+  width: 100%;
+  gap: 9px;
+  min-height: 50px;
+  font-size: 15.5px;
+}
+
+.wiz__next svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s var(--ease);
+}
+
+.wiz__next:hover svg { transform: translateX(3px); }
+.wiz__next:disabled { opacity: 0.45; cursor: not-allowed; }
+.wiz__next:disabled:hover svg { transform: none; }
+
+.wiz__skip {
+  border: 0;
+  background: transparent;
+  padding: 8px 12px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line-strong);
+}
+
+.wiz__skip:hover { color: var(--ink); }
+
+.wiz__foot-note {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted-soft);
+}
+
+/* ——— Sent ——— */
+.wiz__done {
+  padding: clamp(30px, 6vw, 44px) clamp(20px, 4vw, 30px) calc(28px + env(safe-area-inset-bottom));
+  text-align: center;
+  animation: wiz-step-fwd 0.5s var(--ease-out) both;
+}
+
+.wiz__done .wiz__hint { margin-inline: auto; }
+.wiz__done .wiz__next { margin-top: 22px; }
+
+.wiz__done-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.wiz__done-mark svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* On a phone the sheet takes the bottom of the screen, where the thumb is,
+   and keeps the page visible above it. */
+@media (max-width: 640px) {
+  .wiz {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .wiz__panel {
+    width: 100%;
+    height: 88svh;
+    max-height: none;
+    min-height: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-bottom: 0;
+    transform: translateY(100%);
+    filter: none;
+  }
+
+  .wiz--open .wiz__panel { transform: translateY(0); }
+
+  .wiz__back,
+  .wiz__close { width: 44px; height: 44px; }
+
+  .wiz-choice__item { padding: 15px 16px; }
+  .wiz-chip { min-height: 44px; padding-inline: 18px; }
+
+  .wiz-review__row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 12px;
+    padding: 12px 14px;
+  }
+
+  .wiz-review__row dt { grid-column: 1; }
+  .wiz-review__row dd { grid-column: 1; }
+  .wiz-review__edit { grid-column: 2; grid-row: 1 / span 2; align-self: center; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wiz__panel,
+  .wiz__step,
+  .wiz__done {
+    animation: none;
+    transition: opacity 0.2s;
+    transform: none;
+    filter: none;
+  }
+  .wiz__bar span { transition: none; }
+}
+
+/* Both option lists mix links with buttons — the button has to shed its
+   own chrome to sit in the same row as the anchors. */
+.modal-option,
+.quick__item {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Phone refinement — a calmer, more deliberate small-screen layout.
+   Heading sizes are lifted at the source (the clamp minimums above); this
+   block handles the rest: even rhythm, breathing room, softer surfaces and
+   full-width, thumb-reachable actions. Everything here is scoped to phones,
+   so the desktop composition is untouched.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  :root {
+    /* A little more edge margin so nothing runs to the bezel. */
+    --gutter: 22px;
+  }
+
+  /* One even vertical beat between blocks, neither cramped nor cavernous.
+     The consecutive-plain-section rule still collapses doubled gaps. */
+  .section { padding: 76px 0; }
+
+  /* Big titles earn the full width — no premature wrapping on the sub. */
+  .hero__sub,
+  .page-hero__sub,
+  .c-hero__sub { max-width: none; }
+
+  /* Hero reads as one quiet column: tighter internal rhythm. */
+  .hero__grid { gap: 36px; }
+  .hero__creds { margin-top: 26px; padding-top: 22px; gap: 10px 20px; }
+  .hero__card { padding: 20px 22px; }
+
+  /* Softer, more premium surfaces. Buttons stay pill, fields 14px, cards
+     now 16px — one coherent, calm radius ladder. */
+  .figure,
+  .bento-card,
+  .why-card,
+  .norm,
+  .commit,
+  .split__media,
+  .map-frame,
+  .form-panel,
+  .contact-lines,
+  .norms,
+  .anfahrt { border-radius: 16px; }
+
+  /* A touch more gap between stacked cards so each stands on its own. */
+  .bento,
+  .why-grid,
+  .commit-grid { gap: 12px; }
+
+  /* Centered intros read as brochure filler on a narrow screen; left-align
+     is quieter and more confident. */
+  .sec-intro { text-align: left; margin-bottom: 32px; }
+  .sec-intro .kicker { justify-content: flex-start; }
+
+  /* Section heads: stack the "view all" link under the title instead of
+     squeezing both onto one line. */
+  .section-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+  /* Primary actions span the column — cleaner edge, easier thumb target. */
+  .feature__body { padding: 44px var(--gutter); }
+  .feature__body .btn { width: 100%; align-self: stretch; }
+  .feature__body .h2 { max-width: 18ch; }
+
+  .cta-band__direct { gap: 10px; }
+  .cta-band__direct .btn { flex: 1 1 100%; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PHONE LAYER
+
+   The desktop layout leans on cards: bordered, filled, min-height boxes
+   sitting in a grid. Stacked into one column those become a column of
+   identical dark rectangles — the "overloaded" reading. On a phone the
+   same content is set as hairline-divided rows instead: no fills, no
+   borders, no minimum heights, just a rule between one item and the next.
+   Cards survive only where the surface means something (a link you tap).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  /* ——— Hero: the photograph stops competing with the sentence ———
+     The desktop scrim runs left-to-right, which works when the text sits
+     in the left column. Full-bleed on a phone that leaves the right half
+     of every line lying on bare photograph. */
+  .hero__scrim,
+  .c-hero__scrim {
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 13, 12, 0.6) 0%,
+      rgba(10, 13, 12, 0.82) 32%,
+      rgba(10, 13, 12, 0.95) 66%,
+      rgba(10, 13, 12, 0.99) 100%
+    );
+  }
+
+  .hero__dots,
+  .c-hero__dots { opacity: 0.3; }
+
+  .hero {
+    min-height: min(92svh, 760px);
+    padding-top: calc(var(--header-h) + 40px);
+    padding-bottom: 44px;
+  }
+
+  .hero__grid { gap: 30px; }
+
+  .hero .badge,
+  .c-hero__badge {
+    font-size: 11.5px;
+    padding: 6px 13px 6px 10px;
+  }
+
+  .hero .hero__title { margin-top: 20px; }
+  .hero__sub { margin-top: 16px; }
+
+  .hero__creds {
+    margin-top: 26px;
+    padding-top: 20px;
+    gap: 10px 18px;
+  }
+
+  .hero__creds li { font-size: 13px; }
+  .hero__creds li::before { width: 14px; height: 14px; }
+
+  /* One line instead of a stacked card: label and number share a row. */
+  .hero__card {
+    max-width: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 12px;
+    padding: 14px 16px;
+  }
+
+  .hero__card-k { font-size: 10.5px; }
+  .hero__card-v { margin: 0; font-size: 17px; }
+  .hero__card-sub { margin: 0; width: 100%; font-size: 12px; }
+
+  /* ——— Section rhythm ——— */
+  .section-head {
+    display: block;
+    margin-bottom: 26px;
+  }
+
+  .section-head__link {
+    display: inline-flex;
+    margin-top: 14px;
+  }
+
+  /* Centred short paragraphs read as timid on a narrow screen. */
+  .sec-intro {
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  .sec-intro .kicker { justify-content: flex-start; }
+  .sec-intro p { margin-top: 14px; }
+
+  /* ——— Services: rows, not 220px boxes ——— */
+  .bento { gap: 0; border-top: 1px solid var(--line); }
+
+  .bento-card {
+    min-height: 0;
+    padding: 20px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 2px 16px;
+  }
+
+  .bento-card:hover { box-shadow: none; }
+
+  /* Every card on this page reads "Verpackung" — six times over it is
+     noise, and the section heading already says it once. */
+  .bento-card__sector { display: none; }
+
+  .bento-card__title { grid-column: 1; }
+
+  .bento-card__text {
+    grid-column: 1;
+    margin-top: 6px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    max-width: none;
+  }
+
+  .bento-card__arrow {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    background: none;
+  }
+
+  /* ——— Norms ——— */
+  .norms {
+    display: block;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .norm {
+    background: none;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .norm__name { margin-top: 12px; }
+  .norm__text { margin-top: 6px; }
+
+  /* ——— Why AVS ——— */
+  .why-grid {
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .why-card {
+    padding: 22px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  /* Green stays functional on this site — an index is not a link. */
+  .why-card__num { color: var(--muted-soft); }
+  .why-card__title { margin: 10px 0 7px; }
+
+  /* ——— Commitments ——— */
+  .commit-grid { gap: 0; border-top: 1px solid var(--line); }
+
+  .commit {
+    padding: 20px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  /* ——— Feature band ——— */
+  .feature__body { padding: 32px var(--gutter) 40px; }
+  .feature__media { aspect-ratio: 16 / 10; }
+
+  /* ——— Closing band ——— */
+  .cta-band__copy .h2 { max-width: 18ch; }
+}
+
+/* The hairline lists end on a rule, which would double up against the
+   section edge below them. */
+@media (max-width: 900px) {
+  .bento > *:last-child .bento-card,
+  .norms .norm:last-child,
+  .why-grid > *:last-child .why-card,
+  .commit-grid > *:last-child .commit { border-bottom: 0; }
+}
+
+/* ——— Hero actions on a phone ———
+   The free-text field asks for a sentence before anything has been
+   promised, and unfilled it is simply a large empty box — the single
+   worst thing in the old mobile hero. The step-by-step flow asks the
+   same question properly, so here the hero offers the two actions
+   instead and lets the flow do the asking. */
+@media (max-width: 560px) {
+  .enquiry { margin-top: 28px; }
+
+  .enquiry__label,
+  .enquiry__field { display: none; }
+
+  .enquiry__row {
+    flex-direction: row;
+    gap: 10px;
+    padding: 0;
+    background: none;
+    border: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .enquiry__row:focus-within { background: none; }
+
+  .enquiry__submit {
+    flex: 1 1 auto;
+    height: 52px;
+    border-radius: var(--radius-pill);
+    background: var(--green-500);
+    font-size: 15px;
+  }
+
+  .enquiry__call {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+    padding: 0 22px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+
+/* Desktop keeps the field, so the call button has no place there. */
+@media (min-width: 561px) {
+  .enquiry__call { display: none; }
+}
+
+.split-copy__note {
+  margin: 18px 0 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 42ch;
 }

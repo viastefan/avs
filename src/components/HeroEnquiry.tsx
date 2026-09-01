@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { openEnquiry } from "@/lib/dialogs";
+import { site } from "@/lib/site";
 
 /** Example enquiries, cycled word by word while the field is untouched. */
 const examples = [
@@ -15,7 +16,6 @@ const WORD_MS = 190;
 const HOLD_MS = 2100;
 
 export function HeroEnquiry() {
-  const router = useRouter();
   const [value, setValue] = useState("");
   const [focused, setFocused] = useState(false);
 
@@ -52,10 +52,9 @@ export function HeroEnquiry() {
     return clear;
   }, [idle, shown, leaving, words.length]);
 
-  const start = (text: string) => {
-    const q = text.trim();
-    router.push(q ? `/kontakt?anfrage=${encodeURIComponent(q)}` : "/kontakt");
-  };
+  /* The sentence someone types here is the answer to a question the flow
+     asks four steps in, so it is carried over rather than thrown away. */
+  const start = (text: string) => openEnquiry({ message: text.trim() || undefined });
 
   return (
     <div className="enquiry">
@@ -101,6 +100,11 @@ export function HeroEnquiry() {
               <path d="M2 8h11M9 4l4 4-4 4" />
             </svg>
           </button>
+          {/* Phones drop the free-text field — see `.enquiry` in the phone
+              layer — so the row becomes the hero's pair of actions. */}
+          <a href={site.phoneHref} className="enquiry__call">
+            Anrufen
+          </a>
         </div>
         <span id="hero-enquiry-hint" className="sr-only">
           Beschreiben Sie Ihre Sendung in einem Satz. Beispiel: {examples[0]}

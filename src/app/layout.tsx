@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ContactModal } from "@/components/ContactModal";
 import { CookieNotice } from "@/components/CookieNotice";
+import { EnquiryFlow } from "@/components/EnquiryFlow";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { StructuredData } from "@/components/StructuredData";
-import { ThumbBar } from "@/components/ThumbBar";
+import { QuickContact } from "@/components/QuickContact";
 import { site } from "@/lib/site";
+import { themeBootScript } from "@/lib/theme";
 import "./globals.css";
 
 const display = Inter({
@@ -45,14 +47,7 @@ export default function RootLayout({
   return (
     <html lang="de" className={`${display.variable} ${body.variable} h-full`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `
-          (function(){
-            try {
-              var t = localStorage.getItem('theme');
-              if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
-            } catch(e) {}
-          })();
-        `}} />
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body className="flex min-h-full flex-col">
         <StructuredData />
@@ -60,8 +55,9 @@ export default function RootLayout({
         <main className="flex-1 pt-[var(--header-h)]">{children}</main>
         <Footer />
         <ContactModal />
+        <EnquiryFlow />
         <CookieNotice />
-        <ThumbBar />
+        <QuickContact />
       </body>
     </html>
   );

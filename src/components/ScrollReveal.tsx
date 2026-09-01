@@ -2,6 +2,14 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
+/** Fades a block in as it comes into view.
+ *
+ *  The hidden state is applied by this effect, never by the server, and a
+ *  timer clears it regardless. A block that the observer never reports —
+ *  a backgrounded tab on load, a browser without IntersectionObserver —
+ *  therefore ends up visible rather than stuck at zero opacity. */
+const FAILSAFE_MS = 900;
+
 export function ScrollReveal({
   children,
   className = "",
@@ -17,7 +25,20 @@ export function ScrollReveal({
     const el = ref.current;
     if (!el) return;
 
+    const show = () => {
+      el.classList.add("revealed");
+      el.classList.remove("reveal--armed");
+    };
+
+    if (
+      typeof IntersectionObserver === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
     if (delay) el.style.transitionDelay = `${delay}ms`;
+    el.classList.add("reveal--armed");
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -26,11 +47,16 @@ export function ScrollReveal({
           observer.unobserve(el);
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+      { threshold: 0.01, rootMargin: "0px 0px -32px 0px" },
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    const failsafe = setTimeout(show, FAILSAFE_MS + delay);
+
+    return () => {
+      clearTimeout(failsafe);
+      observer.disconnect();
+    };
   }, [delay]);
 
   return (

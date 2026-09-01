@@ -28,14 +28,17 @@ export default function HomePage() {
           <div className="hero__col">
             <span className="badge fade-up">
               <span className="badge__dot" aria-hidden />
-              Frachtzentrum Flughafen München · Modul H
+              Frachtzentrum · Modul H · Südallee
             </span>
+            {/* Four words that say exactly what the firm does. The place
+                belongs in the line below, where it can be spelled out —
+                at this size it would only break badly. */}
             <h1 className="hero__title fade-up fade-up-1">
-              Verpackung für die <em>Luftfracht</em>.
+              Verpackt für den Abflug.
             </h1>
             <p className="hero__sub fade-up fade-up-2">
-              Wir sitzen im Frachtzentrum am Flughafen München, Modul H — dort, wo Ihre Sendung
-              ohnehin abgefertigt wird. Kein Umweg über ein Gewerbegebiet, kein Tag Verlust.
+              Export, Gefahrgut und Schwergut — verpackt und dokumentiert im Frachtzentrum des
+              Flughafens München. Kein Umweg über ein Gewerbegebiet, kein verlorener Tag.
             </p>
             <div className="fade-up fade-up-3">
               <HeroEnquiry />
@@ -60,20 +63,15 @@ export default function HomePage() {
           <ScrollReveal>
             <div className="split-copy">
               <p className="kicker">Über uns</p>
-              <h2 className="h2">Verpackung mit System — direkt am Frachtzentrum</h2>
+              <h2 className="h2">Verpackung ist bei uns Handwerk</h2>
               <p className="lead">
-                Die Airport-Verpackungs-Service GmbH verpackt Transport- und Gefahrgüter für Luft-,
-                See- und Straßenfracht — vom einzelnen Packstück über temperaturgeführte Spezialware
-                bis zur tonnenschweren Maschine, samt aller Papiere.
+                Wir verpacken Transport- und Gefahrgüter für Luft-, See- und Straßenfracht — vom
+                einzelnen Packstück bis zur tonnenschweren Maschine, samt aller Papiere.
               </p>
-              <p className="muted" style={{ marginTop: 16, fontSize: 15, lineHeight: 1.7 }}>
-                Am Frachtzentrum wird knapp gerechnet: Wer die Annahmeschlusszeit reißt, wartet auf
-                den nächsten Flug. Deshalb arbeiten wir dort, wo die Fracht steht — Rückfragen klären
-                wir auf dem kurzen Weg statt per E-Mail über zwei Tage.
+              <p className="split-copy__note">
+                Jede Kiste entsteht um das Gut herum: nach Gewicht, Schwerpunkt und Transportweg.
+                Und wenn eine günstigere Bauart denselben Schutz bietet, sagen wir das vorher.
               </p>
-              <a href={site.phoneHref} className="link-accent">
-                {site.phone} →
-              </a>
             </div>
           </ScrollReveal>
           <ScrollReveal delay={100}>
@@ -136,7 +134,7 @@ export default function HomePage() {
                 <Link href={`/leistungen/${service.slug}`} className={`bento-card${i === 0 ? " bento-wide" : ""}`}>
                   <p className="bento-card__sector">{service.sector}</p>
                   <h3 className="bento-card__title">{service.title}</h3>
-                  <p className="bento-card__text">{service.summary}</p>
+                  <p className="bento-card__text">{service.short}</p>
                   <span className="bento-card__arrow">
                     <svg viewBox="0 0 16 16"><path d="M4 12 L12 4 M12 4 L5 4 M12 4 L12 11" /></svg>
                   </span>
@@ -190,7 +188,7 @@ export default function HomePage() {
                 Optimale Raumnutzung, Ladungssicherung und Palettisierung für Land, See und Luft.
               </p>
               <Link href="/containerstauung" className="btn btn-secondary">
-                Mehr erfahren
+                Zur Containerstauung
               </Link>
             </div>
           </article>
@@ -215,7 +213,7 @@ export default function HomePage() {
                 Dokumentieren.
               </p>
               <Link href="/gefahrgutschulung" className="btn btn-primary">
-                Mehr erfahren
+                Zur Gefahrgutschulung
               </Link>
             </div>
           </article>
@@ -227,16 +225,16 @@ export default function HomePage() {
           <ScrollReveal>
             <div className="split__body">
               <p className="kicker">Standort</p>
-              <h2>Am Frachtzentrum statt im Gewerbegebiet</h2>
+              <h2>Südallee, Modul H</h2>
               <p>
-                Modul H liegt an der Südallee, mitten im Frachtzentrum des Flughafens München.
-                Zwischen unserer Halle und der Abfertigung liegen Minuten, keine Anfahrt. Was
-                anderswo ein zusätzlicher Transporttag ist, ist hier ein Handgriff.
+                Sie finden uns an der Südallee im Frachtzentrum des Flughafens München. Größere
+                Sendungen nehmen wir per Lkw oder Transporter an der Rampe an, kleinere im Pavillon.
+                Wer mag, bringt das Gut vorbei und sieht sich die Bauart vorher an.
               </p>
               <p>
-                Als reglementierter Beauftragter dürfen wir Luftfracht als sicher einstufen. Zusammen
-                mit den kurzen Wegen heißt das: anliefern, verpacken, dokumentieren, abgeben — ohne
-                dass die Sendung das Gelände zwischendurch verlässt.
+                Als reglementierter Beauftragter dürfen wir Luftfracht als sicher einstufen.
+                Anliefern, verpacken, dokumentieren, abgeben — die Sendung verlässt dafür
+                zwischendurch nicht das Gelände.
               </p>
               <a href={site.phoneHref} className="link-accent">
                 {site.phone} →
@@ -276,7 +274,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <CtaBand />
+      {/* enquiry={false}: the hero above already asks the same question. */}
+      <CtaBand
+        kicker="Nächster Schritt"
+        title="Sprechen wir über Ihre Sendung"
+        text="Sagen Sie uns, was verpackt werden soll, wohin es geht und bis wann — den Rest klären wir."
+        enquiry={false}
+      />
     </>
   );
 }

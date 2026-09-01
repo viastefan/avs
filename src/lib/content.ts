@@ -3,6 +3,9 @@ export type Service = {
   title: string;
   sector: string;
   summary: string;
+  /** One line for the home page cards, where `summary` runs to four
+   *  lines on a phone and has to be cut mid-sentence. */
+  short: string;
   body: string[];
   highlights?: string[];
 };
@@ -12,6 +15,7 @@ export const services: Service[] = [
     slug: "exportverpackung",
     title: "Exportverpackung",
     sector: "Verpackung",
+    short: "Kisten und Verschläge nach HPE, Vollholz nach ISPM 15.",
     summary:
       "Fachgerechte Exportverpackung nach international anerkannten HPE-Vorschriften — sicher, gesetzeskonform und reibungslos abgewickelt.",
     body: [
@@ -26,6 +30,7 @@ export const services: Service[] = [
     slug: "gefahrgutverpackung",
     title: "Gefahrgutverpackung",
     sector: "Verpackung",
+    short: "IATA, IMDG und ADR — Klassifizierung und Papiere inklusive.",
     summary:
       "Sichere Verpackung gefährlicher Güter für Straße, See und Luft — nach aktuellen IATA/ICAO-, IMDG- und ADR-Vorschriften.",
     body: [
@@ -45,6 +50,7 @@ export const services: Service[] = [
     slug: "schwergutverpackung",
     title: "Schwergutverpackung",
     sector: "Verpackung",
+    short: "Maschinen und Anlagen, auf Wunsch bei Ihnen im Werk.",
     summary:
       "Verpackung besonders schwerer Waren, Maschinen und Anlagen — auch direkt vor Ort beim Kunden.",
     body: [
@@ -59,6 +65,7 @@ export const services: Service[] = [
     slug: "spezialverpackung",
     title: "Spezialverpackung",
     sector: "Verpackung",
+    short: "Kühlkette, Reinraum, ESD und Korrosionsschutz.",
     summary:
       "Kühl-, Reinraum-, ISO-, Fahrzeug- und Lohnverpackung — individuell beraten und präzise umgesetzt.",
     body: [
@@ -73,6 +80,7 @@ export const services: Service[] = [
     slug: "verpackungsberatung",
     title: "Verpackungsberatung",
     sector: "Verpackung",
+    short: "Bauart, Volumengewicht, Frachtkosten — vorher durchgerechnet.",
     summary:
       "Klare Empfehlungen zu Verpackungsvarianten für Luft-, See- und Straßenfracht — abgestimmt auf Ihre Güter.",
     body: [
@@ -87,6 +95,7 @@ export const services: Service[] = [
     slug: "vor-ort-verpackung",
     title: "Vor-Ort-Verpackung & Material",
     sector: "Verpackung",
+    short: "Wir kommen zu Ihnen — oder liefern das Material.",
     summary:
       "Verpackung direkt bei Ihnen vor Ort sowie Bezug hochwertiger Verpackungsmaterialien über uns.",
     body: [
@@ -122,22 +131,27 @@ export const containerFeatures = [
   },
 ];
 
+/**
+ * These sit below the norms grid and the location section, so they must not
+ * restate either — no regulation lists, no "kurze Wege am Frachtzentrum".
+ * Each point names something the customer actually receives.
+ */
 export const whyPoints = [
   {
-    title: "Direkt am Frachtzentrum",
-    text: "Kurze Wege am Flughafen München — schnelle Abwicklung ohne Umwege, direkt dort, wo Ihre Fracht umgeschlagen wird.",
+    title: "Alles aus einer Hand",
+    text: "Verpackung, Ladungssicherung und Begleitpapiere kommen aus demselben Haus — Sie koordinieren nicht drei Dienstleister, die sich gegenseitig die Schuld geben.",
   },
   {
-    title: "Normkonform & dokumentiert",
-    text: "Wir verpacken nach HPE, IATA/ICAO, IMDG und ADR und erstellen auf Wunsch alle erforderlichen Begleitpapiere.",
+    title: "Kiste nach Maß, nicht von der Palette",
+    text: "Gewicht, Schwerpunkt, Transportdauer und Zielklima bestimmen Holzstärke, Verstrebung und Korrosionsschutz. Standardmaße setzen wir nur ein, wo sie wirklich passen.",
   },
   {
-    title: "Vom Packstück bis zur Maschine",
-    text: "Ob einzelnes Gefahrgut oder tonnenschwere Anlage — wir liefern die passende Verpackung, auch direkt bei Ihnen vor Ort.",
+    title: "Auch bei Ihnen im Werk",
+    text: "Was sich nicht unverpackt bewegen lässt, verpacken wir vor Ort: Wir kommen mit Material und Werkzeug in Ihren Betrieb — bis hin zur Maschine, die erst demontiert werden muss.",
   },
   {
-    title: "Erfahren & zuverlässig",
-    text: "Ein eingespieltes Team mit langjähriger Erfahrung in Luft-, See- und Straßenfracht — präzise, termintreu und sicher.",
+    title: "Papiere, die am Terminal durchgehen",
+    text: "Shipper\'s Declaration, IMO-Erklärung oder ADR-Beförderungspapier stellen wir mit aus. Klassifizierung und zulässige Mengen prüfen wir, bevor die Sendung unterwegs ist.",
   },
 ];
 

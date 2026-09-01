@@ -3,37 +3,77 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useState } from "react";
+import { openContact } from "@/lib/dialogs";
 import { nav, site } from "@/lib/site";
+import {
+  applyTheme,
+  readChoice,
+  resolveTheme,
+  writeChoice,
+  type Theme,
+  type ThemeChoice,
+} from "@/lib/theme";
+
+const order: ThemeChoice[] = ["auto", "light", "dark"];
+
+const label: Record<ThemeChoice, string> = {
+  auto: "Design folgt der Uhrzeit — jetzt hell/dunkel umschalten",
+  light: "Helles Design — auf dunkel umschalten",
+  dark: "Dunkles Design — zurück auf automatisch",
+};
 
 export function ThemeToggle({ className = "theme-toggle" }: { className?: string } = {}) {
-  const [dark, setDark] = useState(false);
+  const [choice, setChoice] = useState<ThemeChoice>("auto");
+  const [resolved, setResolved] = useState<Theme>("dark");
 
   useEffect(() => {
-    setDark(document.documentElement.getAttribute("data-theme") === "dark" ||
-      (!document.documentElement.getAttribute("data-theme") &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches));
+    const current = readChoice();
+    setChoice(current);
+    setResolved(resolveTheme(current));
   }, []);
 
-  const toggle = useCallback(() => {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
-    localStorage.setItem("theme", next ? "dark" : "light");
-  }, [dark]);
+  /* On auto the page has to cross 18:00 on its own — a tab left open all
+     afternoon should not still be light at nine in the evening. */
+  useEffect(() => {
+    if (choice !== "auto") return;
+    const tick = () => {
+      const next = resolveTheme("auto");
+      setResolved((prev) => (prev === next ? prev : next));
+      applyTheme("auto");
+    };
+    const id = setInterval(tick, 60_000);
+    return () => clearInterval(id);
+  }, [choice]);
+
+  const cycle = useCallback(() => {
+    const next = order[(order.indexOf(choice) + 1) % order.length];
+    setChoice(next);
+    setResolved(resolveTheme(next));
+    writeChoice(next);
+    applyTheme(next);
+  }, [choice]);
 
   return (
-    <button type="button" className={className} onClick={toggle} aria-label={dark ? "Zu hellem Design wechseln" : "Zu dunklem Design wechseln"}>
-      {dark ? (
-        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+    <button
+      type="button"
+      className={`${className}${choice === "auto" ? " theme-toggle--auto" : ""}`}
+      onClick={cycle}
+      aria-label={label[choice]}
+      title={label[choice]}
+    >
+      {resolved === "dark" ? (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <path d="M20.5 14.3A8.5 8.5 0 1 1 9.7 3.5a7 7 0 0 0 10.8 10.8z" />
+        </svg>
       ) : (
-        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <circle cx="12" cy="12" r="4.2" />
+          <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6 6 18M18 6l1.6-1.6" />
+        </svg>
       )}
+      {choice === "auto" ? <span className="theme-toggle__auto" aria-hidden /> : null}
     </button>
   );
-}
-
-function openContact() {
-  window.dispatchEvent(new CustomEvent("avs:contact"));
 }
 
 export function Header() {
@@ -46,6 +86,13 @@ export function Header() {
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
   useEffect(() => {
@@ -67,7 +114,7 @@ export function Header() {
 
   useEffect(() => {
     if (open) setOpen(false);
-    setOverDark(!!document.querySelector(".hero--dark, .page-hero"));
+    setOverDark(!!document.querySelector(".hero--dark, .page-hero, .c-hero"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
@@ -110,17 +157,25 @@ export function Header() {
         </div>
       </header>
 
+      {/* The dim sits between the page and the panel, so the page reads as
+          pushed away rather than merely covered. */}
+      <button
+        type="button"
+        className={`mobile-nav__scrim${open ? " mobile-nav__scrim--on" : ""}`}
+        tabIndex={-1}
+        aria-hidden
+        onClick={() => setOpen(false)}
+      />
+
       <div id={panelId} role="dialog" aria-modal={open} className={`mobile-nav${open ? " mobile-nav--open" : ""}`} aria-hidden={!open}>
         <div className="mobile-nav__top">
-          <span className="brand-mark">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/avs-logo.svg" alt="" width={36} height={36} />
-            <span className="brand-mark__text" style={{ color: "#fff" }}>{site.name}</span>
-          </span>
+          <Link href="/" className="brand-mark" onClick={() => setOpen(false)}>
+            <span className="brand-logo" aria-hidden="true" />
+            <span className="brand-mark__text">{site.name}</span>
+          </Link>
           <button
             type="button"
             className="menu-toggle menu-toggle--open"
-            style={{ color: "#fff" }}
             aria-label="Menü schließen"
             onClick={() => setOpen(false)}
           >
@@ -128,13 +183,28 @@ export function Header() {
           </button>
         </div>
         <nav className="mobile-nav__links" aria-label="Mobile Navigation">
-          {nav.map((item) => (
-            <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>{item.label}</Link>
-          ))}
+          {nav.map((item) => {
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={active ? "is-active" : undefined}
+                aria-current={active ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                tabIndex={open ? 0 : -1}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
-        <div className="mobile-nav__contact">
-          <a href={site.phoneHref}>{site.phone}</a>
-          <a href={site.emailHref}>{site.email}</a>
+        <div className="mobile-nav__foot">
+          <div className="mobile-nav__contact">
+            <a href={site.phoneHref} tabIndex={open ? 0 : -1}>{site.phone}</a>
+            <a href={site.emailHref} tabIndex={open ? 0 : -1}>{site.email}</a>
+          </div>
+          <ThemeToggle className="theme-toggle theme-toggle--nav" />
         </div>
       </div>
     </>
