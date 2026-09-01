@@ -1230,10 +1230,12 @@ a { color: inherit; text-decoration: none; }
   max-width: 38ch;
 }
 
+/* In der Flusslinie, nicht absolut positioniert: so kann der Pfeil nie
+   in die letzte Textzeile laufen, egal wie lang die Beschreibung ist. */
 .bento-card__arrow {
-  position: absolute;
-  bottom: clamp(20px, 3vw, 28px);
-  right: clamp(20px, 3vw, 28px);
+  align-self: flex-end;
+  flex: none;
+  margin-top: 18px;
   width: 34px;
   height: 34px;
   border-radius: 50%;
