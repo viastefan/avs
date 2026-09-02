@@ -84,8 +84,17 @@ export async function handleInquiry(
   f: InquiryFields,
   opts: { requireConsent?: boolean } = {},
 ): Promise<InquiryResult> {
-  if (!f.firstName || !f.lastName || !f.email || !f.subject || !f.message) {
-    return { ok: false, error: "Bitte füllen Sie alle Pflichtfelder aus.", status: 400 };
+  /* Only two things are genuinely needed: somewhere to reply to, and
+     something to reply about. Everything else — name, subject, transport,
+     measurements — is a convenience for us, not a hurdle for the sender.
+     A packer who knows nothing yet beyond "a machine has to go to Seoul"
+     must still be able to ask. */
+  if (!f.email || !f.message) {
+    return {
+      ok: false,
+      error: "Wir brauchen nur zweierlei: Ihre E-Mail und einen Satz zur Sendung.",
+      status: 400,
+    };
   }
   if (!isEmail(f.email)) {
     return { ok: false, error: "Bitte eine gültige E-Mail angeben.", status: 400 };
@@ -96,6 +105,15 @@ export async function handleInquiry(
   if (f.preferredContact === "Telefon" && !f.phone) {
     return { ok: false, error: "Für einen Rückruf benötigen wir Ihre Telefonnummer.", status: 400 };
   }
+
+  /* Blank optional fields must not produce "Anfrage über die Website: "
+     or a nameless greeting in the inbox. */
+  f = {
+    ...f,
+    subject: f.subject || "Allgemeine Anfrage",
+    firstName: f.firstName || (f.lastName ? "" : "Ohne"),
+    lastName: f.lastName || (f.firstName ? "" : "Namensangabe"),
+  };
 
   const to = process.env.CONTACT_TO_EMAIL || CONTACT_EMAIL;
   const from = process.env.CONTACT_FROM_EMAIL || "AVS Website <onboarding@resend.dev>";

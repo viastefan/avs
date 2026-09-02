@@ -23,14 +23,18 @@ import {
 import { site } from "@/lib/site";
 
 /* ——————————————————————————————————————————————————————————————
-   One question per screen.
+   Ask in four steps, and mean it when we say the rest is optional.
 
-   The contact page keeps the whole form on one sheet — that is the right
-   shape for someone who already knows what they want to say. This flow is
-   for everyone else: it asks in the order a packer would ask on the
-   phone, so nobody has to decide up front which of sixteen fields apply
-   to them. Every step after the first three can be answered in a second,
-   and the three that matter least can be skipped outright.
+   The earlier version asked eight questions and would not move on until
+   each was answered — which is exactly backwards for the person this is
+   built for: someone standing next to a crate who does not yet know the
+   measurements, the transport mode or the deadline. Two things are
+   genuinely needed, an address to answer and a sentence about the goods.
+   Everything else is offered, never demanded.
+
+   The description box is the centre of gravity, not a field among many,
+   and it can write itself: rough notes go to Claude and come back as a
+   proper enquiry, with a short list of what is still missing.
    —————————————————————————————————————————————————————————————— */
 
 type Data = {
@@ -40,7 +44,8 @@ type Data = {
   phone: string;
   company: string;
   preferredContact: string;
-  subject: string;
+  /** Several may apply, and none is a valid answer. */
+  subjects: string[];
   goods: string;
   message: string;
   transport: string;
@@ -59,7 +64,7 @@ const EMPTY: Data = {
   phone: "",
   company: "",
   preferredContact: "E-Mail",
-  subject: "",
+  subjects: [],
   goods: "",
   message: "",
   transport: "",
@@ -71,24 +76,21 @@ const EMPTY: Data = {
   deadline: "",
 };
 
-const STEPS = ["name", "reach", "subject", "goods", "route", "size", "timing", "review"] as const;
+const STEPS = ["brief", "reach", "detail", "review"] as const;
 type StepId = (typeof STEPS)[number];
 
-/** Steps a visitor may pass without answering anything. */
-const OPTIONAL: StepId[] = ["size"];
+/** Steps a visitor may walk straight past. */
+const OPTIONAL: StepId[] = ["detail"];
 
 const DRAFT_KEY = "avs:enquiry-draft";
-
-/** Long enough for the pressed state to register before the step moves on,
- *  short enough that it still feels like the choice did it. */
-const ADVANCE_MS = 260;
 
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
 function problem(step: StepId, d: Data): string | null {
   switch (step) {
-    case "name":
-      if (!d.firstName.trim() || !d.lastName.trim()) return "Bitte Vor- und Nachnamen angeben.";
+    case "brief":
+      if (!d.message.trim())
+        return "Ein Satz genügt — was soll verpackt werden?";
       return null;
     case "reach":
       if (!d.email.trim()) return "Ohne E-Mail können wir nicht antworten.";
@@ -96,25 +98,10 @@ function problem(step: StepId, d: Data): string | null {
       if (d.preferredContact === "Telefon" && !d.phone.trim())
         return "Für einen Rückruf brauchen wir Ihre Telefonnummer.";
       return null;
-    case "subject":
-      if (!d.subject) return "Bitte wählen Sie ein Anliegen.";
-      return null;
-    case "goods":
-      if (!d.message.trim() && !d.goods.trim())
-        return "Ein Satz zur Sendung genügt uns fürs Erste.";
-      return null;
-    case "route":
-      if (!d.transport) return "Bitte wählen Sie einen Verkehrsträger — „Noch offen“ zählt auch.";
-      return null;
-    case "timing":
-      if (!d.urgency) return "Bitte sagen Sie uns, wie eilig es ist.";
-      return null;
     default:
       return null;
   }
 }
-
-/* ——— Field primitives ——— */
 
 function Field({
   label,
@@ -142,65 +129,43 @@ function Field({
   );
 }
 
-function Area({
-  label,
-  value,
-  onChange,
-  placeholder,
-  autoFocus,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  autoFocus?: boolean;
-}) {
-  return (
-    <label className="ff">
-      <span className="ff__label">{label}</span>
-      <textarea
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
-        data-autofocus={autoFocus ? "" : undefined}
-      />
-    </label>
-  );
-}
-
-function Choice({
+/** Multi-select: several services may apply, and picking none is allowed. */
+function Picks({
   options,
   hints,
   value,
-  onPick,
+  onToggle,
 }: {
   options: readonly string[];
   hints?: Record<string, string>;
-  value: string;
-  onPick: (v: string) => void;
+  value: string[];
+  onToggle: (v: string) => void;
 }) {
   return (
-    <div className="wiz-choice" role="radiogroup">
-      {options.map((option) => (
-        <button
-          key={option}
-          type="button"
-          role="radio"
-          aria-checked={value === option}
-          className={`wiz-choice__item${value === option ? " wiz-choice__item--on" : ""}`}
-          onClick={() => onPick(option)}
-        >
-          <span className="wiz-choice__body">
-            <span className="wiz-choice__title">{option}</span>
-            {hints?.[option] ? <span className="wiz-choice__text">{hints[option]}</span> : null}
-          </span>
-          <span className="wiz-choice__mark" aria-hidden>
-            <svg viewBox="0 0 16 16">
-              <path d="M3 8.4 6.3 11.6 13 4.6" />
-            </svg>
-          </span>
-        </button>
-      ))}
+    <div className="wiz-choice wiz-choice--multi" role="group">
+      {options.map((option) => {
+        const on = value.includes(option);
+        return (
+          <button
+            key={option}
+            type="button"
+            role="checkbox"
+            aria-checked={on}
+            className={`wiz-choice__item${on ? " wiz-choice__item--on" : ""}`}
+            onClick={() => onToggle(option)}
+          >
+            <span className="wiz-choice__body">
+              <span className="wiz-choice__title">{option}</span>
+              {hints?.[option] ? <span className="wiz-choice__text">{hints[option]}</span> : null}
+            </span>
+            <span className="wiz-choice__mark" aria-hidden>
+              <svg viewBox="0 0 16 16">
+                <path d="M3 8.4 6.3 11.6 13 4.6" />
+              </svg>
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -237,6 +202,114 @@ function Chips({
   );
 }
 
+type Draft = { text: string; missing: string[] };
+
+/** The writing help. Rough notes in, a usable enquiry out — the visitor
+ *  keeps the last word: nothing replaces their text until they accept it. */
+function WritingHelp({
+  notes,
+  services,
+  onAccept,
+}: {
+  notes: string;
+  services: string[];
+  onAccept: (text: string) => void;
+}) {
+  const [busy, setBusy] = useState(false);
+  const [draft, setDraft] = useState<Draft | null>(null);
+  const [failed, setFailed] = useState<string | null>(null);
+  const [gone, setGone] = useState(false);
+
+  const run = useCallback(async () => {
+    setBusy(true);
+    setFailed(null);
+    setDraft(null);
+    try {
+      const res = await fetch("/api/anfrage-text", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ notes, services }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (res.status === 503) {
+        // Not configured on this deployment — stop offering it entirely.
+        setGone(true);
+        return;
+      }
+      if (!res.ok) {
+        setFailed(body?.error ?? "Das hat gerade nicht geklappt.");
+        return;
+      }
+      setDraft({ text: String(body.text ?? ""), missing: body.missing ?? [] });
+    } catch {
+      setFailed("Keine Verbindung — schreiben Sie gern selbst weiter.");
+    } finally {
+      setBusy(false);
+    }
+  }, [notes, services]);
+
+  if (gone) return null;
+
+  return (
+    <div className="wiz-ai">
+      <div className="wiz-ai__row">
+        <button
+          type="button"
+          className="wiz-ai__go"
+          onClick={run}
+          disabled={busy || notes.trim().length < 10}
+        >
+          <span className="wiz-ai__spark" aria-hidden>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3.2 13.7 9l5.8 1.7-5.8 1.7L12 18.2 10.3 12.4 4.5 10.7 10.3 9z" />
+              <path d="M18.4 3.4 19 5.2l1.8.6-1.8.6-.6 1.8-.6-1.8-1.8-.6 1.8-.6z" />
+            </svg>
+          </span>
+          {busy ? "Wird formuliert…" : draft ? "Neu formulieren" : "Für mich formulieren"}
+        </button>
+        <span className="wiz-ai__note">
+          {notes.trim().length < 10
+            ? "Ein paar Stichworte genügen — den Rest übernehmen wir."
+            : "Aus Ihren Stichworten wird eine Anfrage, die wir kalkulieren können."}
+        </span>
+      </div>
+
+      {failed ? (
+        <p className="wiz-ai__err" role="alert">
+          {failed}
+        </p>
+      ) : null}
+
+      {draft ? (
+        <div className="wiz-ai__draft">
+          <p className="wiz-ai__draft-label">Vorschlag</p>
+          <p className="wiz-ai__draft-text">{draft.text}</p>
+          {draft.missing.length ? (
+            <p className="wiz-ai__missing">
+              Hilfreich wäre noch: {draft.missing.join(" · ")}
+            </p>
+          ) : null}
+          <div className="wiz-ai__actions">
+            <button
+              type="button"
+              className="btn btn-primary wiz-ai__take"
+              onClick={() => {
+                onAccept(draft.text);
+                setDraft(null);
+              }}
+            >
+              Übernehmen
+            </button>
+            <button type="button" className="wiz-ai__drop" onClick={() => setDraft(null)}>
+              Verwerfen
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 /* ——— The flow ——— */
 
 export function EnquiryFlow() {
@@ -253,7 +326,6 @@ export function EnquiryFlow() {
   const panelRef = useRef<HTMLFormElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const restoreFocus = useRef<HTMLElement | null>(null);
-  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const titleId = useId();
 
   const step = STEPS[index];
@@ -262,6 +334,15 @@ export function EnquiryFlow() {
     <K extends keyof Data>(key: K, value: Data[K]) => setData((d) => ({ ...d, [key]: value })),
     [],
   );
+
+  const toggleSubject = useCallback((value: string) => {
+    setData((d) => ({
+      ...d,
+      subjects: d.subjects.includes(value)
+        ? d.subjects.filter((s) => s !== value)
+        : [...d.subjects, value],
+    }));
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -278,10 +359,6 @@ export function EnquiryFlow() {
     restoreFocus.current?.focus();
   }, []);
 
-  /* A visitor who closes the sheet mid-way and comes back — a look at the
-     norms, a phone call — should not start over. Reading the draft when the
-     sheet opens rather than on mount keeps the server-rendered markup and
-     the first client render identical. The draft never leaves the tab. */
   useEffect(() => {
     const onOpen = (e: Event) => {
       const detail = (e as CustomEvent<EnquiryDetail>).detail ?? {};
@@ -294,16 +371,16 @@ export function EnquiryFlow() {
         if (raw) {
           const saved = JSON.parse(raw) as { data?: Partial<Data>; index?: number };
           draft = { ...EMPTY, ...saved.data };
+          if (!Array.isArray(draft.subjects)) draft.subjects = [];
           at = Math.min(Math.max(saved.index ?? 0, 0), STEPS.length - 1);
         }
       } catch {
         /* nothing worth restoring */
       }
 
-      /* What the visitor just typed wins over a stale draft, but it must not
-         overwrite a description they already wrote here. */
       if (detail.message && !draft.message) draft = { ...draft, message: detail.message };
-      if (detail.subject) draft = { ...draft, subject: detail.subject };
+      if (detail.subject && !draft.subjects.includes(detail.subject))
+        draft = { ...draft, subjects: [...draft.subjects, detail.subject] };
 
       setData(draft);
       setIndex(at);
@@ -314,8 +391,6 @@ export function EnquiryFlow() {
     return () => window.removeEventListener(ENQUIRY_EVENT, onOpen);
   }, []);
 
-  /* Escape closes, Tab stays inside — the page behind is inert while the
-     sheet is up, so focus must not be able to wander into it. */
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -346,19 +421,12 @@ export function EnquiryFlow() {
     };
   }, [open, close]);
 
-  /* Put the caret in the first field of a step that has one. Choice steps
-     deliberately get no focus — on a phone that would throw the keyboard
-     up over the very options being offered. */
   useEffect(() => {
     if (!open || done) return;
     const target = bodyRef.current?.querySelector<HTMLElement>("[data-autofocus]");
     const id = setTimeout(() => target?.focus({ preventScroll: true }), 220);
     return () => clearTimeout(id);
   }, [open, index, done]);
-
-  useEffect(() => () => {
-    if (advanceTimer.current) clearTimeout(advanceTimer.current);
-  }, []);
 
   const goTo = useCallback((next: number, direction: "fwd" | "back") => {
     setDir(direction);
@@ -379,24 +447,6 @@ export function EnquiryFlow() {
     if (index > 0) goTo(index - 1, "back");
   }, [index, goTo]);
 
-  /** Picking an option is the answer — no reason to also press Weiter. */
-  const pickAndAdvance = useCallback(
-    <K extends keyof Data>(key: K, value: Data[K]) => {
-      set(key, value);
-      setError(null);
-      if (advanceTimer.current) clearTimeout(advanceTimer.current);
-      advanceTimer.current = setTimeout(() => {
-        setDir("fwd");
-        setIndex((i) => Math.min(i + 1, STEPS.length - 1));
-      }, ADVANCE_MS);
-    },
-    [set],
-  );
-
-  /* Enter walks the step: to the next field if there is one, otherwise on
-     to the next question. It keeps its usual meaning inside the message box
-     (a new line) and on buttons (press). The review step is the only one
-     that may actually submit the form. */
   const onKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key !== "Enter" || e.shiftKey) return;
     const target = e.target as HTMLElement;
@@ -413,62 +463,62 @@ export function EnquiryFlow() {
     else next();
   };
 
+  /* What actually goes to the server: the subject list becomes the single
+     line AVS reads in the mail. */
+  const payload: Record<string, string> = {
+    firstName: data.firstName,
+    lastName: data.lastName,
+    email: data.email,
+    phone: data.phone,
+    company: data.company,
+    preferredContact: data.preferredContact,
+    subject: data.subjects.join(", "),
+    goods: data.goods,
+    message: data.message,
+    transport: data.transport,
+    destination: data.destination,
+    weight: data.weight,
+    quantity: data.quantity,
+    unNumber: data.unNumber,
+    urgency: data.urgency,
+    deadline: data.deadline,
+  };
+
   const summaryRows: { label: string; value: string; step: StepId }[] = [
-    { label: "Name", value: `${data.firstName} ${data.lastName}`.trim(), step: "name" },
+    { label: "Leistungen", value: data.subjects.join(" · "), step: "brief" },
+    { label: "Name", value: `${data.firstName} ${data.lastName}`.trim(), step: "reach" },
     { label: "E-Mail", value: data.email, step: "reach" },
     { label: "Telefon", value: data.phone, step: "reach" },
     { label: "Unternehmen", value: data.company, step: "reach" },
     { label: "Rückmeldung per", value: data.preferredContact, step: "reach" },
-    { label: "Anliegen", value: data.subject, step: "subject" },
-    { label: "Güter", value: data.goods, step: "goods" },
-    { label: "Verkehrsträger", value: data.transport, step: "route" },
-    { label: "Zielort", value: data.destination, step: "route" },
-    { label: "Gewicht / Maße", value: data.weight, step: "size" },
-    { label: "Stückzahl", value: data.quantity, step: "size" },
-    { label: "UN-Nummer", value: data.unNumber, step: "size" },
+    { label: "Verkehrsträger", value: data.transport, step: "detail" },
+    { label: "Zielort", value: data.destination, step: "detail" },
+    { label: "Gewicht / Maße", value: data.weight, step: "detail" },
+    { label: "Stückzahl", value: data.quantity, step: "detail" },
+    { label: "UN-Nummer", value: data.unNumber, step: "detail" },
     {
       label: "Termin",
       value: [data.urgency, data.deadline].filter(Boolean).join(" · "),
-      step: "timing",
+      step: "detail",
     },
   ];
   const summary = summaryRows.filter((row) => row.value);
 
   const heads: Record<StepId, { kicker: string; question: ReactNode; hint?: string }> = {
-    name: {
-      kicker: "Schritt 1 · Kontakt",
-      question: "Wie dürfen wir Sie ansprechen?",
-      hint: "Damit die Rückmeldung an der richtigen Stelle landet.",
+    brief: {
+      kicker: "Schritt 1 von 4",
+      question: "Was sollen wir für Sie verpacken?",
+      hint: "Ein Satz reicht. Maße, Gewicht und Termin dürfen offen bleiben — danach fragen wir nur, wenn Sie mögen.",
     },
     reach: {
-      kicker: "Schritt 2 · Kontakt",
-      question: "Wo erreichen wir Sie?",
-      hint: "Bei Fragen zur Klassifizierung klärt ein Anruf oft mehr als drei E-Mails.",
+      kicker: "Schritt 2 von 4",
+      question: "Wohin dürfen wir antworten?",
+      hint: "Nur die E-Mail brauchen wir wirklich. Alles Weitere ist freiwillig.",
     },
-    subject: {
-      kicker: "Schritt 3 · Anliegen",
-      question: "Worum geht es?",
-      hint: "Eine Auswahl genügt — Details kommen gleich.",
-    },
-    goods: {
-      kicker: "Schritt 4 · Sendung",
-      question: "Was sollen wir verpacken?",
-      hint: "Ein Satz reicht: Maschine, Elektronik, Gefahrgut, Ersatzteile.",
-    },
-    route: {
-      kicker: "Schritt 5 · Weg",
-      question: "Wohin geht die Sendung?",
-      hint: "Der Verkehrsträger entscheidet über Vorschrift und Bauart.",
-    },
-    size: {
-      kicker: "Schritt 6 · Umfang",
-      question: "Wie groß ist die Sendung?",
-      hint: "Schätzwerte sind völlig in Ordnung — oder überspringen Sie den Schritt.",
-    },
-    timing: {
-      kicker: "Schritt 7 · Termin",
-      question: "Wie eilig ist es?",
-      hint: "Danach richtet sich, ob wir Material bestellen oder aus dem Lager gehen.",
+    detail: {
+      kicker: "Schritt 3 von 4 · freiwillig",
+      question: "Wissen Sie schon mehr?",
+      hint: "Jede Angabe hier spart eine Rückfrage. Keine ist nötig — Sie können den Schritt einfach überspringen.",
     },
     review: {
       kicker: "Letzter Schritt",
@@ -482,13 +532,7 @@ export function EnquiryFlow() {
 
   return (
     <div className={`wiz${open ? " wiz--open" : ""}`} aria-hidden={!open}>
-      <button
-        type="button"
-        className="wiz__backdrop"
-        tabIndex={-1}
-        aria-hidden
-        onClick={close}
-      />
+      <button type="button" className="wiz__backdrop" tabIndex={-1} aria-hidden onClick={close} />
 
       <form
         ref={panelRef}
@@ -509,7 +553,7 @@ export function EnquiryFlow() {
           aria-hidden="true"
           style={{ position: "absolute", left: -9999, opacity: 0, height: 0, width: 0 }}
         />
-        {Object.entries(data).map(([key, value]) => (
+        {Object.entries(payload).map(([key, value]) => (
           <input key={key} type="hidden" name={key} value={value} />
         ))}
         <input type="hidden" name="consent" value={consent ? "ja" : ""} />
@@ -525,10 +569,18 @@ export function EnquiryFlow() {
               Anfrage ist raus
             </h2>
             <p className="wiz__hint">{state.message}</p>
-            <p className="wiz__hint">
-              Wenn es eilt, erreichen Sie uns direkt unter{" "}
-              <a href={site.phoneHref}>{site.phone}</a>.
-            </p>
+            <div className="wiz__done-facts">
+              <div>
+                <span>Antwort</span>
+                <strong>werktags</strong>
+              </div>
+              <div>
+                <span>Eilig?</span>
+                <strong>
+                  <a href={site.phoneHref}>{site.phone}</a>
+                </strong>
+              </div>
+            </div>
             <button type="button" className="btn btn-primary wiz__next" onClick={close}>
               Schließen
             </button>
@@ -576,23 +628,43 @@ export function EnquiryFlow() {
                 {head.hint ? <p className="wiz__hint">{head.hint}</p> : null}
 
                 <div className="wiz__fields">
-                  {step === "name" ? (
+                  {step === "brief" ? (
                     <>
-                      <Field
-                        label="Vorname"
-                        value={data.firstName}
-                        onChange={(v) => set("firstName", v)}
-                        autoComplete="given-name"
-                        placeholder="Max"
-                        autoFocus
+                      <label className="ff wiz-brief">
+                        <span className="ff__label">Ihre Sendung</span>
+                        <textarea
+                          className="wiz-brief__area"
+                          value={data.message}
+                          placeholder={
+                            "z. B. Prüfstand muss nach Seoul, ungefähr 1,8 t, Maße kenne ich noch nicht"
+                          }
+                          onChange={(e) => set("message", e.target.value)}
+                          data-autofocus=""
+                        />
+                      </label>
+
+                      <WritingHelp
+                        notes={data.message}
+                        services={data.subjects}
+                        onAccept={(text) => set("message", text)}
                       />
-                      <Field
-                        label="Nachname"
-                        value={data.lastName}
-                        onChange={(v) => set("lastName", v)}
-                        autoComplete="family-name"
-                        placeholder="Mustermann"
-                      />
+
+                      <details className="wiz-more">
+                        <summary>
+                          Passende Leistung wählen
+                          <span className="wiz-more__hint">
+                            {data.subjects.length
+                              ? `${data.subjects.length} gewählt`
+                              : "optional — mehrere möglich"}
+                          </span>
+                        </summary>
+                        <Picks
+                          options={subjects}
+                          hints={subjectHints}
+                          value={data.subjects}
+                          onToggle={toggleSubject}
+                        />
+                      </details>
                     </>
                   ) : null}
 
@@ -608,22 +680,40 @@ export function EnquiryFlow() {
                         placeholder="max@firma.de"
                         autoFocus
                       />
-                      <Field
-                        label="Telefon (optional)"
-                        type="tel"
-                        inputMode="tel"
-                        value={data.phone}
-                        onChange={(v) => set("phone", v)}
-                        autoComplete="tel"
-                        placeholder="+49 89 …"
-                      />
-                      <Field
-                        label="Unternehmen (optional)"
-                        value={data.company}
-                        onChange={(v) => set("company", v)}
-                        autoComplete="organization"
-                        placeholder="Firma GmbH"
-                      />
+                      <div className="wiz-pair">
+                        <Field
+                          label="Vorname (optional)"
+                          value={data.firstName}
+                          onChange={(v) => set("firstName", v)}
+                          autoComplete="given-name"
+                          placeholder="Max"
+                        />
+                        <Field
+                          label="Nachname (optional)"
+                          value={data.lastName}
+                          onChange={(v) => set("lastName", v)}
+                          autoComplete="family-name"
+                          placeholder="Mustermann"
+                        />
+                      </div>
+                      <div className="wiz-pair">
+                        <Field
+                          label="Telefon (optional)"
+                          type="tel"
+                          inputMode="tel"
+                          value={data.phone}
+                          onChange={(v) => set("phone", v)}
+                          autoComplete="tel"
+                          placeholder="+49 89 …"
+                        />
+                        <Field
+                          label="Unternehmen (optional)"
+                          value={data.company}
+                          onChange={(v) => set("company", v)}
+                          autoComplete="organization"
+                          placeholder="Firma GmbH"
+                        />
+                      </div>
                       <Chips
                         label="Rückmeldung bevorzugt per"
                         options={contactWays}
@@ -633,115 +723,86 @@ export function EnquiryFlow() {
                     </>
                   ) : null}
 
-                  {step === "subject" ? (
-                    <Choice
-                      options={subjects}
-                      hints={subjectHints}
-                      value={data.subject}
-                      onPick={(v) => pickAndAdvance("subject", v)}
-                    />
-                  ) : null}
-
-                  {step === "goods" ? (
+                  {step === "detail" ? (
                     <>
-                      <Field
-                        label="Art der Güter"
-                        value={data.goods}
-                        onChange={(v) => set("goods", v)}
-                        placeholder="z. B. Prüfstand, Lithiumbatterien"
-                        autoFocus
-                      />
-                      <Area
-                        label="Beschreibung"
-                        value={data.message}
-                        onChange={(v) => set("message", v)}
-                        placeholder="Was ist besonders daran? Empfindlich, sperrig, temperaturgeführt?"
-                      />
-                    </>
-                  ) : null}
-
-                  {step === "route" ? (
-                    <>
-                      <Choice
+                      <Chips
+                        label="Verkehrsträger"
                         options={transports}
-                        hints={transportHints}
                         value={data.transport}
                         onPick={(v) => set("transport", v)}
                       />
-                      <Field
-                        label="Zielort (optional)"
-                        value={data.destination}
-                        onChange={(v) => set("destination", v)}
-                        placeholder="z. B. Singapur"
-                      />
-                    </>
-                  ) : null}
-
-                  {step === "size" ? (
-                    <>
-                      <Field
-                        label="Gewicht / Maße"
-                        value={data.weight}
-                        onChange={(v) => set("weight", v)}
-                        placeholder="z. B. 1.800 kg, 2 × 1,2 × 1,5 m"
-                        autoFocus
-                      />
-                      <Field
-                        label="Stückzahl"
-                        value={data.quantity}
-                        onChange={(v) => set("quantity", v)}
-                        inputMode="numeric"
-                        placeholder="z. B. 4 Packstücke"
-                      />
-                      <Field
-                        label="Gefahrgut / UN-Nummer"
-                        value={data.unNumber}
-                        onChange={(v) => set("unNumber", v)}
-                        placeholder="z. B. UN 3480"
-                      />
-                    </>
-                  ) : null}
-
-                  {step === "timing" ? (
-                    <>
-                      <Choice
+                      {data.transport && transportHints[data.transport] ? (
+                        <p className="wiz-note">{transportHints[data.transport]}</p>
+                      ) : null}
+                      <div className="wiz-pair">
+                        <Field
+                          label="Zielort"
+                          value={data.destination}
+                          onChange={(v) => set("destination", v)}
+                          placeholder="z. B. Singapur"
+                        />
+                        <Field
+                          label="Gewicht / Maße"
+                          value={data.weight}
+                          onChange={(v) => set("weight", v)}
+                          placeholder="z. B. 1.800 kg"
+                        />
+                      </div>
+                      <div className="wiz-pair">
+                        <Field
+                          label="Stückzahl"
+                          value={data.quantity}
+                          onChange={(v) => set("quantity", v)}
+                          inputMode="numeric"
+                          placeholder="z. B. 4 Packstücke"
+                        />
+                        <Field
+                          label="Gefahrgut / UN-Nummer"
+                          value={data.unNumber}
+                          onChange={(v) => set("unNumber", v)}
+                          placeholder="z. B. UN 3480"
+                        />
+                      </div>
+                      <Chips
+                        label="Wie eilig ist es?"
                         options={urgencies}
                         value={data.urgency}
                         onPick={(v) => set("urgency", v)}
-                      />
-                      <Field
-                        label="Wunschtermin (optional)"
-                        type="date"
-                        value={data.deadline}
-                        onChange={(v) => set("deadline", v)}
                       />
                     </>
                   ) : null}
 
                   {step === "review" ? (
                     <>
-                      <dl className="wiz-review">
-                        {summary.map((row) => (
-                          <button
-                            key={row.label}
-                            type="button"
-                            className="wiz-review__row"
-                            onClick={() => goTo(STEPS.indexOf(row.step), "back")}
-                          >
-                            <dt>{row.label}</dt>
-                            <dd>{row.value}</dd>
-                            <span className="wiz-review__edit" aria-hidden>
-                              Ändern
-                            </span>
-                          </button>
-                        ))}
-                      </dl>
+                      <div className="wiz-review__note">
+                        <p className="wiz-review__note-label">Ihre Anfrage</p>
+                        <p className="wiz-review__note-text">{data.message}</p>
+                        <button
+                          type="button"
+                          className="wiz-review__edit-note"
+                          onClick={() => goTo(0, "back")}
+                        >
+                          Ändern
+                        </button>
+                      </div>
 
-                      {data.message ? (
-                        <div className="wiz-review__note">
-                          <p className="wiz-review__note-label">Ihre Beschreibung</p>
-                          <p className="wiz-review__note-text">{data.message}</p>
-                        </div>
+                      {summary.length ? (
+                        <dl className="wiz-review">
+                          {summary.map((row) => (
+                            <button
+                              key={row.label}
+                              type="button"
+                              className="wiz-review__row"
+                              onClick={() => goTo(STEPS.indexOf(row.step), "back")}
+                            >
+                              <dt>{row.label}</dt>
+                              <dd>{row.value}</dd>
+                              <span className="wiz-review__edit" aria-hidden>
+                                Ändern
+                              </span>
+                            </button>
+                          ))}
+                        </dl>
                       ) : null}
 
                       <label className="form-consent wiz__consent">
@@ -803,7 +864,7 @@ export function EnquiryFlow() {
 
               {OPTIONAL.includes(step) ? (
                 <button type="button" className="wiz__skip" onClick={() => goTo(index + 1, "fwd")}>
-                  Überspringen
+                  Überspringen — weiß ich noch nicht
                 </button>
               ) : (
                 <p className="wiz__foot-note">

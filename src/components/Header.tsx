@@ -173,13 +173,18 @@ export function Header() {
             <span className="brand-logo" aria-hidden="true" />
             <span className="brand-mark__text">{site.name}</span>
           </Link>
+          {/* A ringed button rather than the header's morphing bars: on the
+              black panel a bare 2px cross reads as a smudge. */}
           <button
             type="button"
-            className="menu-toggle menu-toggle--open"
+            className="menu-close"
             aria-label="Menü schließen"
             onClick={() => setOpen(false)}
           >
-            <span className="menu-toggle__bars" aria-hidden />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden>
+              <path d="M17.5 6.5 6.5 17.5M6.5 6.5l11 11" />
+            </svg>
+            <span className="menu-close__word">Schließen</span>
           </button>
         </div>
         <nav className="mobile-nav__links" aria-label="Mobile Navigation">

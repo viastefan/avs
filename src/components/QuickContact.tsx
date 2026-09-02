@@ -102,8 +102,13 @@ export function QuickContact() {
         aria-label={open ? "Kontaktmenü schließen" : "Kontakt aufnehmen"}
         onClick={() => setOpen((v) => !v)}
       >
-        <span className="quick__fab-icon quick__fab-icon--phone" aria-hidden>
-          <PhoneIcon />
+        {/* A speech bubble, not a handset: the sheet behind it offers phone,
+            e-mail and the enquiry form, so a phone icon promises too little. */}
+        <span className="quick__fab-icon quick__fab-icon--open" aria-hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.5 9.5 0 0 1-2.7-.4L3.8 21l1.5-4.4A8.2 8.2 0 0 1 3.6 11 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z" />
+            <path d="M8.6 11h.01M12 11h.01M15.4 11h.01" />
+          </svg>
         </span>
         <span className="quick__fab-icon quick__fab-icon--close" aria-hidden>
           <svg viewBox="0 0 24 24">
