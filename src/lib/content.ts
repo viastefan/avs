@@ -119,22 +119,26 @@ export function getService(slug: string) {
 
 export const containerFeatures = [
   {
+    icon: "crate",
     title: "Stauung in Container",
     text: "Planung und Ausführung mit optimaler Raumnutzung — effizient und bruchsicher.",
   },
   {
+    icon: "package",
     title: "Verpackung & Palettisierung",
     text: "Vorbereitung Ihrer Güter für stabile, stapelbare und transportfähige Einheiten.",
   },
   {
+    icon: "lock",
     title: "Ladungssicherung",
     text: "Sicherung für Land-, See- und Luftweg nach geltenden Anforderungen.",
   },
   {
+    icon: "scale",
     title: "Ladegewichtskontrolle",
     text: "Kontrolle und Abstimmung der Gewichtsverteilung für sicheren Transport.",
   },
-];
+] as const;
 
 /**
  * These sit below the norms grid and the location section, so they must not
