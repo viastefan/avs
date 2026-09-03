@@ -59,8 +59,8 @@ export default async function ServiceDetailPage({ params }: Props) {
             </ScrollReveal>
 
             <div className="prose-body">
-              {service.body.map((p) => (
-                <p key={p}>{p}</p>
+              {service.body.map((p, i) => (
+                <p key={i}>{p}</p>
               ))}
             </div>
 
