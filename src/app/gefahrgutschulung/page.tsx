@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CtaBand } from "@/components/CtaBand";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { FeatureIcon } from "@/components/FeatureIcon";
 import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { trainingFormats, trainingIntro, trainingTopics } from "@/lib/content";
@@ -31,8 +32,8 @@ export default function GefahrgutschulungPage() {
             <div className="split__body">
               <p className="kicker">Warum schulen</p>
               <h2>Sicherheit beginnt mit Wissen</h2>
-              {trainingIntro.map((p) => (
-                <p key={p}>{p}</p>
+              {trainingIntro.map((p, i) => (
+                <p key={i}>{p}</p>
               ))}
             </div>
           </ScrollReveal>
@@ -66,18 +67,9 @@ export default function GefahrgutschulungPage() {
             {trainingTopics.map((topic, i) => (
               <ScrollReveal key={topic.title} delay={i * 60}>
                 <div className="bento-card">
+                  <FeatureIcon name={topic.icon} />
                   <h3 className="bento-card__title">{topic.title}</h3>
-                  <ul
-                    style={{
-                      margin: "12px 0 0",
-                      padding: "0 0 0 16px",
-                      display: "grid",
-                      gap: 5,
-                      fontSize: 13,
-                      color: "var(--muted)",
-                      lineHeight: 1.55,
-                    }}
-                  >
+                  <ul className="bento-card__list">
                     {topic.items.map((item) => (
                       <li key={item}>{item}</li>
                     ))}

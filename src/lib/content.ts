@@ -166,6 +166,7 @@ export const whyPoints = [
 
 export const trainingTopics = [
   {
+    icon: "clipboard",
     title: "Verpackungsvorschriften",
     items: [
       "Allgemeine Vorschriften für Güter und Waren",
@@ -174,6 +175,7 @@ export const trainingTopics = [
     ],
   },
   {
+    icon: "tag",
     title: "Beschriften von Gefahrgut",
     items: [
       "Richtiges Belabeln",
@@ -182,6 +184,7 @@ export const trainingTopics = [
     ],
   },
   {
+    icon: "document",
     title: "Dokumentation",
     items: [
       "ADR-Beförderungspapier",
@@ -190,6 +193,7 @@ export const trainingTopics = [
     ],
   },
   {
+    icon: "ban",
     title: "Verbote & Richtlinien",
     items: [
       "Lufttransport-Verbote beachten",
@@ -197,7 +201,7 @@ export const trainingTopics = [
       "Aktuelle Vorschriften je Verkehrsträger",
     ],
   },
-];
+] as const;
 
 export const processSteps = [
   {

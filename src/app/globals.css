@@ -1282,6 +1282,16 @@ a { color: inherit; text-decoration: none; }
   max-width: 38ch;
 }
 
+.bento-card__list {
+  margin: 12px 0 0;
+  padding: 0 0 0 16px;
+  display: grid;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 /* In der Flusslinie, nicht absolut positioniert: so kann der Pfeil nie
    in die letzte Textzeile laufen, egal wie lang die Beschreibung ist. */
 .bento-card__arrow {
@@ -4352,6 +4362,8 @@ select.field {
     line-height: 1.55;
     max-width: none;
   }
+
+  .bento-card__list { grid-column: 1; }
 
   .bento-card__arrow {
     grid-column: 2;
