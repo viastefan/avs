@@ -2,15 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useId, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useReducer,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { openContact } from "@/lib/dialogs";
 import { nav, site } from "@/lib/site";
 import {
   applyTheme,
   readChoice,
   resolveTheme,
+  subscribeChoice,
   writeChoice,
-  type Theme,
   type ThemeChoice,
 } from "@/lib/theme";
 
@@ -23,32 +30,29 @@ const label: Record<ThemeChoice, string> = {
 };
 
 export function ThemeToggle({ className = "theme-toggle" }: { className?: string } = {}) {
-  const [choice, setChoice] = useState<ThemeChoice>("auto");
-  const [resolved, setResolved] = useState<Theme>("dark");
-
-  useEffect(() => {
-    const current = readChoice();
-    setChoice(current);
-    setResolved(resolveTheme(current));
-  }, []);
+  const choice = useSyncExternalStore<ThemeChoice>(
+    subscribeChoice,
+    readChoice,
+    () => "auto",
+  );
 
   /* On auto the page has to cross 18:00 on its own — a tab left open all
-     afternoon should not still be light at nine in the evening. */
+     afternoon should not still be light at nine in the evening. The tick
+     re-applies the attribute and forces the icon to re-resolve. */
+  const [, tick] = useReducer((n: number) => n + 1, 0);
   useEffect(() => {
     if (choice !== "auto") return;
-    const tick = () => {
-      const next = resolveTheme("auto");
-      setResolved((prev) => (prev === next ? prev : next));
+    const id = setInterval(() => {
       applyTheme("auto");
-    };
-    const id = setInterval(tick, 60_000);
+      tick();
+    }, 60_000);
     return () => clearInterval(id);
   }, [choice]);
 
+  const resolved = resolveTheme(choice);
+
   const cycle = useCallback(() => {
     const next = order[(order.indexOf(choice) + 1) % order.length];
-    setChoice(next);
-    setResolved(resolveTheme(next));
     writeChoice(next);
     applyTheme(next);
   }, [choice]);
@@ -80,8 +84,18 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
-  const [overDark, setOverDark] = useState(false);
+  const [seenPath, setSeenPath] = useState(pathname);
   const panelId = useId();
+
+  /* Every route renders a full-bleed hero behind the fixed header, so it
+     always starts "over"; `solid` takes over as soon as the page scrolls. */
+  const overDark = true;
+
+  // Close the mobile menu on navigation, including browser back/forward.
+  if (seenPath !== pathname) {
+    setSeenPath(pathname);
+    if (open) setOpen(false);
+  }
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -111,12 +125,6 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    if (open) setOpen(false);
-    setOverDark(!!document.querySelector(".hero--dark, .page-hero, .c-hero"));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
 
   return (
     <>

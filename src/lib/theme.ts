@@ -31,6 +31,20 @@ export function readChoice(): ThemeChoice {
   return "auto";
 }
 
+/* The toggle reads the choice through useSyncExternalStore. localStorage
+   writes in the same tab don't fire a `storage` event, so writeChoice
+   notifies subscribers itself; a `storage` event still covers other tabs. */
+const choiceListeners = new Set<() => void>();
+
+export function subscribeChoice(onChange: () => void) {
+  choiceListeners.add(onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    choiceListeners.delete(onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
 export function writeChoice(choice: ThemeChoice) {
   try {
     if (choice === "auto") localStorage.removeItem(THEME_KEY);
@@ -38,6 +52,7 @@ export function writeChoice(choice: ThemeChoice) {
   } catch {
     /* nothing to do — the attribute below still applies for this visit */
   }
+  choiceListeners.forEach((fn) => fn());
 }
 
 export function applyTheme(choice: ThemeChoice, now: Date = new Date()) {

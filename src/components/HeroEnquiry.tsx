@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { openEnquiry } from "@/lib/dialogs";
 import { site } from "@/lib/site";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 /** Example enquiries, cycled word by word while the field is untouched. */
 const examples = [
@@ -23,16 +24,15 @@ export function HeroEnquiry() {
   const [shown, setShown] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reduceMotion = usePrefersReducedMotion();
 
   const idle = value.length === 0 && !focused;
   const words = examples[phrase].split(" ");
+  // Reduced motion: skip the word-by-word reveal, show the whole example.
+  const shownWords = reduceMotion ? words.length : shown;
 
   useEffect(() => {
-    if (!idle) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setShown(words.length);
-      return;
-    }
+    if (!idle || reduceMotion) return;
 
     const clear = () => {
       if (timer.current) clearTimeout(timer.current);
@@ -50,7 +50,7 @@ export function HeroEnquiry() {
       }, 420);
     }
     return clear;
-  }, [idle, shown, leaving, words.length]);
+  }, [idle, reduceMotion, shown, leaving, words.length]);
 
   /* The sentence someone types here is the answer to a question the flow
      asks four steps in, so it is carried over rather than thrown away. */
@@ -82,7 +82,7 @@ export function HeroEnquiry() {
             />
             {idle ? (
               <span className="enquiry__ghost" aria-hidden>
-                {words.slice(0, shown).map((w, i) => (
+                {words.slice(0, shownWords).map((w, i) => (
                   <span
                     key={`${phrase}-${i}`}
                     className={`enquiry__word${leaving ? " enquiry__word--out" : ""}`}

@@ -17,12 +17,19 @@ const PhoneIcon = () => (
 export function QuickContact() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const [seenPath, setSeenPath] = useState(pathname);
   const sheetId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const close = useCallback(() => setOpen(false), []);
 
-  useEffect(() => close(), [pathname, close]);
+  // Close the sheet on navigation — including browser back/forward, which
+  // the per-item onClick handlers miss. Adjusting state during render is
+  // React's recommended alternative to a pathname effect here.
+  if (seenPath !== pathname) {
+    setSeenPath(pathname);
+    if (open) setOpen(false);
+  }
 
   useEffect(() => {
     if (!open) return;
