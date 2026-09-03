@@ -1438,6 +1438,41 @@ a { color: inherit; text-decoration: none; }
 
 .prose-body p { margin: 0; }
 
+/* ——— Legal pages (Impressum, Datenschutz) ———
+   One labelled block after another, hairline-separated. */
+.legal {
+  max-width: 720px;
+  display: grid;
+  gap: 32px;
+}
+
+.legal__label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-soft);
+}
+
+.legal__text {
+  margin: 10px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.legal__text--ink { color: var(--ink); }
+.legal__text a { color: var(--accent); }
+.legal__text strong { color: var(--ink); }
+
+.legal hr {
+  border: 0;
+  height: 1px;
+  margin: 0;
+  background: var(--line);
+}
+
 
 
 /* ——— Scroll reveal ———
@@ -2247,6 +2282,55 @@ select.field {
   color: var(--ink);
   font-weight: 500;
 }
+
+/* Static "at a glance" pills — a service's highlights. Not interactive,
+   so no hover or pressed state (unlike .wiz-chip in the enquiry flow). */
+.taglist {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.taglist__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.taglist__item::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ——— Service detail page ——— */
+.detail-grid {
+  display: grid;
+  gap: clamp(40px, 6vw, 80px);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.detail-highlights { margin-top: 36px; }
+
+.detail-cta { margin-top: 40px; }
+
+.detail-related__head {
+  margin-bottom: 24px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.detail-related__head h2 { margin-top: 8px; }
 
 /* ——— Commitments ——— */
 .commit-grid {

@@ -49,7 +49,7 @@ export default async function ServiceDetailPage({ params }: Props) {
       <Breadcrumbs trail={[{ label: "Leistungen", href: "/leistungen" }, { label: service.title }]} />
 
       <section className="section">
-        <div className="wrap" style={{ display: "grid", gap: "clamp(40px, 6vw, 80px)", gridTemplateColumns: "minmax(0, 1fr)" }}>
+        <div className="wrap detail-grid">
           <div className="prose-narrow">
             <ScrollReveal>
               <div className="sec-intro sec-intro--start">
@@ -65,45 +65,26 @@ export default async function ServiceDetailPage({ params }: Props) {
             </div>
 
             {service.highlights?.length ? (
-              <div style={{ marginTop: 36 }}>
-                <p className="field-label">
-                  Auf einen Blick
-                </p>
-                <div style={{ marginTop: 16, display: "flex", flexWrap: "wrap", gap: 10 }}>
+              <div className="detail-highlights">
+                <p className="field-label">Auf einen Blick</p>
+                <div className="taglist">
                   {service.highlights.map((h) => (
-                    <span
-                      key={h}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 8,
-                        height: 40,
-                        padding: "0 16px",
-                        borderRadius: 999,
-                        border: "1px solid var(--line-strong)",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: "var(--ink)",
-                      }}
-                    >
-                      <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent)" }} />
-                      {h}
-                    </span>
+                    <span key={h} className="taglist__item">{h}</span>
                   ))}
                 </div>
               </div>
             ) : null}
 
-            <Link href="/kontakt" className="btn btn-primary" style={{ marginTop: 40 }}>
+            <Link href="/kontakt" className="btn btn-primary detail-cta">
               Anfrage senden
             </Link>
           </div>
 
           <div>
-            <div className="section-head" style={{ marginBottom: 24, paddingTop: 8, borderTop: "1px solid var(--line)" }}>
+            <div className="section-head detail-related__head">
               <div>
                 <p className="kicker">Weitere Leistungen</p>
-                <h2 className="h3" style={{ marginTop: 8 }}>Das könnte Sie auch interessieren</h2>
+                <h2 className="h3">Das könnte Sie auch interessieren</h2>
               </div>
             </div>
             <div className="bento">
