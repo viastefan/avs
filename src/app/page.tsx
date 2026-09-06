@@ -37,16 +37,17 @@ export default function HomePage() {
               Verpackt für den Abflug.
             </h1>
             <p className="hero__sub fade-up fade-up-2">
-              Export, Gefahrgut und Schwergut — verpackt und dokumentiert im Frachtzentrum des
-              Flughafens München. Kein Umweg über ein Gewerbegebiet, kein verlorener Tag.
+              Sagen Sie uns, was wohin soll — wir verpacken Export, Gefahrgut und Schwergut
+              abflugfertig und kümmern uns um die Papiere. Alles im Frachtzentrum München, ohne
+              Umweg über ein Gewerbegebiet.
             </p>
             <div className="fade-up fade-up-3">
               <HeroEnquiry />
             </div>
             <ul className="hero__creds fade-up fade-up-3">
-              <li>Begleitpapiere inklusive</li>
-              <li>Verpackung auch bei Ihnen vor Ort</li>
-              <li>Antwort werktags</li>
+              <li>Die Papiere machen wir mit</li>
+              <li>Auf Wunsch bei Ihnen vor Ort</li>
+              <li>Werktags eine Antwort</li>
             </ul>
           </div>
           <div className="hero__card fade-up fade-up-3">

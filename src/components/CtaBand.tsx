@@ -27,7 +27,7 @@ export function CtaBand({
           <p className="kicker">{kicker}</p>
           <h2 className="h2">{title}</h2>
           <p className="muted">
-            {text ?? "Beschreiben Sie Ihre Sendung in einem Satz — wir melden uns werktags."}
+            {text ?? "Schreiben Sie in einem Satz, worum es geht — wir melden uns werktags bei Ihnen."}
           </p>
           {enquiry ? (
             <p className="cta-band__phone">
