@@ -2,11 +2,29 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { submitContact, type ContactState } from "@/app/actions/kontakt";
 import { contactWays, subjects, transports, urgencies } from "@/lib/enquiry-options";
 
 const initial: ContactState = { ok: false };
+
+/* React clears every uncontrolled field once the form action settles —
+ * including on a failed submission, where the visitor still needs what
+ * they typed (the error offers a mailto fallback built from those same
+ * values). Snapshot the field values on submit and, if the action came
+ * back with an error, write them straight back onto the DOM. */
+function restoreFieldsOnError(form: HTMLFormElement, values: FormData) {
+  for (const [name, value] of values.entries()) {
+    if (name === "email" || name === "website" || typeof value !== "string") continue;
+    const field = form.elements.namedItem(name);
+    if (field instanceof HTMLInputElement) {
+      if (field.type === "checkbox") field.checked = value === "ja";
+      else field.value = value;
+    } else if (field instanceof HTMLSelectElement || field instanceof HTMLTextAreaElement) {
+      field.value = value;
+    }
+  }
+}
 
 
 
@@ -109,6 +127,14 @@ export function ContactForm() {
   const [more, setMore] = useState(false);
   const [email, setEmail] = useState("");
   const [touched, setTouched] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const lastSubmission = useRef<FormData | null>(null);
+
+  useEffect(() => {
+    if (!state.ok && state.error && formRef.current && lastSubmission.current) {
+      restoreFieldsOnError(formRef.current, lastSubmission.current);
+    }
+  }, [state]);
 
   const emailLooksWrong =
     touched && email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -132,7 +158,13 @@ export function ContactForm() {
   }
 
   return (
-    <form action={action} noValidate className="form-panel">
+    <form
+      ref={formRef}
+      action={action}
+      onSubmit={(e) => { lastSubmission.current = new FormData(e.currentTarget); }}
+      noValidate
+      className="form-panel"
+    >
       <input
         type="text"
         name="website"
