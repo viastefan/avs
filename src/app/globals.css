@@ -62,6 +62,7 @@
   --radius-sm: 4px;
   --radius-xs: 3px;
   --radius-lg: 10px;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   --radius-field: 14px;
   --radius-pill: 999px;
   --field-bg: #f1f2f3;
@@ -646,6 +647,7 @@ a { color: inherit; text-decoration: none; }
      the image, 0.72 keeps body text near 7:1 — well clear of the 4.5:1 AA
      floor — so the picture can show through without costing legibility. */
   background:
+    linear-gradient(to bottom, rgba(10,13,12,0.55) 0%, rgba(10,13,12,0) 15%),
     linear-gradient(100deg, rgba(10,13,12,0.86) 0%, rgba(10,13,12,0.72) 40%, rgba(10,13,12,0.5) 72%, rgba(10,13,12,0.4) 100%),
     linear-gradient(to top, rgba(10,13,12,0.72) 0%, rgba(10,13,12,0) 46%);
 }
@@ -767,10 +769,10 @@ a { color: inherit; text-decoration: none; }
 
 .hero__card-v {
   margin: 10px 0 0;
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(19px, calc(16.49px + 0.660vw), 26px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: var(--font-mono);
+  font-size: clamp(18px, calc(15.9px + 0.55vw), 24px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: #fff;
 }
 
@@ -1681,11 +1683,12 @@ a { color: inherit; text-decoration: none; }
 }
 
 .why-card__num {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--muted-soft);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
 }
 
 .why-card__title {
@@ -2221,12 +2224,12 @@ select.field {
 
 .norm__code {
   display: inline-block;
-  font-family: var(--font-display), sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--ink-soft);
-  padding: 4px 9px;
+  padding: 5px 9px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
   background: transparent;
